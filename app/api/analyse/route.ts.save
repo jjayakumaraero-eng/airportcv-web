@@ -1,0 +1,192 @@
+"fullCv": {
+  "profile": "ATS-friendly airport profile",
+  "skills": [
+    "skill 1",
+    "skill 2",
+    "skill 3",
+    "skill 4",
+    "skill 5",
+    "skill 6",
+    "skill 7",
+    "skill 8"
+  ],
+  "employmentHistory": [
+    "bullet 1",
+    "bullet 2",
+    "bullet 3",
+    "bullet 4",
+    "bullet 5",
+    "bullet 6"
+  ],
+  "additionalInfo": [
+    "Shift flexibility",
+    "Right to Work status if mentioned",
+    "Driving licence if mentioned",
+    "References available on request"
+  ]
+}"fullCv": {
+  "profile": "ATS-friendly airport profile",
+  "skills": [
+    "skill 1",
+    "skill 2",
+    "skill 3",
+    "skill 4",
+    "skill 5",
+    "skill 6",
+    "skill 7",
+    "skill 8"
+  ],
+  "employmentHistory": [
+    "bullet 1",
+    "bullet 2",
+    "bullet 3",
+    "bullet 4",
+    "bullet 5",
+    "bullet 6"
+  ],
+  "additionalInfo": [
+    "Shift flexibility",
+    "Right to Work status if mentioned",
+    "Driving licence if mentioned",
+    "References available on request"
+  ]
+}"fullCv": {
+  "profile": "ATS-friendly airport profile",
+  "skills": [
+    "skill 1",
+    "skill 2",
+    "skill 3",
+    "skill 4",
+    "skill 5",
+    "skill 6",
+    "skill 7",
+    "skill 8"
+  ],
+  "employmentHistory": [
+    "bullet 1",
+    "bullet 2",
+    "bullet 3",
+    "bullet 4",
+    "bullet 5",
+    "bullet 6"
+  ],
+  "additionalInfo": [
+    "Shift flexibility",
+    "Right to Work status if mentioned",
+    "Driving licence if mentioned",
+    "References available on request"
+  ]
+}import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
+import mammoth from "mammoth";
+import PDFParser from "pdf2json";
+
+function extractPdfText(buffer: Buffer): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const pdfParser = new PDFParser();
+
+    pdfParser.on("pdfParser_dataError", (errData) => {
+      reject(errData.parserError);
+    });
+
+    pdfParser.on("pdfParser_dataReady", (pdfData) => {
+      let text = "";
+
+      for (const page of pdfData.Pages) {
+        for (const textItem of page.Texts) {
+          for (const run of textItem.R) {
+            text += decodeURIComponent(run.T) + " ";
+          }
+        }
+        text += "\n";
+      }
+
+      resolve(text);
+    });
+
+    pdfParser.parseBuffer(buffer);
+  });
+}
+
+export async function POST(request: Request) {
+  try {
+    const formData = await request.formData();
+
+    const role = formData.get("role") as string;
+    const cvTextInput = formData.get("cvText") as string;
+    const file = formData.get("file") as File | null;
+
+    let cvText = cvTextInput || "";
+
+    if (file && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+
+      if (file.name.toLowerCase().endsWith(".pdf")) {
+        cvText = await extractPdfText(buffer);
+      }
+
+      if (file.name.toLowerCase().endsWith(".docx")) {
+        const docx = await mammoth.extractRawText({ buffer });
+        cvText = docx.value;
+      }
+    }
+
+    if (!role || !cvText.trim()) {
+      return NextResponse.json(
+        { error: "Please upload or paste your CV." },
+        { status: 400 }
+      );
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+
+    const prompt = `
+You are a realistic UK airport recruitment CV adviser.
+
+Target role: ${role}
+
+Candidate CV:
+${cvText}
+
+Return ONLY valid JSON in this format:
+{
+  "score": number from 0 to 100,
+  "summary": "short realistic recruiter-style summary",
+  "fixes": ["fix 1", "fix 2", "fix 3"],
+  "profile": "improved professional CV profile under 60 words",
+  "skills": ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5", "skill 6"],
+  "bullets": ["improved bullet 1", "improved bullet 2", "improved bullet 3", "improved bullet 4"],
+  "keywords": ["keyword 1", "keyword 2", "keyword 3", "keyword 4", "keyword 5", "keyword 6"],
+  "fullCv": {
+    "profile": "complete professional profile",
+    "skills": ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5", "skill 6", "skill 7", "skill 8"],
+    "experience": ["bullet 1", "bullet 2", "bullet 3", "bullet 4", "bullet 5", "bullet 6"],
+    "additionalInfo": ["item 1", "item 2", "item 3"]
+  }
+}
+
+Rules:
+- Do not invent jobs, employers, dates, licences, airports or qualifications.
+- Do not exaggerate.
+- Use natural UK English.
+- Focus only on UK airport jobs.
+- The fullCv section should be realistic and ready to copy into a CV.
+- If something is missing, phrase it as "add if true" where needed.
+`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+
+    const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    const parsed = JSON.parse(cleaned);
+
+    return NextResponse.json(parsed);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "AI analysis failed. Please try again." },
+      { status: 500 }
+    );
+  }
+}
