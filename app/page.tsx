@@ -189,6 +189,52 @@ export default function Home() {
   function getContactLine() {
     return [email, phone, location].filter(Boolean).join(" | ");
   }
+  const roleInsights: Record<
+  string,
+  {
+    salary: string;
+    shiftPattern: string;
+    keySkills: string[];
+    notes: string;
+  }
+> = {
+  "Passenger Service Agent": {
+    salary: "£24k - £35k",
+    shiftPattern: "Early, late, weekend and rotating shifts",
+    keySkills: ["Customer service", "Communication", "Check-in", "Boarding", "Problem solving"],
+    notes: "Best suited to candidates with customer-facing experience in airports, retail, hospitality or travel.",
+  },
+  "Ramp Agent": {
+    salary: "£25k - £38k",
+    shiftPattern: "Shift work including nights, weekends and outdoor work",
+    keySkills: ["Safety awareness", "Manual handling", "Teamwork", "Time management", "Aircraft turnaround"],
+    notes: "Best suited to candidates comfortable with physical work, safety procedures and time-critical operations.",
+  },
+  "Baggage Handler": {
+    salary: "£24k - £34k",
+    shiftPattern: "Early, late, night and weekend shifts",
+    keySkills: ["Manual handling", "Loading", "Unloading", "Teamwork", "Reliability"],
+    notes: "Best suited to candidates with warehouse, logistics, delivery or physical work experience.",
+  },
+  "Airport Security Officer": {
+    salary: "£28k - £45k",
+    shiftPattern: "Rotating shifts including weekends and bank holidays",
+    keySkills: ["Observation", "Procedure following", "Communication", "Conflict handling", "Safety awareness"],
+    notes: "Best suited to candidates who are calm, professional, observant and comfortable following strict procedures.",
+  },
+  "Flight Dispatcher": {
+    salary: "£35k - £60k+",
+    shiftPattern: "Operational shifts, often including weekends and unsociable hours",
+    keySkills: ["Flight coordination", "Decision making", "Communication", "Time management", "Operational control"],
+    notes: "Best suited to candidates with aviation operations, ground handling or flight turnaround experience.",
+  },
+  "Load Controller": {
+    salary: "£32k - £55k+",
+    shiftPattern: "Operational shift work linked to flight schedules",
+    keySkills: ["Weight and balance", "Accuracy", "Aircraft loading", "Communication", "Safety compliance"],
+    notes: "Best suited to candidates with ramp, dispatch, load planning or aircraft turnaround experience.",
+  },
+};
 const careerPaths: Record<string, string[]> = {
   "Passenger Service Agent": [
     "Senior Passenger Service Agent",
@@ -1004,6 +1050,39 @@ const careerPaths: Record<string, string[]> = {
                     </div>
                   )}
 <div className="mt-6 rounded-2xl border bg-white p-5">
+  <div className="rounded-2xl border bg-white p-5">
+  <h3 className="font-bold">Role Insights</h3>
+
+  <div className="mt-4 grid gap-4 md:grid-cols-2">
+    <div className="rounded-xl bg-slate-50 p-4">
+      <p className="text-sm font-semibold text-slate-500">Typical Salary</p>
+      <p className="mt-1 font-bold">{roleInsights[role]?.salary}</p>
+    </div>
+
+    <div className="rounded-xl bg-slate-50 p-4">
+      <p className="text-sm font-semibold text-slate-500">Shift Pattern</p>
+      <p className="mt-1 font-bold">{roleInsights[role]?.shiftPattern}</p>
+    </div>
+  </div>
+
+  <div className="mt-5">
+    <h4 className="font-semibold">Key Skills</h4>
+    <div className="mt-2 flex flex-wrap gap-2">
+      {roleInsights[role]?.keySkills.map((skill) => (
+        <span
+          key={skill}
+          className="rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700"
+        >
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <p className="mt-5 text-slate-700">
+    {roleInsights[role]?.notes}
+  </p>
+</div>
   <h3 className="font-bold">Career Progression Path</h3>
 
   <p className="mt-2 text-slate-600">
