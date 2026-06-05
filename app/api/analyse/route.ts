@@ -44,6 +44,7 @@ export async function POST(request: Request) {
 
     const role = formData.get("role") as string;
     const cvTextInput = formData.get("cvText") as string;
+    const jobDescription = formData.get("jobDescription") as string;
     const file = formData.get("file") as File | null;
 
     let cvText = cvTextInput || "";
@@ -79,6 +80,9 @@ Target role: ${role}
 CV:
 ${cvText}
 
+Job Description:
+${jobDescription || "No job description provided."}
+
 Return only valid JSON. No markdown.
 
 Use exactly this structure:
@@ -92,6 +96,12 @@ Use exactly this structure:
     { "role": "Lounge Agent", "match": 82 },
     { "role": "Ground Operations Agent", "match": 75 }
   ],
+  "jobMatch": {
+    "score": 80,
+    "missingKeywords": ["keyword 1", "keyword 2", "keyword 3"],
+    "missingSkills": ["skill 1", "skill 2", "skill 3"],
+    "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"]
+  },
   "fullCv": {
     "profile": "Professional airport CV profile under 70 words.",
     "skills": ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5", "skill 6", "skill 7", "skill 8"],
@@ -111,6 +121,11 @@ Rules:
 - Keep all real employment roles from the CV.
 - Keep original job title, company and dates where possible.
 - Rewrite bullet points to suit the selected airport role.
+- If a job description is provided, compare the CV against it and complete the jobMatch section.
+- If no job description is provided, still return jobMatch with general airport-role advice.
+- In jobMatch, missingKeywords should be words or phrases from the job description that are missing or weak in the CV.
+- In jobMatch, missingSkills should be important skills from the job description that are missing or weak in the CV.
+- In jobMatch, recommendations should be practical changes the candidate can make to improve the match.
 - Do not invent jobs, employers, dates, licences or qualifications.
 - Use natural UK English.
 `;

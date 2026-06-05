@@ -46,7 +46,16 @@ type Report = {
   profile: string;
   skills: string[];
   keywords: string[];
+
   bestMatches?: { role: string; match: number }[];
+
+  jobMatch?: {
+    score: number;
+    missingKeywords: string[];
+    missingSkills: string[];
+    recommendations: string[];
+  };
+
   fullCv: {
     profile: string;
     skills: string[];
@@ -60,6 +69,7 @@ type Report = {
 export default function Home() {
   const [role, setRole] = useState(roles[0]);
   const [cvText, setCvText] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
   const [fullName, setFullName] = useState("");
@@ -151,6 +161,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("role", role);
     formData.append("cvText", cvText);
+    formData.append("jobDescription", jobDescription);
     if (file) formData.append("file", file);
 
     const response = await fetch("/api/analyse", {
@@ -834,6 +845,17 @@ export default function Home() {
               <label className="mt-6 block text-sm font-semibold">Or paste your CV</label>
               <textarea value={cvText} onChange={(e) => setCvText(e.target.value)} placeholder="Paste your CV text here..." className="mt-2 h-52 w-full rounded-xl border px-4 py-3" />
 
+<label className="mt-6 block text-sm font-semibold">
+  Job Description (Optional)
+</label>
+
+<textarea
+  value={jobDescription}
+  onChange={(e) => setJobDescription(e.target.value)}
+  placeholder="Paste the airport job description here..."
+  className="mt-2 h-40 w-full rounded-xl border px-4 py-3"
+/>
+
               <button onClick={checkCv} disabled={loading} className="mt-6 w-full rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white hover:bg-blue-500 disabled:bg-slate-400">
                 {loading ? "Checking your CV..." : "Check My Airport CV"}
               </button>
@@ -868,6 +890,56 @@ export default function Home() {
 
                   {report.bestMatches && (
                     <div>
+                      {report.jobMatch && (
+  <div className="mb-6 rounded-2xl border bg-white p-5">
+    <h3 className="font-bold">Job Description Match</h3>
+
+    <div className="mt-4">
+      <div className="flex items-center justify-between">
+        <span className="font-medium">Match Score</span>
+        <span className="font-bold text-green-700">
+          {report.jobMatch.score}%
+        </span>
+      </div>
+
+      <div className="mt-2 h-2 rounded-full bg-slate-200">
+        <div
+          className="h-2 rounded-full bg-green-600"
+          style={{ width: `${report.jobMatch.score}%` }}
+        />
+      </div>
+    </div>
+
+    <div className="mt-5">
+      <h4 className="font-semibold">Missing Keywords</h4>
+      <ul className="mt-2 list-disc pl-5 text-slate-700">
+        {report.jobMatch.missingKeywords?.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+
+    <div className="mt-5">
+      <h4 className="font-semibold">Missing Skills</h4>
+      <ul className="mt-2 list-disc pl-5 text-slate-700">
+        {report.jobMatch.missingSkills?.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+
+    <div className="mt-5">
+      <h4 className="font-semibold">Recommended Improvements</h4>
+      <ul className="mt-2 list-disc pl-5 text-slate-700">
+        {report.jobMatch.recommendations?.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
+
+<h3 className="font-bold">Best Airport Role Matches</h3>
                       <h3 className="font-bold">Best Airport Role Matches</h3>
                       <div className="mt-3 space-y-3">
                         {report.bestMatches.map((match) => (
