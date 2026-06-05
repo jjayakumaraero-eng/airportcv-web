@@ -56,6 +56,11 @@ type Report = {
     recommendations: string[];
   };
 
+  careerPath?: {
+    currentRole: string;
+    nextSteps: string[];
+  };
+
   fullCv: {
     profile: string;
     skills: string[];
@@ -184,7 +189,49 @@ export default function Home() {
   function getContactLine() {
     return [email, phone, location].filter(Boolean).join(" | ");
   }
+const careerPaths: Record<string, string[]> = {
+  "Passenger Service Agent": [
+    "Senior Passenger Service Agent",
+    "Passenger Service Supervisor",
+    "Duty Manager",
+    "Airport Operations Manager",
+  ],
 
+  "Ramp Agent": [
+    "Lead Ramp Agent",
+    "Load Controller",
+    "Operations Controller",
+    "Duty Manager",
+  ],
+
+  "Baggage Handler": [
+    "Lead Baggage Agent",
+    "Ramp Supervisor",
+    "Operations Controller",
+    "Duty Manager",
+  ],
+
+  "Airport Security Officer": [
+    "Senior Security Officer",
+    "Security Supervisor",
+    "Security Manager",
+    "Airport Security Manager",
+  ],
+
+  "Flight Dispatcher": [
+    "Senior Flight Dispatcher",
+    "Operations Controller",
+    "Operations Manager",
+    "Airport Operations Manager",
+  ],
+
+  "Load Controller": [
+    "Senior Load Controller",
+    "Operations Controller",
+    "Duty Manager",
+    "Airport Operations Manager",
+  ],
+};
   function getEmploymentItems() {
     if (!report) return [];
     return report.fullCv?.employmentHistory || [];
@@ -940,7 +987,7 @@ export default function Home() {
 )}
 
 <h3 className="font-bold">Best Airport Role Matches</h3>
-                      <h3 className="font-bold">Best Airport Role Matches</h3>
+                
                       <div className="mt-3 space-y-3">
                         {report.bestMatches.map((match) => (
                           <div key={match.role} className="rounded-xl bg-slate-50 p-4">
@@ -956,7 +1003,29 @@ export default function Home() {
                       </div>
                     </div>
                   )}
+<div className="mt-6 rounded-2xl border bg-white p-5">
+  <h3 className="font-bold">Career Progression Path</h3>
 
+  <p className="mt-2 text-slate-600">
+    Typical progression route for a {role}.
+  </p>
+
+  <div className="mt-5 flex flex-col gap-3">
+    {[role, ...(careerPaths[role] || [])].map((step, index) => (
+      <div key={step}>
+        <div className="rounded-xl bg-slate-50 p-4 font-semibold">
+          {step}
+        </div>
+
+        {index < (careerPaths[role] || []).length && (
+          <div className="py-2 text-center text-2xl text-blue-600">
+            ↓
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
                   <div className="rounded-2xl border bg-slate-50 p-5">
                     <h3 className="text-lg font-bold">Generated Professional Airport CV</h3>
 
