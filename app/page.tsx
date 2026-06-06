@@ -547,7 +547,7 @@ const careerPaths: Record<string, string[]> = {
                 <p className="text-sm text-slate-300">Core Airport roles</p>
               </div>
               <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                <p className="text-2xl font-bold">Instant AI</p>
+                <p className="text-2xl font-bold">Instant </p>
                 <p className="text-sm text-slate-300">CV Improvement</p>
               </div>
               <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
