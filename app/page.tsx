@@ -981,9 +981,7 @@ const careerPaths: Record<string, string[]> = {
                     </ul>
                   </div>
 
-                  {report.bestMatches && (
-                    <div>
-                      {report.jobMatch && (
+                  {report.jobMatch && (
   <div className="mb-6 rounded-2xl border bg-white p-5">
     <h3 className="font-bold">Job Description Match</h3>
 
@@ -1032,9 +1030,11 @@ const careerPaths: Record<string, string[]> = {
   </div>
 )}
 
-<h3 className="font-bold">Best Airport Role Matches</h3>
-                
-                      <div className="mt-3 space-y-3">
+{report.bestMatches && (
+  <div>
+    <h3 className="font-bold">Best Airport Role Matches</h3>
+
+    <div className="mt-3 space-y-3">
                         {report.bestMatches.map((match) => (
                           <div key={match.role} className="rounded-xl bg-slate-50 p-4">
                             <div className="flex items-center justify-between">
@@ -1048,30 +1048,45 @@ const careerPaths: Record<string, string[]> = {
                         ))}
                       </div>
                     </div>
-                  )}
-<div className="mt-6 rounded-2xl border bg-white p-5">
-  <div className="rounded-2xl border bg-white p-5">
-  <h3 className="font-bold">Role Insights</h3>
+                                    )}
 
-  <div className="mt-4 grid gap-4 md:grid-cols-2">
-    <div className="rounded-xl bg-slate-50 p-4">
-      <p className="text-sm font-semibold text-slate-500">Typical Salary</p>
-      <p className="mt-1 font-bold">{roleInsights[role]?.salary}</p>
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+  <h3 className="text-2xl font-bold tracking-tight text-slate-900">
+    📊 Role Insights Based on Best Match
+  </h3>
+
+  <div className="mt-5 grid gap-4 md:grid-cols-2">
+    <div className="rounded-2xl border border-green-100 bg-gradient-to-r from-green-50 to-emerald-50 p-5">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        Typical Salary
+      </p>
+
+      <p className="mt-2 text-xl font-bold text-slate-900">
+        {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.salary}
+      </p>
     </div>
 
-    <div className="rounded-xl bg-slate-50 p-4">
-      <p className="text-sm font-semibold text-slate-500">Shift Pattern</p>
-      <p className="mt-1 font-bold">{roleInsights[role]?.shiftPattern}</p>
+    <div className="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-sky-50 p-5">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        Shift Pattern
+      </p>
+
+      <p className="mt-2 text-lg font-semibold text-slate-900">
+        {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.shiftPattern}
+      </p>
     </div>
   </div>
 
-  <div className="mt-5">
-    <h4 className="font-semibold">Key Skills</h4>
-    <div className="mt-2 flex flex-wrap gap-2">
-      {roleInsights[role]?.keySkills.map((skill) => (
+  <div className="mt-6">
+    <h4 className="text-lg font-bold text-slate-900">
+      Key Skills
+    </h4>
+
+    <div className="mt-3 flex flex-wrap gap-2">
+      {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.keySkills.map((skill) => (
         <span
           key={skill}
-          className="rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700"
+          className="rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700"
         >
           {skill}
         </span>
@@ -1079,24 +1094,39 @@ const careerPaths: Record<string, string[]> = {
     </div>
   </div>
 
-  <p className="mt-5 text-slate-700">
-    {roleInsights[role]?.notes}
-  </p>
+  <div className="mt-6 rounded-2xl border border-amber-100 bg-amber-50 p-5">
+    <h4 className="font-bold text-slate-900">
+      Recruiter Insight
+    </h4>
+
+    <p className="mt-2 leading-relaxed text-slate-700">
+      {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.notes}
+    </p>
+  </div>
 </div>
-  <h3 className="font-bold">Career Progression Path</h3>
+
+
+<div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+  <h3 className="text-2xl font-bold tracking-tight text-slate-900">
+    🛫 Career Progression Path Based on Best Match
+  </h3>
 
   <p className="mt-2 text-slate-600">
-    Typical progression route for a {role}.
+    Typical progression route for a {report?.bestMatches?.[0]?.role || role}.
   </p>
 
   <div className="mt-5 flex flex-col gap-3">
-    {[role, ...(careerPaths[role] || [])].map((step, index) => (
+    {[
+  report?.bestMatches?.[0]?.role || role,
+  ...(careerPaths[report?.bestMatches?.[0]?.role || role] || careerPaths[role] || []),
+].map((step, index) => (
       <div key={step}>
         <div className="rounded-xl bg-slate-50 p-4 font-semibold">
           {step}
         </div>
 
-        {index < (careerPaths[role] || []).length && (
+        {index <
+  (careerPaths[report?.bestMatches?.[0]?.role || role] || careerPaths[role] || []).length && (
           <div className="py-2 text-center text-2xl text-blue-600">
             ↓
           </div>
