@@ -482,22 +482,22 @@ const careerPaths: Record<string, string[]> = {
       </div>
       <div>
         <p className="font-bold">AirportCV</p>
-        <p className="text-xs text-slate-500">UK airport CV assistant</p>
+        <p className="text-xs text-slate-500"> </p>
       </div>
     </a>
 
     <div className="hidden items-center gap-6 text-sm font-semibold text-slate-600 md:flex">
-      <a href="#how-it-works" className="hover:text-blue-600">How it works</a>
+      <a href="#how-it-works" className="hover:text-blue-600">How It Works</a>
       <a href="#roles" className="hover:text-blue-600">Roles</a>
       <a href="#airports" className="hover:text-blue-600">Airports</a>
-      <a href="#checker" className="hover:text-blue-600">CV checker</a>
+      <a href="#checker" className="hover:text-blue-600">CV Checker</a>
     </div>
 
     <a
       href="#checker"
       className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-500"
     >
-      Check my CV
+      Check My CV
     </a>
   </div>
 </nav>
@@ -517,14 +517,13 @@ const careerPaths: Record<string, string[]> = {
         <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mb-4 inline-flex rounded-full bg-blue-500/15 px-4 py-2 text-sm font-semibold text-blue-200 ring-1 ring-blue-300/20">
-              Built for UK airport job seekers
+              Built to Get You Hired
             </p>
             <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-white md:text-7xl">
-              Get your CV ready for UK airport jobs
+              Ready for your next Airport role?
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              Upload your CV and get an airport-focused readiness score, best role matches,
-              realistic CV improvements and a professional ATS-friendly CV draft.
+              Analyse your CV, discover your strongest airport role matches, prepare for interviews and create professional applications with confidence.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -545,11 +544,11 @@ const careerPaths: Record<string, string[]> = {
             <div className="mt-10 grid max-w-2xl grid-cols-3 gap-4 text-white">
               <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
                 <p className="text-2xl font-bold">4+</p>
-                <p className="text-sm text-slate-300">Core airport roles</p>
+                <p className="text-sm text-slate-300">Core Airport roles</p>
               </div>
               <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                <p className="text-2xl font-bold">AI</p>
-                <p className="text-sm text-slate-300">CV improvement</p>
+                <p className="text-2xl font-bold">Instant AI</p>
+                <p className="text-sm text-slate-300">CV Improvement</p>
               </div>
               <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
                 <p className="text-2xl font-bold">ATS</p>
@@ -602,7 +601,7 @@ const careerPaths: Record<string, string[]> = {
           <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
             How it works
           </p>
-          <h2 className="mt-3 text-4xl font-bold">From old CV to airport-ready CV</h2>
+          <h2 className="mt-3 text-4xl font-bold">Start Your Airport Career Journey</h2>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-4">
@@ -629,7 +628,7 @@ const careerPaths: Record<string, string[]> = {
       Airport Careers We Support
     </p>
     <h2 className="mt-3 text-4xl font-bold">
-      Built for real airport careers
+      Built for Airport, Airline and Ground Operations Careers
     </h2>
     <p className="mt-4 text-slate-600">
       Tailored CV guidance for airport operations, passenger services and
@@ -730,7 +729,7 @@ const careerPaths: Record<string, string[]> = {
     </p>
 
     <h2 className="mt-3 text-4xl font-bold">
-      More tools for airport job seekers
+      More Tools for Airport Job Seekers
     </h2>
 
     <p className="mt-4 max-w-2xl text-slate-300">
@@ -784,7 +783,7 @@ const careerPaths: Record<string, string[]> = {
     </p>
 
     <h2 className="mt-3 text-4xl font-bold">
-      Helping candidates prepare for airport careers
+      Helping People Build Successful Airport Careers.
     </h2>
 
     <p className="mt-4 text-slate-600">
@@ -834,7 +833,7 @@ const careerPaths: Record<string, string[]> = {
     </p>
 
     <h2 className="mt-3 text-4xl font-bold">
-      Roles commonly available across UK airports
+      Roles Commonly Available Across UK Airports
     </h2>
 
     <p className="mt-4 max-w-3xl mx-auto text-slate-600">
@@ -913,9 +912,9 @@ const careerPaths: Record<string, string[]> = {
           <div className="grid gap-2 lg:grid-cols-2">
             <div className="rounded-[1.7rem] bg-white p-6 lg:p-8">
               <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
-                Free CV check
+                Free CV Check
               </p>
-              <h2 className="mt-2 text-3xl font-bold">Check your airport CV</h2>
+              <h2 className="mt-2 text-3xl font-bold">Check Your Airport CV</h2>
               <p className="mt-3 text-slate-600">
                 Add your details, upload your CV and choose the airport role you want.
               </p>
@@ -961,7 +960,7 @@ const careerPaths: Record<string, string[]> = {
                 <div className="mt-4 rounded-xl bg-red-50 p-4 text-red-700">{error}</div>
               ) : !report ? (
                 <div className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-                  <p className="text-lg font-semibold">Your report will appear here</p>
+                  <p className="text-lg font-semibold">Your Report Will Appear Here</p>
                   <p className="mt-2 text-slate-600">
                     You’ll see your score, best role matches and improved CV draft.
                   </p>
@@ -1283,7 +1282,7 @@ const careerPaths: Record<string, string[]> = {
     <div>
       <h3 className="text-xl font-bold">✈️ AirportCV</h3>
       <p className="mt-3 text-sm text-slate-400">
-        Helping candidates prepare for UK airport careers.
+        Helping People Build Successful Airport Careers.
       </p>
     </div>
 
