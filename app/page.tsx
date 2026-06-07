@@ -19,6 +19,7 @@ const roles = [
   "Airport Security Officer",
   "Flight Dispatcher",
   "Load Controller",
+  "Other",
 ];
 
 type Job = {
@@ -73,6 +74,7 @@ type Report = {
 
 export default function Home() {
   const [role, setRole] = useState(roles[0]);
+  const [customRole, setCustomRole] = useState("");
   const [cvText, setCvText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -164,7 +166,7 @@ export default function Home() {
     setError("");
 
     const formData = new FormData();
-    formData.append("role", role);
+    formData.append("role", role === "Other" ? customRole : role);
     formData.append("cvText", cvText);
     formData.append("jobDescription", jobDescription);
     if (file) formData.append("file", file);
@@ -768,9 +770,18 @@ const careerPaths: Record<string, string[]> = {
             {item.desc}
           </p>
 
-          <span className="mt-4 inline-block rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300">
-            Coming Soon
-          </span>
+          {item.title === "Interview Preparation" ? (
+  <a
+    href="/interview-prep"
+    className="mt-4 inline-block rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500"
+  >
+    Open Tool
+  </a>
+) : (
+  <span className="mt-4 inline-block rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300">
+    Coming Soon
+  </span>
+)}
         </div>
       ))}
     </div>
@@ -930,6 +941,14 @@ const careerPaths: Record<string, string[]> = {
               <select value={role} onChange={(e) => setRole(e.target.value)} className="mt-2 w-full rounded-xl border px-4 py-3">
                 {roles.map((r) => <option key={r}>{r}</option>)}
               </select>
+              {role === "Other" && (
+  <input
+    value={customRole}
+    onChange={(e) => setCustomRole(e.target.value)}
+    placeholder="Type your target airport role"
+    className="mt-3 w-full rounded-xl border px-4 py-3"
+  />
+)}
 
               <label className="mt-6 block text-sm font-semibold">Upload CV</label>
               <input type="file" accept=".pdf,.docx" onChange={(e) => setFile(e.target.files?.[0] || null)} className="mt-2 w-full rounded-xl border border-dashed bg-slate-50 px-4 py-4" />
