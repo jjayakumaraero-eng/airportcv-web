@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import CvUpload from "@/components/CvUpload";
 
 const roles = [
   "Passenger Service Agent",
@@ -218,7 +219,7 @@ export default function CareerCoachPage() {
                 />
               )}
             </div>
-
+<CvUpload onTextExtracted={setCvText} />
             <div>
               <label className="block text-sm font-semibold">
                 Paste Your CV Optional
