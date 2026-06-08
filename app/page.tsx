@@ -749,10 +749,10 @@ const careerPaths: Record<string, string[]> = {
           title: "Cover Letter Generator",
           desc: "Create tailored cover letters for airport and airline roles.",
         },
-        {
-          title: "Airport Career Path Finder",
-          desc: "Discover progression routes from entry-level to specialist roles.",
-        },
+       {
+  title: "Airport Career Coach",
+  desc: "Receive personalised career guidance, identify your current stage and discover the best next airport roles to target.",
+},
         {
           title: "Cabin Crew CV Optimiser",
           desc: "Specialised CV guidance for airline cabin crew applications.",
@@ -773,7 +773,21 @@ const careerPaths: Record<string, string[]> = {
           {item.title === "Interview Preparation" ? (
   <a
     href="/interview-prep"
-    className="mt-4 inline-block rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500"
+    className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500"
+  >
+    Open Tool
+  </a>
+) : item.title === "Cover Letter Generator" ? (
+  <a
+    href="/cover-letter"
+    className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500"
+  >
+    Open Tool
+  </a>
+) : item.title === "Airport Career Coach" ? (
+  <a
+    href="/career-coach"
+    className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500"
   >
     Open Tool
   </a>
@@ -782,6 +796,7 @@ const careerPaths: Record<string, string[]> = {
     Coming Soon
   </span>
 )}
+  
         </div>
       ))}
     </div>
