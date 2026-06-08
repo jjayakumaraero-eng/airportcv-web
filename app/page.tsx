@@ -490,28 +490,30 @@ const careerPaths: Record<string, string[]> = {
       </a>
 
       <div className="hidden items-center gap-8 text-sm font-bold text-slate-200 md:flex">
-        <a href="#tools" className="transition hover:text-blue-400">
-          Tools
-        </a>
-        <a href="#how-it-works" className="transition hover:text-blue-400">
-          How It Works
-        </a>
-        <a href="#airports" className="transition hover:text-blue-400">
-          Airports
-        </a>
-        <a
-  href="/success-stories"
-  className="transition hover:text-blue-400"
->
-  Success Stories
-</a>
-      </div>
+  <a href="/" className="transition hover:text-blue-400">
+    Home
+  </a>
+
+  <a href="/about" className="transition hover:text-blue-400">
+    About Us
+  </a>
+
+  
+
+  <a href="/success-stories" className="transition hover:text-blue-400">
+    Success Stories
+  </a>
+
+  <a href="/blog" className="transition hover:text-blue-400">
+    Blog
+  </a>
+</div>
 
       <a
         href="/cv-checker"
         className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-0.5 hover:bg-blue-500"
       >
-        Start Free
+        Get Started Free
       </a>
     </div>
   </nav>
@@ -552,7 +554,7 @@ const careerPaths: Record<string, string[]> = {
           href="#tools"
           className="rounded-xl bg-blue-600 px-7 py-4 text-center font-bold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-500"
         >
-          Explore Tools →
+          Get Your Free Career Assessment →
         </a>
 
         <a
@@ -773,7 +775,7 @@ role matching and professional improvement recommendations.
             href="/cv-checker"
             className="inline-flex items-center rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
           >
-            Start Free CV Assessment →
+            Get Your Free Career Assessment →
           </a>
         </div>
 

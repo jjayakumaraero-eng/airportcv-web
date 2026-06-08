@@ -485,9 +485,9 @@ return (
               <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
                 Free CV Check
               </p>
-              <h2 className="mt-2 text-3xl font-bold">Check Your Airport CV</h2>
+              <h2 className="mt-2 text-3xl font-bold">Get Your Free Airport Career Assessment</h2>
               <p className="mt-3 text-slate-600">
-                Add your details, upload your CV and choose the airport role you want.
+                Upload your CV and receive a free airport readiness score, top improvement areas and best-fit role match.
               </p>
 
               <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -628,226 +628,36 @@ return (
                     </div>
                                     )}
 
-                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
-  <h3 className="text-2xl font-bold tracking-tight text-slate-900">
-    📊 Role Insights Based on Best Match
-  </h3>
+                  <div className="mt-8 rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50 p-8">
+  <div className="text-center">
+    <div className="text-5xl">🔒</div>
 
-  <div className="mt-5 grid gap-4 md:grid-cols-2">
-    <div className="rounded-2xl border border-green-100 bg-gradient-to-r from-green-50 to-emerald-50 p-5">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-        Typical Salary
-      </p>
+    <h3 className="mt-4 text-2xl font-bold text-slate-950">
+      Full Airport Career Report
+    </h3>
 
-      <p className="mt-2 text-xl font-bold text-slate-900">
-        {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.salary}
-      </p>
-    </div>
-
-    <div className="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-sky-50 p-5">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-        Shift Pattern
-      </p>
-
-      <p className="mt-2 text-lg font-semibold text-slate-900">
-        {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.shiftPattern}
-      </p>
-    </div>
-  </div>
-
-  <div className="mt-6">
-    <h4 className="text-lg font-bold text-slate-900">
-      Key Skills
-    </h4>
-
-    <div className="mt-3 flex flex-wrap gap-2">
-      {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.keySkills.map((skill) => (
-        <span
-          key={skill}
-          className="rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700"
-        >
-          {skill}
-        </span>
-      ))}
-    </div>
-  </div>
-
-  <div className="mt-6 rounded-2xl border border-amber-100 bg-amber-50 p-5">
-    <h4 className="font-bold text-slate-900">
-      Recruiter Insight
-    </h4>
-
-    <p className="mt-2 leading-relaxed text-slate-700">
-      {(roleInsights[report?.bestMatches?.[0]?.role || role] || roleInsights[role])?.notes}
+    <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+      Your free assessment includes your score, priority fixes and best-fit role match.
+      The full report will unlock deeper career insights and professional application tools.
     </p>
+
+    <div className="mx-auto mt-6 grid max-w-3xl gap-3 text-left text-sm text-slate-700 md:grid-cols-2">
+      <p>✓ ATS CV Analysis</p>
+      <p>✓ Job Description Match</p>
+      <p>✓ Salary Insights</p>
+      <p>✓ Career Roadmap</p>
+      <p>✓ Professional CV Rewrite</p>
+      <p>✓ Downloadable CV</p>
+      <p>✓ Cover Letter Generator</p>
+      <p>✓ Interview Preparation Pack</p>
+    </div>
+
+    <button className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white">
+      Join the Early Access List
+    </button>
   </div>
 </div>
-
-
-<div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
-  <h3 className="text-2xl font-bold tracking-tight text-slate-900">
-    🛫 Career Progression Path Based on Best Match
-  </h3>
-
-  <p className="mt-2 text-slate-600">
-    Typical progression route for a {report?.bestMatches?.[0]?.role || role}.
-  </p>
-
-  <div className="mt-5 flex flex-col gap-3">
-    {[
-  report?.bestMatches?.[0]?.role || role,
-  ...(careerPaths[report?.bestMatches?.[0]?.role || role] || careerPaths[role] || []),
-].map((step, index) => (
-      <div key={step}>
-        <div className="rounded-xl bg-slate-50 p-4 font-semibold">
-          {step}
-        </div>
-
-        {index <
-  (careerPaths[report?.bestMatches?.[0]?.role || role] || careerPaths[role] || []).length && (
-          <div className="py-2 text-center text-2xl text-blue-600">
-            ↓
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
-</div>
-                  <div className="rounded-2xl border bg-slate-50 p-5">
-                    <h3 className="text-lg font-bold">Generated Professional Airport CV</h3>
-
-                    <h4 className="mt-4 font-semibold">Professional Profile</h4>
-                    <p className="mt-2 text-slate-700">{report.fullCv?.profile || report.profile}</p>
-
-                    <h4 className="mt-4 font-semibold">Key Skills</h4>
-                    <ul className="mt-2 list-disc pl-5 text-slate-700">
-                      {(report.fullCv?.skills || report.skills || []).map((skill) => <li key={skill}>{skill}</li>)}
-                    </ul>
-
-                    <h4 className="mt-4 font-semibold">Employment History</h4>
-                    <ul className="mt-2 list-disc pl-5 text-slate-700">
-                      {getEmploymentItems().map((job) => (
-                        <li key={`${job.jobTitle}-${job.company}-${job.dates}`} className="mb-4 list-none">
-                          <p className="font-semibold">{job.jobTitle}</p>
-                          <p className="text-sm text-slate-600">{job.company} | {job.dates}</p>
-                          <ul className="mt-2 list-disc space-y-1 pl-5">
-                            {(job.bullets || []).map((bullet) => <li key={bullet}>{bullet}</li>)}
-                          </ul>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <h4 className="mt-4 font-semibold">Additional Information</h4>
-                    <ul className="mt-2 list-disc pl-5 text-slate-700">
-                      {(report.fullCv?.additionalInfo || []).map((item) => <li key={item}>{item}</li>)}
-                    </ul>
-                  </div>
-
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <button onClick={downloadWordCv} className="rounded-xl bg-slate-950 px-6 py-3 font-semibold text-white hover:bg-slate-800">
-                      Download Word CV
-                    </button>
-                    <button onClick={downloadPdfCv} className="rounded-xl bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-500">
-                      Download PDF CV
-                    </button>
-                  </div>
-
-                  <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
-                    <h3 className="text-lg font-bold">Cover Letter Generator</h3>
-                    <p className="mt-2 text-slate-700">
-                      Generate a realistic cover letter tailored to this airport role.
-                    </p>
-
-                    <button
-                      onClick={generateCoverLetter}
-                      disabled={coverLetterLoading}
-                      className="mt-4 w-full rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-500 disabled:bg-slate-400"
-                    >
-                      {coverLetterLoading ? "Generating cover letter..." : "Generate Cover Letter"}
-                    </button>
-
-                    {coverLetterError && (
-                      <div className="mt-4 rounded-xl bg-red-50 p-4 text-red-700">
-                        {coverLetterError}
-                      </div>
-                    )}
-
-                    {coverLetter && (
-                      <div className="mt-5 rounded-xl bg-white p-4">
-                        <h4 className="font-bold">Your Cover Letter</h4>
-                        <p className="mt-3 whitespace-pre-line text-slate-700">
-                          {coverLetter.coverLetter}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-                    <h3 className="text-lg font-bold">Interview Preparation Pack</h3>
-                    <p className="mt-2 text-slate-700">
-                      Generate role-specific interview questions and suggested answers based on this CV.
-                    </p>
-
-                    <button
-                      onClick={generateInterviewPack}
-                      disabled={interviewLoading}
-                      className="mt-4 w-full rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-500 disabled:bg-slate-400"
-                    >
-                      {interviewLoading ? "Generating interview pack..." : "Generate Interview Questions"}
-                    </button>
-
-                    {interviewError && (
-                      <div className="mt-4 rounded-xl bg-red-50 p-4 text-red-700">
-                        {interviewError}
-                      </div>
-                    )}
-
-                    {interviewPack && (
-                      <div className="mt-6 space-y-6">
-                        <div>
-                          <h4 className="font-bold">Likely Interview Questions</h4>
-                          <div className="mt-3 space-y-4">
-                            {interviewPack.questions.map((item) => (
-                              <div key={item.question} className="rounded-xl bg-white p-4">
-                                <p className="font-semibold">{item.question}</p>
-                                <p className="mt-2 text-slate-700">{item.answer}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="font-bold">Airport Scenario Questions</h4>
-                          <div className="mt-3 space-y-4">
-                            {interviewPack.scenarioQuestions.map((item) => (
-                              <div key={item.question} className="rounded-xl bg-white p-4">
-                                <p className="font-semibold">{item.question}</p>
-                                <p className="mt-2 text-slate-700">{item.answer}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="font-bold">What to Mention</h4>
-                          <ul className="mt-2 list-disc pl-5 text-slate-700">
-                            {interviewPack.whatToMention.map((item) => (
-                              <li key={item}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <h4 className="font-bold">Common Mistakes to Avoid</h4>
-                          <ul className="mt-2 list-disc pl-5 text-slate-700">
-                            {interviewPack.commonMistakes.map((item) => (
-                              <li key={item}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  
                 </div>
               )}
             </div>
