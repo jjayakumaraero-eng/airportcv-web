@@ -668,6 +668,116 @@ const careerPaths: Record<string, string[]> = {
     </div>
   </div>
 </section>
+<section className="bg-white px-6 py-20">
+  <div className="mx-auto max-w-7xl">
+
+    <div className="text-center">
+      <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
+        Why AirportCV
+      </p>
+
+      <h2 className="mt-4 text-4xl font-extrabold text-slate-950">
+        Built Specifically for Airport Careers
+      </h2>
+
+      <p className="mt-4 text-lg text-slate-600">
+        Everything is designed around airport, airline, ground operations and aviation careers.
+      </p>
+    </div>
+
+    <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+
+      <div className="text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100 text-3xl">
+          ✈️
+        </div>
+
+        <h3 className="mt-5 text-xl font-bold">
+          Aviation Focused
+        </h3>
+
+        <p className="mt-3 text-slate-600">
+          Built specifically for airport, airline, ground handling and aviation professionals.
+        </p>
+      </div>
+
+      <div className="text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-100 text-3xl">
+          🤖
+        </div>
+
+        <h3 className="mt-5 text-xl font-bold">
+          AI-Powered
+        </h3>
+
+        <p className="mt-3 text-slate-600">
+          Receive personalised career guidance, interview preparation and CV advice instantly.
+        </p>
+      </div>
+
+      <div className="text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 text-3xl">
+          ⚡
+        </div>
+
+        <h3 className="mt-5 text-xl font-bold">
+          Fast & Practical
+        </h3>
+
+        <p className="mt-3 text-slate-600">
+          Get useful recommendations in minutes instead of spending hours researching.
+        </p>
+      </div>
+
+      <div className="text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-100 text-3xl">
+          🔒
+        </div>
+
+        <h3 className="mt-5 text-xl font-bold">
+          Secure & Private
+        </h3>
+
+        <p className="mt-3 text-slate-600">
+          Your information stays private and is only used to generate your results.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+<section className="bg-white px-6 pb-24">
+  <div className="mx-auto max-w-7xl">
+    <div className="overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-10 text-white shadow-2xl">
+
+      <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
+
+        <div>
+          <p className="text-5xl">✈️</p>
+
+          <h2 className="mt-4 text-3xl font-extrabold">
+            Ready to Take Your Career to New Heights?
+          </h2>
+
+          <p className="mt-3 max-w-2xl text-slate-200">
+            Join aviation professionals using AirportCV to improve their CV,
+            prepare for interviews and discover new career opportunities.
+          </p>
+        </div>
+
+        <div>
+          <a
+            href="/career-coach"
+            className="inline-flex items-center rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
+          >
+            Get Started Now →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
 <section className="mx-auto max-w-7xl px-6 pb-20">
   <div className="mb-10 text-center">
     <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
