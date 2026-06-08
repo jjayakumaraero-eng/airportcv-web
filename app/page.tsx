@@ -481,12 +481,12 @@ const careerPaths: Record<string, string[]> = {
     <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
       <a href="/" className="flex items-center">
         <Image
-          src="/airportcv-logo.png"
-          alt="AirportCV"
-          width={220}
-          height={30}
-          priority
-        />
+  src="/airportcv-logo-cropped.png"
+  alt="AirportCV"
+  width={230}
+  height={60}
+  priority
+/>
       </a>
 
       <div className="hidden items-center gap-8 text-sm font-bold text-slate-200 md:flex">
@@ -763,17 +763,17 @@ const careerPaths: Record<string, string[]> = {
           </h2>
 
           <p className="mt-3 max-w-2xl text-slate-200">
-            Join aviation professionals using AirportCV to improve their CV,
-            prepare for interviews and discover new career opportunities.
+            Upload your CV and receive personalised airport career feedback,
+role matching and professional improvement recommendations.
           </p>
         </div>
 
         <div>
           <a
-            href="/career-coach"
+            href="/cv-checker"
             className="inline-flex items-center rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
           >
-            Get Started Now →
+            Start Free CV Assessment →
           </a>
         </div>
 
@@ -786,62 +786,77 @@ const careerPaths: Record<string, string[]> = {
       
      
 
-      <footer className="border-t bg-slate-950 text-white">
-  <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-4">
+<footer className="bg-[#030814] text-white">
+  <div className="mx-auto max-w-7xl px-6 py-16">
 
-    <div>
-      <h3 className="text-xl font-bold">✈️ AirportCV</h3>
-      <p className="mt-3 text-sm text-slate-400">
-        Helping People Build Successful Airport Careers.
-      </p>
+    <div className="grid gap-12 md:grid-cols-4">
+
+      {/* Brand */}
+
+      <div>
+        <a href="/" className="inline-block">
+          <Image
+            src="/airportcv-logo-cropped.png"
+            alt="AirportCV"
+            width={100}
+            height={50}
+          />
+        </a>
+
+        <p className="mt-5 text-sm leading-7 text-slate-400">
+          Helping people build successful airport and aviation careers through
+          AI-powered career tools.
+        </p>
+      </div>
+
+      {/* Tools */}
+
+      <div>
+        <h3 className="font-bold text-white">
+          Tools
+        </h3>
+
+        <ul className="mt-4 space-y-3 text-sm text-slate-400">
+          <li><a href="/cv-checker">CV Checker</a></li>
+          <li><a href="/interview-prep">Interview Preparation</a></li>
+          <li><a href="/cover-letter">Cover Letter Generator</a></li>
+          <li><a href="/career-coach">Airport Career Coach</a></li>
+          <li><a href="/cabin-crew-cv">Cabin Crew CV Optimiser</a></li>
+        </ul>
+      </div>
+
+      {/* Company */}
+
+      <div>
+        <h3 className="font-bold text-white">
+          Company
+        </h3>
+
+        <ul className="mt-4 space-y-3 text-sm text-slate-400">
+          <li><a href="/success-stories">Success Stories</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      {/* Legal */}
+
+      <div>
+        <h3 className="font-bold text-white">
+          Legal
+        </h3>
+
+        <ul className="mt-4 space-y-3 text-sm text-slate-400">
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms & Conditions</a></li>
+        </ul>
+      </div>
+
     </div>
 
-    <div>
-      <h4 className="font-semibold">Product</h4>
-      <ul className="mt-3 space-y-2 text-sm text-slate-400">
-        <li>CV Checker</li>
-        <li>Role Matching</li>
-        <li>Interview Preparation</li>
-      </ul>
+    <div className="mt-12 border-t border-slate-800 pt-8 text-center text-sm text-slate-500">
+      © 2026 AirportCV. All rights reserved.
     </div>
 
-    <div>
-      <h4 className="font-semibold">Airport Roles</h4>
-      <ul className="mt-3 space-y-2 text-sm text-slate-400">
-        <li>Passenger Service Agent</li>
-        <li>Ramp Agent</li>
-        <li>Flight Dispatcher</li>
-        <li>Load Controller</li>
-      </ul>
-    </div>
-
-    <div>
-      <h4 className="font-semibold">Legal</h4>
-      <ul className="mt-3 space-y-2 text-sm text-slate-400">
-        <li>
-  <a href="/privacy" className="hover:text-white">
-    Privacy Policy
-  </a>
-</li>
-
-<li>
-  <a href="/terms" className="hover:text-white">
-    Terms & Conditions
-  </a>
-</li>
-
-<li>
-  <a href="/contact" className="hover:text-white">
-    Contact
-  </a>
-</li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div className="border-t border-slate-800 py-5 text-center text-sm text-slate-500">
-    © 2026 AirportCV. All rights reserved.
   </div>
 </footer>
     </main>
