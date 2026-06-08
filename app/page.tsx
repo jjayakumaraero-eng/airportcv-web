@@ -769,25 +769,20 @@ const careerPaths: Record<string, string[]> = {
             {item.desc}
           </p>
 
-          {item.title === "Interview Preparation" ? (
-  <a
-    href="/interview-prep"
-    className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500"
-  >
+         {item.title === "Interview Preparation" ? (
+  <a href="/interview-prep" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
     Open Tool
   </a>
 ) : item.title === "Cover Letter Generator" ? (
-  <a
-    href="/cover-letter"
-    className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500"
-  >
+  <a href="/cover-letter" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
     Open Tool
   </a>
 ) : item.title === "Airport Career Coach" ? (
-  <a
-    href="/career-coach"
-    className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500"
-  >
+  <a href="/career-coach" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
+    Open Tool
+  </a>
+) : item.title === "Cabin Crew CV Optimiser" ? (
+  <a href="/cabin-crew-cv" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
     Open Tool
   </a>
 ) : (
