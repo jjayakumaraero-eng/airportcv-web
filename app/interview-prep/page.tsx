@@ -18,41 +18,74 @@ export default function InterviewPrepPage() {
   const [customRole, setCustomRole] = useState("");
   const [cvText, setCvText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [pack, setPack] = useState<any>(null);
   const [error, setError] = useState("");
 
-  async function generateInterviewPack() {
-    setLoading(true);
-    setError("");
-    setPack(null);
+  const [selectedQuestion, setSelectedQuestion] = useState("");
+  const [candidateAnswer, setCandidateAnswer] = useState("");
+  const [scoreResult, setScoreResult] = useState<any>(null);
+  const [scoreLoading, setScoreLoading] = useState(false);
+  const [scoreError, setScoreError] = useState("");
+async function generateInterviewPack() {
+  setLoading(true);
+  setError("");
+  setPack(null);
 
-    const response = await fetch("/api/interview", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    role: role === "Other" ? customRole : role,
-    cvText,
-    profile: jobDescription,
-    skills: [],
-  }),
-});
+  const response = await fetch("/api/interview", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      role: role === "Other" ? customRole : role,
+      cvText,
+      profile: jobDescription,
+      skills: [],
+    }),
+  });
 
+  const data = await response.json();
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      setError(data.error || "Interview preparation failed.");
-      setLoading(false);
-      return;
-    }
-
-    setPack(data);
+  if (!response.ok) {
+    setError(data.error || "Interview preparation failed.");
     setLoading(false);
+    return;
   }
 
+  setPack(data);
+  setLoading(false);
+}
+
+async function scoreAnswer() {
+  setScoreLoading(true);
+  setScoreError("");
+  setScoreResult(null);
+
+  const response = await fetch("/api/interview-score", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      role: role === "Other" ? customRole : role,
+      question: selectedQuestion,
+      answer: candidateAnswer,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    setScoreError(data.error || "Scoring failed.");
+    setScoreLoading(false);
+    return;
+  }
+
+  setScoreResult(data);
+  setScoreLoading(false);
+}
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-16 text-slate-900">
       <div className="mx-auto max-w-5xl">
@@ -143,8 +176,7 @@ export default function InterviewPrepPage() {
                 <div className="mt-4 space-y-4">
                   {pack.questions?.map((item: any) => (
                     <div key={item.question} className="rounded-2xl bg-slate-50 p-5">
-                      <p className="font-bold">{item.question}</p>
-                      <p className="mt-2 text-slate-700">{item.answer}</p>
+                     <p className="font-bold">{item.question}</p>
                     </div>
                   ))}
                 </div>
@@ -159,7 +191,6 @@ export default function InterviewPrepPage() {
                   {pack.scenarioQuestions?.map((item: any) => (
                     <div key={item.question} className="rounded-2xl bg-slate-50 p-5">
                       <p className="font-bold">{item.question}</p>
-                      <p className="mt-2 text-slate-700">{item.answer}</p>
                     </div>
                   ))}
                 </div>
@@ -182,6 +213,114 @@ export default function InterviewPrepPage() {
                   ))}
                 </ul>
               </section>
+              <div className="mt-10 rounded-3xl bg-slate-50 p-6">
+  <h2 className="text-2xl font-bold">Practise Your Answer</h2>
+
+  <p className="mt-2 text-slate-600">
+    Choose one interview question, type your answer and get feedback from an airport interview coach.
+  </p>
+
+  <div className="mt-5 grid gap-5">
+    <div>
+      <label className="block text-sm font-semibold">
+        Select Question
+      </label>
+
+      <select
+        value={selectedQuestion}
+        onChange={(e) => setSelectedQuestion(e.target.value)}
+        className="mt-2 w-full rounded-xl border px-4 py-3"
+      >
+        <option value="">Choose a question</option>
+
+        {pack.questions?.map((item: any) => (
+          <option key={item.question} value={item.question}>
+            {item.question}
+          </option>
+        ))}
+
+        {pack.scenarioQuestions?.map((item: any) => (
+          <option key={item.question} value={item.question}>
+            {item.question}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div>
+      <label className="block text-sm font-semibold">
+        Your Answer
+      </label>
+
+      <textarea
+        value={candidateAnswer}
+        onChange={(e) => setCandidateAnswer(e.target.value)}
+        placeholder="Type your interview answer here..."
+        className="mt-2 h-40 w-full rounded-xl border px-4 py-3"
+      />
+    </div>
+
+    <button
+      onClick={scoreAnswer}
+      disabled={scoreLoading || !selectedQuestion || !candidateAnswer}
+      className="rounded-xl bg-slate-950 px-6 py-4 font-semibold text-white hover:bg-slate-800 disabled:bg-slate-400"
+    >
+      {scoreLoading ? "Scoring Answer..." : "Score My Answer"}
+    </button>
+  </div>
+
+  {scoreError && (
+    <div className="mt-5 rounded-xl bg-red-50 p-4 text-red-700">
+      {scoreError}
+    </div>
+  )}
+
+  {scoreResult && (
+    <div className="mt-6 space-y-5">
+      <div className="rounded-2xl bg-white p-5">
+        <p className="text-sm font-semibold text-slate-500">
+          Interview Score
+        </p>
+
+        <p className="mt-1 text-4xl font-bold text-blue-700">
+          {scoreResult.score}/10
+        </p>
+
+        <p className="mt-3 text-slate-700">
+          {scoreResult.summary}
+        </p>
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-2">
+        <div className="rounded-2xl bg-white p-5">
+          <h3 className="font-bold">Strengths</h3>
+          <ul className="mt-3 list-disc pl-5 text-slate-700">
+            {scoreResult.strengths?.map((item: string) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="rounded-2xl bg-white p-5">
+          <h3 className="font-bold">Improvements</h3>
+          <ul className="mt-3 list-disc pl-5 text-slate-700">
+            {scoreResult.improvements?.map((item: string) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="rounded-2xl bg-white p-5">
+        <h3 className="font-bold">Stronger Example Answer</h3>
+
+        <p className="mt-3 whitespace-pre-line text-slate-700">
+          {scoreResult.betterAnswer}
+        </p>
+      </div>
+    </div>
+  )}
+</div>
             </div>
           )}
         </div>
