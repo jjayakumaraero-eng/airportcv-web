@@ -603,15 +603,15 @@ const careerPaths: Record<string, string[]> = {
           <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
             How it works
           </p>
-          <h2 className="mt-3 text-4xl font-bold">Start Your Airport Career Journey</h2>
+          <h2 className="mt-3 text-4xl font-bold">How AirportCV Helps You Succeed</h2>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-4">
           {[
-            ["1", "Upload your CV", "PDF, Word or pasted text."],
-            ["2", "Choose your role", "Passenger service, ramp, baggage or security."],
-            ["3", "Get AI feedback", "Score, fixes and best-fit airport roles."],
-            ["4", "Download your CV", "Export a cleaner ATS-friendly CV."],
+            ["1", "📄 Analyse Your CV", "Receive an airport-specific assessment, role matches and practical recommendations."],
+            ["2", "✍️ Build Your Application", "Create stronger CVs, tailored cover letters and more competitive applications."],
+            ["3", "🚀 Advance Your Career", "Prepare for interviews, explore career pathways and receive personalised career coaching."],
+            ["4", "💼 Land Your Next Role", "Use personalised guidance and professional tools to maximise your chances of success."],
           ].map(([step, title, text]) => (
             <div key={step} className="rounded-3xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 font-bold text-blue-700">
@@ -727,31 +727,30 @@ const careerPaths: Record<string, string[]> = {
 <section className="mx-auto max-w-7xl px-6 pb-20">
   <div className="rounded-[2rem] bg-slate-950 p-10 text-white">
     <p className="text-sm font-bold uppercase tracking-wide text-blue-400">
-      Coming Soon
+      Career tools
     </p>
 
     <h2 className="mt-3 text-4xl font-bold">
-      More Tools for Airport Job Seekers
+      Accelerate Your Airport Career
     </h2>
 
     <p className="mt-4 max-w-2xl text-slate-300">
-      AirportCV is expanding beyond CV analysis to help candidates prepare for
-      every stage of the airport recruitment journey.
+      Get personalised career guidance, prepare for interviews, create professional applications and take the next step towards your airport career goals.
     </p>
 
     <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       {[
         {
           title: "Interview Preparation",
-          desc: "Role-specific airport interview questions and model answers.",
+          desc: "Practise airport interview questions, scenario-based assessments and tailored answer guidance.",
         },
         {
           title: "Cover Letter Generator",
-          desc: "Create tailored cover letters for airport and airline roles.",
+          desc: "Generate professional, role-specific cover letters tailored to airport and aviation employers.",
         },
        {
   title: "Airport Career Coach",
-  desc: "Receive personalised career guidance, identify your current stage and discover the best next airport roles to target.",
+  desc: "Assess your career position, explore progression opportunities and receive personalised airport career guidance.",
 },
         {
           title: "Cabin Crew CV Optimiser",
