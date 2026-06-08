@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useState } from "react";
 import {
   Document,
@@ -475,125 +475,245 @@ const careerPaths: Record<string, string[]> = {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f7fb] text-slate-900">
-      <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-xl">
-  <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-    <a href="#" className="flex items-center gap-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white">
-        ✈️
-      </div>
-      <div>
-        <p className="font-bold">AirportCV</p>
-        <p className="text-xs text-slate-500"> </p>
-      </div>
-    </a>
 
-    <div className="hidden items-center gap-6 text-sm font-semibold text-slate-600 md:flex">
-      <a href="#how-it-works" className="hover:text-blue-600">How It Works</a>
-      <a href="#roles" className="hover:text-blue-600">Roles</a>
-      <a href="#airports" className="hover:text-blue-600">Airports</a>
-      <a href="#checker" className="hover:text-blue-600">CV Checker</a>
+<main className="min-h-screen bg-[#f5f7fb] text-slate-900">
+  <nav className="sticky top-0 z-50 bg-[#030814]">
+    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <a href="/" className="flex items-center">
+        <Image
+          src="/airportcv-logo.png"
+          alt="AirportCV"
+          width={220}
+          height={30}
+          priority
+        />
+      </a>
+
+      <div className="hidden items-center gap-8 text-sm font-bold text-slate-200 md:flex">
+        <a href="#tools" className="transition hover:text-blue-400">
+          Tools
+        </a>
+        <a href="#how-it-works" className="transition hover:text-blue-400">
+          How It Works
+        </a>
+        <a href="#airports" className="transition hover:text-blue-400">
+          Airports
+        </a>
+        <a href="#success-stories" className="transition hover:text-blue-400">
+          Success Stories
+        </a>
+      </div>
+
+      <a
+        href="#checker"
+        className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-0.5 hover:bg-blue-500"
+      >
+        Start Free
+      </a>
+    </div>
+  </nav>
+      <section className="relative overflow-hidden bg-[#030814]">
+  <div
+    className="absolute inset-0 opacity-45"
+    style={{
+      backgroundImage:
+        "url('/hero-cabin-crew.png')",
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "95% bottom",
+    }}
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-r from-[#030814] via-[#030814]/90 to-[#030814]/25" />
+
+  <div className="relative mx-auto max-w-7xl px-6 py-14 lg:py-16">
+    <div className="max-w-2xl">
+      <p className="mb-5 inline-flex rounded-full bg-blue-500/15 px-4 py-2 text-sm font-bold uppercase tracking-wide text-blue-100 ring-1 ring-blue-300/20">
+        AI-Powered Career Tools
+      </p>
+
+      <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
+        Advance Your Airport{" "}
+        <span className="text-blue-500">
+          & Aviation Career
+        </span>
+      </h1>
+
+      <p className="mt-6 max-w-xl text-lg leading-8 text-slate-200">
+        Professional AI tools to help you create the perfect CV, prepare for
+        interviews, write cover letters and take the next step in your aviation career.
+      </p>
+
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+        <a
+          href="#tools"
+          className="rounded-xl bg-blue-600 px-7 py-4 text-center font-bold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-500"
+        >
+          Explore Tools →
+        </a>
+
+        <a
+          href="#how-it-works"
+          className="rounded-xl border border-white/30 px-7 py-4 text-center font-bold text-white hover:bg-white/10"
+        >
+          Learn More
+        </a>
+      </div>
+
+      <div className="mt-10 flex items-center gap-4">
+        <div className="text-yellow-400 text-xl">★★★★★</div>
+        <p className="text-sm text-slate-300">
+          Trusted by aviation professionals worldwide
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="tools" className="bg-slate-50 px-6 py-16">
+  <div className="mx-auto max-w-7xl">
+    <div className="text-center">
+      <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
+        Powerful Tools
+      </p>
+
+      <h2 className="mt-4 text-4xl font-extrabold text-slate-950 md:text-5xl">
+        Everything You Need to Succeed
+      </h2>
+
+      <p className="mt-5 text-lg text-slate-600">
+        AI-powered tools designed specifically for airport and aviation professionals.
+      </p>
     </div>
 
-    <a
-      href="#checker"
-      className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-500"
-    >
-      Check My CV
-    </a>
-  </div>
-</nav>
-
-      <section className="relative overflow-hidden bg-slate-950">
+    <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {[
+        {
+          icon: "🎤",
+          title: "Interview Preparation",
+          desc: "Prepare with confidence using airport-specific interview questions and answer coaching.",
+          benefits: ["Role-specific questions", "Instant feedback & tips"],
+          href: "/interview-prep",
+          iconBg: "bg-blue-600",
+          button: "bg-blue-600 hover:bg-blue-500",
+          tick: "text-blue-600",
+        },
+        {
+          icon: "✍️",
+          title: "Cover Letter Generator",
+          desc: "Create job-winning cover letters tailored for airport and aviation careers.",
+          benefits: ["Customised for your role", "Professional templates"],
+          href: "/cover-letter",
+          iconBg: "bg-emerald-500",
+          button: "bg-emerald-500 hover:bg-emerald-400",
+          tick: "text-emerald-600",
+        },
+        {
+          icon: "🧭",
+          title: "Airport Career Coach",
+          desc: "Get personalised career guidance and discover your best next career move.",
+          benefits: ["Personalised insights", "Career recommendations"],
+          href: "/career-coach",
+          iconBg: "bg-purple-500",
+          button: "bg-purple-500 hover:bg-purple-400",
+          tick: "text-purple-600",
+        },
+        {
+          icon: "👩‍✈️",
+          title: "Cabin Crew CV Optimiser",
+          desc: "Optimise your CV for cabin crew roles and airline recruitment success.",
+          benefits: ["Cabin crew CV tips", "Airline-focused advice"],
+          href: "/cabin-crew-cv",
+          iconBg: "bg-orange-500",
+          button: "bg-orange-500 hover:bg-orange-400",
+          tick: "text-orange-600",
+        },
+      ].map((item) => (
         <div
-          className="absolute inset-0 opacity-35"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=80')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40" />
-
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div>
-            <p className="mb-4 inline-flex rounded-full bg-blue-500/15 px-4 py-2 text-sm font-semibold text-blue-200 ring-1 ring-blue-300/20">
-              Built to Get You Hired
-            </p>
-            <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-white md:text-7xl">
-              Ready for your next Airport role?
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              Analyse your CV, discover your strongest airport role matches, prepare for interviews and create professional applications with confidence.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="#checker"
-                className="rounded-2xl bg-blue-600 px-7 py-4 text-center font-semibold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-500"
-              >
-                Start free CV check
-              </a>
-              <a
-                href="#how-it-works"
-                className="rounded-2xl bg-white/10 px-7 py-4 text-center font-semibold text-white ring-1 ring-white/20 hover:bg-white/15"
-              >
-                See how it works
-              </a>
-            </div>
-
-            <div className="mt-10 grid max-w-2xl grid-cols-3 gap-4 text-white">
-              <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                <p className="text-2xl font-bold">4+</p>
-                <p className="text-sm text-slate-300">Core Airport roles</p>
-              </div>
-              <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                <p className="text-2xl font-bold">Instant </p>
-                <p className="text-sm text-slate-300">CV Improvement</p>
-              </div>
-              <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                <p className="text-2xl font-bold">ATS</p>
-                <p className="text-sm text-slate-300">Friendly format</p>
-              </div>
-            </div>
+          key={item.title}
+          className="flex min-h-[320px] flex-col rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+        >
+          <div
+            className={`flex h-12 w-12 items-center justify-center rounded-2xl ${item.iconBg} text-xl text-white shadow-lg`}
+          >
+            {item.icon}
           </div>
 
-          <div className="rounded-[2rem] border border-white/15 bg-white/10 p-4 shadow-2xl backdrop-blur-xl">
-            <div
-              className="h-80 rounded-[1.5rem] bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  "url('https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=1200&q=80')",
-              }}
-            />
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="rounded-2xl bg-white p-4">
-                <p className="text-sm font-semibold text-slate-500">Best match</p>
-                <p className="mt-1 font-bold text-slate-950">Passenger Service</p>
-              </div>
-              <div className="rounded-2xl bg-blue-600 p-4 text-white">
-                <p className="text-sm font-semibold text-blue-100">CV score</p>
-                <p className="mt-1 text-2xl font-bold">82/100</p>
-              </div>
-            </div>
-          </div>
+          <h3 className="mt-6 text-xl font-extrabold leading-tight text-slate-950">
+            {item.title}
+          </h3>
+
+          <p className="mt-4 text-sm leading-6 text-slate-600">
+            {item.desc}
+          </p>
+
+          <ul className="mt-4 space-y-3 text-sm text-slate-700">
+            {item.benefits.map((benefit) => (
+              <li key={benefit} className="flex items-start gap-2">
+                <span className={`font-extrabold ${item.tick}`}>✓</span>
+                <span>{benefit}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a
+      
+  href={item.href}
+  className={`mt-auto inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-bold text-white shadow-lg transition ${item.button}`}
+  style={{ marginTop: "24px" }}
+>
+            Open Tool →
+          </a>
         </div>
-      </section>
-<section className="mx-auto max-w-7xl px-6 py-16">
-  <div className="grid gap-6 md:grid-cols-4">
+      ))}
+    </div>
+  </div>
+</section>
+<section className="mx-auto max-w-7xl px-6 pb-20">
+  <div className="mb-10 text-center">
+    <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
+      Success Stories
+    </p>
+
+    <h2 className="mt-3 text-4xl font-bold">
+      Helping People Build Successful Airport Careers.
+    </h2>
+
+    <p className="mt-4 text-slate-600">
+      Examples of the type of feedback and support AirportCV is designed to provide.
+    </p>
+  </div>
+
+  <div className="grid gap-6 md:grid-cols-3">
     {[
-      ["6+", "Airport roles supported"],
-      ["20+", "UK airports covered"],
-      ["ATS", "Friendly CV optimisation"],
-      ["AI", "Role matching & CV rewrite"],
-    ].map(([number, label]) => (
+      {
+        quote:
+          "AirportCV helped me tailor my CV for a Passenger Service role and highlighted skills I didn't realise were relevant.",
+        role: "Passenger Service Candidate",
+      },
+      {
+        quote:
+          "The role matching feature showed me I was a stronger fit for Ground Operations than Security roles.",
+        role: "Ground Operations Applicant",
+      },
+      {
+        quote:
+          "The ATS-friendly CV suggestions made my experience look much more professional and structured.",
+        role: "Airport Operations Candidate",
+      },
+    ].map((item) => (
       <div
-        key={label}
-        className="rounded-3xl bg-white p-6 text-center shadow-sm"
+        key={item.role}
+        className="rounded-3xl bg-white p-6 shadow-sm"
       >
-        <p className="text-4xl font-bold text-blue-600">{number}</p>
-        <p className="mt-2 font-semibold text-slate-700">{label}</p>
+        <div className="mb-4 text-2xl">⭐</div>
+
+        <p className="italic text-slate-700">
+          "{item.quote}"
+        </p>
+
+        <p className="mt-5 font-semibold text-blue-600">
+          {item.role}
+        </p>
       </div>
     ))}
   </div>
@@ -724,128 +844,7 @@ const careerPaths: Record<string, string[]> = {
     </div>
   </div>
 </section>
-<section className="mx-auto max-w-7xl px-6 pb-20">
-  <div className="rounded-[2rem] bg-slate-950 p-10 text-white">
-    <p className="text-sm font-bold uppercase tracking-wide text-blue-400">
-      Career tools
-    </p>
 
-    <h2 className="mt-3 text-4xl font-bold">
-      Accelerate Your Airport Career
-    </h2>
-
-    <p className="mt-4 max-w-2xl text-slate-300">
-      Get personalised career guidance, prepare for interviews, create professional applications and take the next step towards your airport career goals.
-    </p>
-
-    <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-      {[
-        {
-          title: "Interview Preparation",
-          desc: "Practise airport interview questions, scenario-based assessments and tailored answer guidance.",
-        },
-        {
-          title: "Cover Letter Generator",
-          desc: "Generate professional, role-specific cover letters tailored to airport and aviation employers.",
-        },
-       {
-  title: "Airport Career Coach",
-  desc: "Assess your career position, explore progression opportunities and receive personalised airport career guidance.",
-},
-        {
-          title: "Cabin Crew CV Optimiser",
-          desc: "Specialised CV guidance for airline cabin crew applications.",
-        },
-      ].map((item) => (
-        <div
-          key={item.title}
-          className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur"
-        >
-          <div className="mb-4 text-2xl">🚀</div>
-
-          <h3 className="font-bold">{item.title}</h3>
-
-          <p className="mt-3 text-sm text-slate-300">
-            {item.desc}
-          </p>
-
-         {item.title === "Interview Preparation" ? (
-  <a href="/interview-prep" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
-    Open Tool
-  </a>
-) : item.title === "Cover Letter Generator" ? (
-  <a href="/cover-letter" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
-    Open Tool
-  </a>
-) : item.title === "Airport Career Coach" ? (
-  <a href="/career-coach" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
-    Open Tool
-  </a>
-) : item.title === "Cabin Crew CV Optimiser" ? (
-  <a href="/cabin-crew-cv" className="mt-4 inline-block rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-500">
-    Open Tool
-  </a>
-) : (
-  <span className="mt-4 inline-block rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300">
-    Coming Soon
-  </span>
-)}
-  
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-<section className="mx-auto max-w-7xl px-6 pb-20">
-  <div className="mb-10 text-center">
-    <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
-      Success Stories
-    </p>
-
-    <h2 className="mt-3 text-4xl font-bold">
-      Helping People Build Successful Airport Careers.
-    </h2>
-
-    <p className="mt-4 text-slate-600">
-      Examples of the type of feedback and support AirportCV is designed to provide.
-    </p>
-  </div>
-
-  <div className="grid gap-6 md:grid-cols-3">
-    {[
-      {
-        quote:
-          "AirportCV helped me tailor my CV for a Passenger Service role and highlighted skills I didn't realise were relevant.",
-        role: "Passenger Service Candidate",
-      },
-      {
-        quote:
-          "The role matching feature showed me I was a stronger fit for Ground Operations than Security roles.",
-        role: "Ground Operations Applicant",
-      },
-      {
-        quote:
-          "The ATS-friendly CV suggestions made my experience look much more professional and structured.",
-        role: "Airport Operations Candidate",
-      },
-    ].map((item) => (
-      <div
-        key={item.role}
-        className="rounded-3xl bg-white p-6 shadow-sm"
-      >
-        <div className="mb-4 text-2xl">⭐</div>
-
-        <p className="italic text-slate-700">
-          "{item.quote}"
-        </p>
-
-        <p className="mt-5 font-semibold text-blue-600">
-          {item.role}
-        </p>
-      </div>
-    ))}
-  </div>
-</section>
 <section className="mx-auto max-w-7xl px-6 pb-20">
   <div className="mb-10 text-center">
     <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
@@ -1003,7 +1002,7 @@ const careerPaths: Record<string, string[]> = {
 
                   <div>
                     <h3 className="font-bold">Priority fixes</h3>
-                    <ul className="mt-2 list-disc space-y-1 pl-5 text-slate-700">
+                    <ul className="mt-6 mb-8 space-y-3 text-sm text-slate-700">
                       {(report.fixes || []).map((fix) => <li key={fix}>{fix}</li>)}
                     </ul>
                   </div>
