@@ -43,7 +43,7 @@ export default function CvUpload({ onTextExtracted }: Props) {
   return (
     <div>
       <label className="block text-sm font-semibold">
-        Upload CV Optional
+        Upload CV (Optional)
       </label>
 
       <input
