@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   title: "AirportCV | AI Career Platform for Airport & Aviation Jobs",
   description:
     "AirportCV helps airport and aviation professionals improve their CV, prepare for interviews, generate cover letters and progress their careers.",
-  keywords: [
+  verification: {
+  google: "7W4svbnCO7Yg9DV0zeWDXuKZC_7NIjvYnPtXdTaNi6c",
+},
+    keywords: [
     "UK airport jobs",
     "airport CV",
     "aviation careers",
