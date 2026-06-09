@@ -511,7 +511,7 @@ const careerPaths: Record<string, string[]> = {
 
       <a
         href="/cv-checker"
-        className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-0.5 hover:bg-blue-500"
+        className="rounded-xl bg-blue-600 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 sm:px-5 sm:py-3 sm:text-sm"
       >
         Get Started Free
       </a>
@@ -537,7 +537,7 @@ const careerPaths: Record<string, string[]> = {
         AI-Powered Career Tools
       </p>
 
-      <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
+      <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
         Advance Your Airport{" "}
         <span className="text-blue-500">
           & Aviation Career
@@ -673,7 +673,7 @@ const careerPaths: Record<string, string[]> = {
     </div>
   </div>
 </section>
-<section className="bg-white px-6 py-20">
+<section className="bg-white px-5 py-16 sm:px-6 sm:py-20">
   <div className="mx-auto max-w-7xl">
 
     <div className="text-center">
@@ -802,6 +802,7 @@ role matching and professional improvement recommendations.
             alt="AirportCV"
             width={100}
             height={50}
+            className="w-[150px] sm:w-[220px]"
           />
         </a>
 
