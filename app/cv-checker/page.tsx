@@ -429,9 +429,14 @@ async function downloadAssessmentReportPdf() {
     pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
     pdf.save("airportcv-assessment-report.pdf");
   } catch (error) {
-    console.error("PDF DOWNLOAD ERROR:", error);
-    alert("PDF download failed. Please try again after refreshing the page.");
-  }
+  console.error("PDF DOWNLOAD ERROR:", error);
+
+  alert(
+    `PDF ERROR: ${
+      error instanceof Error ? error.message : String(error)
+    }`
+  );
+}
 }
   function downloadPdfCv() {
     if (!report) return;
