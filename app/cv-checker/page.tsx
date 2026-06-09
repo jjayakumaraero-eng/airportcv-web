@@ -404,7 +404,144 @@ const careerPaths: Record<string, string[]> = {
 
     URL.revokeObjectURL(url);
   }
+function downloadAssessmentReportPdf() {
+  if (!report || !report.premiumReport) return;
 
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const candidateName = fullName || "Candidate";
+  const targetRole = role === "Other" ? customRole : role;
+  const date = new Date().toLocaleDateString("en-GB");
+
+  let y = 16;
+
+  pdf.setFillColor(3, 8, 20);
+  pdf.rect(0, 0, 210, 42, "F");
+
+  pdf.setTextColor(255, 255, 255);
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(20);
+  pdf.text("AirportCV", 14, 17);
+
+  pdf.setFontSize(11);
+  pdf.text("AVIATION CAREER ASSESSMENT REPORT", 14, 28);
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.text(`Candidate: ${candidateName}`, 120, 14);
+  pdf.text(`Target Role: ${targetRole}`, 120, 21);
+  pdf.text(`Date: ${date}`, 120, 28);
+
+  y = 54;
+
+  function sectionTitle(title: string) {
+    pdf.setTextColor(15, 23, 42);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(12);
+    pdf.text(title, 14, y);
+    y += 7;
+  }
+
+  function normalText(text: string, x = 14, maxWidth = 180) {
+    pdf.setTextColor(51, 65, 85);
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    const lines = pdf.splitTextToSize(text || "", maxWidth);
+    pdf.text(lines, x, y);
+    y += lines.length * 5 + 3;
+  }
+
+  function pill(text: string, x: number, yy: number) {
+    pdf.setFillColor(239, 246, 255);
+    pdf.setTextColor(29, 78, 216);
+    pdf.roundedRect(x, yy - 5, 52, 8, 2, 2, "F");
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(8);
+    pdf.text(text.slice(0, 28), x + 3, yy);
+  }
+
+  // Score box
+  pdf.setFillColor(239, 246, 255);
+  pdf.roundedRect(14, y, 182, 28, 4, 4, "F");
+
+  pdf.setTextColor(15, 23, 42);
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(12);
+  pdf.text("Airport Readiness Score", 22, y + 10);
+
+  pdf.setTextColor(37, 99, 235);
+  pdf.setFontSize(26);
+  pdf.text(`${report.score}/100`, 145, y + 17);
+
+  y += 40;
+
+  sectionTitle("Assessment Summary");
+  normalText(report.summary);
+
+  sectionTitle("ATS Analysis");
+  normalText(
+    `ATS Compatibility Score: ${
+      report.premiumReport.atsAnalysis?.score || report.score
+    }/100`
+  );
+  normalText(report.premiumReport.atsAnalysis?.summary || "");
+
+  sectionTitle("Missing Airport Keywords");
+  const keywords = report.premiumReport.jobMatch?.missingKeywords || [];
+  let pillX = 14;
+  let pillY = y + 4;
+  keywords.slice(0, 6).forEach((item: string, index: number) => {
+    pill(item, pillX, pillY);
+    pillX += 58;
+    if ((index + 1) % 3 === 0) {
+      pillX = 14;
+      pillY += 11;
+    }
+  });
+  y = pillY + 10;
+
+  sectionTitle("Missing Skills");
+  (report.premiumReport.jobMatch?.missingSkills || [])
+    .slice(0, 5)
+    .forEach((item: string) => {
+      normalText(`• ${item}`);
+    });
+
+  sectionTitle("Recruiter Review");
+  (report.premiumReport.recruiterFeedback || [])
+    .slice(0, 3)
+    .forEach((item: string, index: number) => {
+      normalText(`${index + 1}. ${item}`);
+    });
+
+  sectionTitle("Airport Career Match");
+  (report.premiumReport.bestMatches || [])
+    .slice(0, 4)
+    .forEach((match: any) => {
+      normalText(`${match.role}: ${match.match}%`);
+    });
+
+  sectionTitle("Priority Action Plan");
+  (report.premiumReport.careerRoadmap || [])
+    .slice(0, 3)
+    .forEach((item: string, index: number) => {
+      normalText(`${index + 1}. ${item}`);
+    });
+
+  y += 2;
+  pdf.setDrawColor(226, 232, 240);
+  pdf.line(14, y, 196, y);
+  y += 6;
+
+  pdf.setTextColor(100, 116, 139);
+  pdf.setFontSize(7);
+  const disclaimer =
+    "Important Notice: This assessment is generated using AI-assisted analysis of information provided by the candidate. AirportCV does not guarantee interviews, employment offers, salary outcomes, security clearance approval or recruitment decisions. This report is intended for career guidance purposes only and should not be considered legal, immigration, employment or financial advice.";
+  const disclaimerLines = pdf.splitTextToSize(disclaimer, 180);
+  pdf.text(disclaimerLines, 14, y);
+
+  pdf.save("airportcv-assessment-report.pdf");
+}
   function downloadPdfCv() {
     if (!report) return;
 
@@ -972,9 +1109,12 @@ return (
         </div>
       </div>
 
-      <button className="mt-6 w-full rounded-xl bg-slate-950 px-8 py-4 font-bold text-white transition hover:bg-slate-800">
-        Download PDF Report
-      </button>
+      <button
+  onClick={downloadAssessmentReportPdf}
+  className="mt-6 w-full rounded-xl bg-slate-950 px-8 py-4 font-bold text-white transition hover:bg-slate-800"
+>
+  Download PDF Report
+</button>
 
       <p className="mt-5 text-xs leading-5 text-slate-500">
         Important Notice: This assessment is generated using AI-assisted analysis
