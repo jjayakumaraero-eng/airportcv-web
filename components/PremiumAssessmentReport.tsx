@@ -23,13 +23,13 @@ export default function PremiumAssessmentReport({
   return (
     <div
       id="premium-report-pdf"
-      className="mx-auto w-[1100px] bg-white p-8 text-slate-900"
+      className="mx-auto w-[1000px] bg-white p-8 text-slate-900"
     >
       <div className="flex items-center justify-between border-b-2 border-blue-600 pb-6">
         <img
           src="/airportcv-logo-cropped.png"
           alt="AirportCV"
-          className="h-20"
+          className="h-14 w-auto"
         />
 
         <div className="text-right">
@@ -42,14 +42,14 @@ export default function PremiumAssessmentReport({
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-4 gap-6">
+      <div className="mt-4 grid grid-cols-4 gap-4">
         {[
           ["Candidate", fullName || "Candidate"],
           ["Target Role", role],
           ["Assessment Date", new Date().toLocaleDateString("en-GB")],
           ["Report", "AirportCV"],
         ].map(([label, value]) => (
-          <div key={label} className="rounded-2xl bg-slate-50 p-4">
+          <div key={label} className="rounded-2xl bg-slate-50 p-3">
             <p className="text-xs font-bold uppercase text-slate-500">
               {label}
             </p>
@@ -58,13 +58,13 @@ export default function PremiumAssessmentReport({
         ))}
       </div>
 
-      <div className="mt-8 rounded-3xl bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-8 text-white">
+      <div className="mt-8 rounded-3xl bg-[#030814] p-8 text-white">
         <div className="grid grid-cols-2 gap-6">
           <div>
             <p className="text-sm font-bold uppercase tracking-wider text-blue-200">
               Airport Readiness Score
             </p>
-            <div className="mt-3 text-8xl font-extrabold">
+            <div className="mt-3 text-7xl font-extrabold">
               {report.score}
               <span className="text-4xl">/100</span>
             </div>
@@ -72,7 +72,7 @@ export default function PremiumAssessmentReport({
 
           <div className="flex items-center">
             <div>
-              <div className="text-5xl font-extrabold text-emerald-400">
+              <div className="text-4xl font-extrabold text-green-600">
                 {scoreLabel}
               </div>
               <p className="mt-4 text-xl leading-8 text-slate-200">
@@ -83,13 +83,13 @@ export default function PremiumAssessmentReport({
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-6">
+      <div className="mt-4 grid grid-cols-2 gap-6">
         <ReportCard title="ATS Analysis">
           <p className="text-5xl font-extrabold text-blue-700">
             {report.premiumReport.atsAnalysis?.score || report.score}
             <span className="text-2xl text-slate-700">/100</span>
           </p>
-          <p className="mt-4 text-lg leading-7 text-slate-700">
+          <p className="mt-3 text-lg leading-6 text-slate-700">
             {report.premiumReport.atsAnalysis?.summary ||
               "Your CV has been assessed against airport recruitment expectations and ATS visibility factors."}
           </p>
@@ -130,7 +130,7 @@ export default function PremiumAssessmentReport({
             {report.premiumReport.recruiterFeedback
               ?.slice(0, 3)
               .map((item: string, index: number) => (
-                <div key={item} className="flex gap-3 text-base leading-6">
+                <div key={item} className="flex gap-3 text-base leading-5">
                   <span className="font-extrabold text-red-500">
                     {index + 1}.
                   </span>
@@ -141,7 +141,7 @@ export default function PremiumAssessmentReport({
         </ReportCard>
       </div>
 
-      <div className="mt-6 rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div className="mt-4 rounded-3xl border border-slate-200 bg-white shadow-sm">
         <div className="rounded-t-3xl bg-blue-700 px-6 py-3 text-lg font-extrabold text-white">
           Airport Career Match
         </div>
@@ -166,7 +166,7 @@ export default function PremiumAssessmentReport({
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-6">
+      <div className="mt-4 grid grid-cols-2 gap-6">
         <ReportCard title="Priority Action Plan">
           <div className="space-y-3">
             {report.premiumReport.careerRoadmap
@@ -176,7 +176,7 @@ export default function PremiumAssessmentReport({
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-700 font-bold text-white">
                     {index + 1}
                   </span>
-                  <p className="text-base leading-6">{item}</p>
+                  <p className="text-base leading-5">{item}</p>
                 </div>
               ))}
           </div>
@@ -194,7 +194,7 @@ export default function PremiumAssessmentReport({
             </div>
 
             <div>
-              <p className="text-lg font-extrabold text-orange-600">
+              <p className="text-lg font-extrabold text-blue-600">
                 Cover Letter Generator
               </p>
               <p className="text-slate-600">
@@ -203,7 +203,7 @@ export default function PremiumAssessmentReport({
             </div>
 
             <div>
-              <p className="text-lg font-extrabold text-purple-600">
+              <p className="text-lg font-extrabold text-slate-600">
                 Reassess My CV
               </p>
               <p className="text-slate-600">
@@ -214,7 +214,7 @@ export default function PremiumAssessmentReport({
         </ReportCard>
       </div>
 
-      <div className="mt-6 rounded-2xl bg-slate-950 p-5 text-white">
+      <div className="mt-4 rounded-2xl bg-slate-950 p-5 text-white">
         <p className="text-xs leading-5">
           Important Notice: This assessment is generated using AI-assisted
           analysis of information provided by the candidate. AirportCV does not
