@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -8,17 +9,18 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AirportCV | CV Checker for UK Airport Jobs",
+  title: "AirportCV | AI Career Platform for Airport & Aviation Jobs",
   description:
-    "AirportCV helps UK airport job seekers improve their CV, find best-fit airport roles, generate ATS-friendly CV drafts and prepare for interviews.",
+    "AirportCV helps airport and aviation professionals improve their CV, prepare for interviews, generate cover letters and progress their careers.",
   keywords: [
     "UK airport jobs",
     "airport CV",
+    "aviation careers",
+    "cabin crew CV",
     "Heathrow jobs CV",
     "Gatwick jobs CV",
     "Passenger Service Agent CV",
     "Ramp Agent CV",
-    "Baggage Handler CV",
     "Airport Security CV",
     "Flight Dispatcher CV",
     "Load Controller CV",
@@ -31,11 +33,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${jakarta.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+        />
+
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-TY2MBRC7F6');
+          `}
+        </Script>
+
         {children}
       </body>
     </html>
