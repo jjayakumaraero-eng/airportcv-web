@@ -8,11 +8,12 @@ function extractPdfText(buffer: Buffer): Promise<string> {
     const pdfParser = new PDFParser();
 
     pdfParser.on("pdfParser_dataError", (errData: any) => {
-  reject(errData.parserError || errData);
-});
+      reject(errData.parserError || errData);
+    });
 
     pdfParser.on("pdfParser_dataReady", (pdfData) => {
       let text = "";
+
       for (const page of pdfData.Pages) {
         for (const textItem of page.Texts) {
           for (const run of textItem.R) {
@@ -21,6 +22,7 @@ function extractPdfText(buffer: Buffer): Promise<string> {
         }
         text += "\n";
       }
+
       resolve(text);
     });
 
@@ -89,46 +91,80 @@ Return only valid JSON. No markdown.
 
 Use exactly this structure:
 {
-  "score": 80,
-  "summary": "One short realistic summary.",
-  "fixes": ["Fix 1", "Fix 2", "Fix 3"],
-  "keywords": ["keyword 1", "keyword 2", "keyword 3", "keyword 4", "keyword 5", "keyword 6"],
-  "bestMatches": [
-    { "role": "Passenger Service Agent", "match": 90 },
-    { "role": "Lounge Agent", "match": 82 },
-    { "role": "Ground Operations Agent", "match": 75 }
-  ],
-  "jobMatch": {
-    "score": 80,
-    "missingKeywords": ["keyword 1", "keyword 2", "keyword 3"],
-    "missingSkills": ["skill 1", "skill 2", "skill 3"],
-    "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"]
+  "freeReport": {
+    "score": 70,
+    "summary": "One short realistic summary.",
+    "topPriorityFix": "One practical priority fix only.",
+    "topRoleMatch": {
+      "role": "Passenger Service Agent",
+      "match": 85
+    }
   },
-  "fullCv": {
-    "profile": "Professional airport CV profile under 70 words.",
-    "skills": ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5", "skill 6", "skill 7", "skill 8"],
-    "employmentHistory": [
-      {
-        "jobTitle": "Job title from CV",
-        "company": "Company from CV",
-        "dates": "Dates from CV",
-        "bullets": ["Rewritten bullet 1", "Rewritten bullet 2", "Rewritten bullet 3"]
-      }
+  "premiumPreview": {
+    "missingKeywordCount": 12,
+    "missingSkillCount": 5,
+    "atsIssueCount": 4,
+    "additionalRoleCount": 6,
+    "recruiterConcernCount": 4
+  },
+  "premiumReport": {
+    "jobMatch": {
+      "score": 80,
+      "missingKeywords": ["keyword 1", "keyword 2", "keyword 3", "keyword 4", "keyword 5"],
+      "missingSkills": ["skill 1", "skill 2", "skill 3", "skill 4"],
+      "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"]
+    },
+    "bestMatches": [
+      { "role": "Passenger Service Agent", "match": 90 },
+      { "role": "Lounge Agent", "match": 82 },
+      { "role": "Ground Operations Agent", "match": 75 }
     ],
-    "additionalInfo": ["Right to Work - add if true", "Shift flexibility - add if true", "References available on request"]
+    "atsAnalysis": {
+      "score": 78,
+      "summary": "Short ATS-style summary.",
+      "issues": ["issue 1", "issue 2", "issue 3"]
+    },
+    "salaryInsight": {
+      "estimatedRange": "£25,000 - £41,000",
+      "summary": "Short salary insight based on the role and experience."
+    },
+    "careerRoadmap": [
+      "Month 1 action",
+      "Month 2 action",
+      "Month 3 action"
+    ],
+    "recruiterFeedback": [
+      "feedback 1",
+      "feedback 2",
+      "feedback 3"
+    ],
+    "fullCv": {
+      "profile": "Professional airport CV profile under 70 words.",
+      "skills": ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5", "skill 6"],
+      "employmentHistory": [
+        {
+          "jobTitle": "Job title from CV",
+          "company": "Company from CV",
+          "dates": "Dates from CV",
+          "bullets": ["Rewritten bullet 1", "Rewritten bullet 2", "Rewritten bullet 3"]
+        }
+      ],
+      "additionalInfo": ["Right to Work - add only if supported by CV", "Shift flexibility - add only if supported by CV"]
+    }
   }
 }
 
 Rules:
+- The freeReport must give useful value but must not reveal the full analysis.
+- freeReport must include only: score, short summary, one top priority fix, and one top role match.
+- Do not include missing keywords, missing skills, all recommendations, salary insights, career roadmap or rewritten CV in freeReport.
+- premiumPreview should create curiosity using counts only, not full details.
+- premiumReport contains the full detailed analysis for future paid unlock.
+- If no job description is provided, compare the CV against typical UK airport role expectations.
+- If a job description is provided, compare the CV against that job description.
+- Do not invent jobs, employers, dates, licences, security clearance or qualifications.
 - Keep all real employment roles from the CV.
 - Keep original job title, company and dates where possible.
-- Rewrite bullet points to suit the selected airport role.
-- If a job description is provided, compare the CV against it and complete the jobMatch section.
-- If no job description is provided, still return jobMatch with general airport-role advice.
-- In jobMatch, missingKeywords should be words or phrases from the job description that are missing or weak in the CV.
-- In jobMatch, missingSkills should be important skills from the job description that are missing or weak in the CV.
-- In jobMatch, recommendations should be practical changes the candidate can make to improve the match.
-- Do not invent jobs, employers, dates, licences or qualifications.
 - Use natural UK English.
 `;
 
@@ -136,10 +172,20 @@ Rules:
     const rawText = result.response.text();
     const parsed = extractJson(rawText);
 
-    return NextResponse.json(parsed);
+    return NextResponse.json({
+      score: parsed.freeReport.score,
+      summary: parsed.freeReport.summary,
+      fixes: [parsed.freeReport.topPriorityFix],
+      bestMatches: [parsed.freeReport.topRoleMatch],
+      premiumPreview: parsed.premiumPreview,
+      premiumReport: parsed.premiumReport,
+    });
   } catch (error) {
     console.error("AIRPORTCV API ERROR FULL:", error);
-    console.error("AIRPORTCV API ERROR MESSAGE:", error instanceof Error ? error.message : String(error));
+    console.error(
+      "AIRPORTCV API ERROR MESSAGE:",
+      error instanceof Error ? error.message : String(error)
+    );
 
     return NextResponse.json(
       { error: "AirportCV AI is busy right now. Please try again in a minute." },

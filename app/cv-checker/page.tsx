@@ -49,7 +49,13 @@ type Report = {
   keywords: string[];
 
   bestMatches?: { role: string; match: number }[];
-
+premiumPreview?: {
+  missingKeywordCount: number;
+  missingSkillCount: number;
+  atsIssueCount: number;
+  additionalRoleCount: number;
+  recruiterConcernCount: number;
+};
   jobMatch?: {
     score: number;
     missingKeywords: string[];
@@ -609,55 +615,159 @@ return (
 )}
 
 {report.bestMatches && (
-  <div>
-    <h3 className="font-bold">Best Airport Role Matches</h3>
+  <div className="space-y-6">
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
+        Top Career Match
+      </p>
 
-    <div className="mt-3 space-y-3">
-                        {report.bestMatches.map((match) => (
-                          <div key={match.role} className="rounded-xl bg-slate-50 p-4">
-                            <div className="flex items-center justify-between">
-                              <span className="font-semibold">{match.role}</span>
-                              <span className="font-bold text-blue-700">{match.match}%</span>
-                            </div>
-                            <div className="mt-2 h-2 rounded-full bg-slate-200">
-                              <div className="h-2 rounded-full bg-blue-600" style={{ width: `${match.match}%` }} />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                                    )}
+      <div className="mt-4 flex flex-col gap-4 rounded-2xl bg-blue-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-2xl font-extrabold text-slate-950">
+            {report.bestMatches[0]?.role}
+          </p>
 
-                  <div className="mt-8 rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50 p-8">
-  <div className="text-center">
-    <div className="text-5xl">🔒</div>
+          <p className="mt-1 text-sm text-slate-600">
+            Your strongest airport role match based on this CV.
+          </p>
+        </div>
 
-    <h3 className="mt-4 text-2xl font-bold text-slate-950">
-      Full Airport Career Report
-    </h3>
-
-    <p className="mx-auto mt-3 max-w-2xl text-slate-600">
-      Your free assessment includes your score, priority fixes and best-fit role match.
-      The full report will unlock deeper career insights and professional application tools.
-    </p>
-
-    <div className="mx-auto mt-6 grid max-w-3xl gap-3 text-left text-sm text-slate-700 md:grid-cols-2">
-      <p>✓ ATS CV Analysis</p>
-      <p>✓ Job Description Match</p>
-      <p>✓ Salary Insights</p>
-      <p>✓ Career Roadmap</p>
-      <p>✓ Professional CV Rewrite</p>
-      <p>✓ Downloadable CV</p>
-      <p>✓ Cover Letter Generator</p>
-      <p>✓ Interview Preparation Pack</p>
+        <div className="w-fit rounded-2xl bg-blue-600 px-5 py-3 text-xl font-extrabold text-white">
+          {report.bestMatches[0]?.match}%
+        </div>
+      </div>
     </div>
 
-    <button className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white">
-      Join the Early Access List
-    </button>
+    <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl">
+      <div className="bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-8 text-white">
+        <p className="inline-flex rounded-full bg-blue-500/20 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-100">
+          Premium Analysis Available
+        </p>
+
+        <h3 className="mt-4 text-3xl font-extrabold">
+          Unlock Your Full Airport Career Report
+        </h3>
+
+        <p className="mt-3 max-w-2xl leading-7 text-slate-200">
+          Your free assessment gives your score, top match and one priority fix.
+          The full report reveals the detailed recruiter-style analysis behind your result.
+        </p>
+      </div>
+
+      <div className="grid gap-4 p-6 md:grid-cols-2">
+        {[
+          {
+            title: `${report.premiumPreview?.missingKeywordCount || 12} Missing Keywords`,
+            desc: "Airport-specific keywords found missing or weak in your CV.",
+          },
+          {
+            title: `${report.premiumPreview?.missingSkillCount || 5} Missing Skills`,
+            desc: "Skills recruiters may expect but your CV does not clearly prove.",
+          },
+          {
+            title: `${report.premiumPreview?.atsIssueCount || 4} ATS Issues`,
+            desc: "Formatting and keyword issues that may reduce visibility.",
+          },
+          {
+            title: `${report.premiumPreview?.additionalRoleCount || 6} Additional Career Matches`,
+            desc: "Other airport roles your CV may be suitable for.",
+          },
+        ].map((item) => (
+          <div
+            key={item.title}
+            className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h4 className="text-xl font-extrabold text-slate-950">
+                  {item.title}
+                </h4>
+
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  {item.desc}
+                </p>
+              </div>
+
+              <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
+                Locked
+              </span>
+            </div>
+          </div>
+        ))}
+
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h4 className="text-xl font-extrabold text-slate-950">
+                Salary Potential
+              </h4>
+
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                Estimated earning range based on role match and career progression.
+              </p>
+            </div>
+
+            <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
+              Locked
+            </span>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h4 className="text-xl font-extrabold text-slate-950">
+                Recruiter Feedback
+              </h4>
+
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                Recruiter-style comments on what may reduce interview invitations.
+              </p>
+            </div>
+
+            <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
+              Locked
+            </span>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:col-span-2">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h4 className="text-xl font-extrabold text-slate-950">
+                Career Roadmap
+              </h4>
+
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                A practical improvement plan showing what to fix before applying.
+              </p>
+            </div>
+
+            <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
+              Locked
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 bg-blue-50 p-8 text-center">
+        <h3 className="text-2xl font-extrabold text-slate-950">
+          Full Report Coming Soon
+        </h3>
+
+        <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+          We are preparing the full Airport Career Report feature. Early users will get
+          first access when premium reports launch.
+        </p>
+
+        <button className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500">
+          Join the Early Access List →
+        </button>
+      </div>
+        </div>
   </div>
-</div>
-                  
+)}
+
                 </div>
               )}
             </div>
