@@ -56,6 +56,7 @@ premiumPreview?: {
   additionalRoleCount: number;
   recruiterConcernCount: number;
 };
+premiumReport?: any;
   jobMatch?: {
     score: number;
     missingKeywords: string[];
@@ -84,6 +85,7 @@ export default function Home() {
   const [cvText, setCvText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [showPremiumReport, setShowPremiumReport] = useState(false);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -168,8 +170,9 @@ export default function Home() {
 
   async function checkCv() {
     setLoading(true);
-    setReport(null);
-    setError("");
+setReport(null);
+setError("");
+setShowPremiumReport(false);
 
     const formData = new FormData();
     formData.append("role", role === "Other" ? customRole : role);
@@ -760,20 +763,230 @@ return (
           first access when premium reports launch.
         </p>
 
-        <button className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500">
-          <a
-  href="/premium-report"
-  className="mt-8 inline-flex rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
+        <button
+  onClick={() => setShowPremiumReport(true)}
+  className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
 >
-  View Premium Report →
-</a>
-        </button>
+  View Full Airport Career Report →
+</button>
       </div>
         </div>
   </div>
 )}
+{showPremiumReport && report.premiumReport && (
+  <div className="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl">
+    <div className="bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-8 text-white">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <Image
+            src="/airportcv-logo-cropped.png"
+            alt="AirportCV"
+            width={190}
+            height={55}
+            className="mb-6"
+          />
 
-                </div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-300">
+            Aviation Career Assessment Report
+          </p>
+
+          <h2 className="mt-3 text-3xl font-extrabold">
+            Premium Airport Career Report
+          </h2>
+
+          <p className="mt-3 max-w-2xl text-slate-200">
+            Candidate: {fullName || "Candidate"} • Target Role:{" "}
+            {role === "Other" ? customRole : role}
+          </p>
+        </div>
+
+        <div className="rounded-3xl bg-white/10 p-6 text-center backdrop-blur">
+          <p className="text-sm text-blue-100">Airport Readiness</p>
+          <p className="mt-2 text-5xl font-extrabold">{report.score}</p>
+          <p className="text-sm text-blue-100">out of 100</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="grid gap-6 p-6 lg:grid-cols-2">
+      <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+        <h3 className="text-xl font-extrabold text-slate-950">
+          ATS Analysis
+        </h3>
+
+        <div className="mt-4 flex items-center justify-between">
+          <span className="text-sm font-semibold text-slate-600">
+            ATS Compatibility
+          </span>
+          <span className="rounded-xl bg-blue-600 px-4 py-2 font-bold text-white">
+            {report.premiumReport.atsAnalysis?.score || report.score}/100
+          </span>
+        </div>
+
+        <p className="mt-4 text-sm leading-6 text-slate-700">
+          {report.premiumReport.atsAnalysis?.summary ||
+            "Your CV has been assessed against airport recruitment expectations and ATS visibility factors."}
+        </p>
+      </div>
+
+      <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+        <h3 className="text-xl font-extrabold text-slate-950">
+          Airport Career Match
+        </h3>
+
+        <div className="mt-4 space-y-3">
+          {report.premiumReport.bestMatches?.slice(0, 4).map((match: any) => (
+            <div key={match.role}>
+              <div className="flex items-center justify-between text-sm font-semibold">
+                <span>{match.role}</span>
+                <span className="text-blue-700">{match.match}%</span>
+              </div>
+
+              <div className="mt-2 h-2 rounded-full bg-slate-200">
+                <div
+                  className="h-2 rounded-full bg-blue-600"
+                  style={{ width: `${match.match}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-slate-200 bg-white p-6">
+        <h3 className="text-xl font-extrabold text-slate-950">
+          Missing Airport Keywords
+        </h3>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {report.premiumReport.jobMatch?.missingKeywords
+            ?.slice(0, 6)
+            .map((item: string) => (
+              <span
+                key={item}
+                className="rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700"
+              >
+                {item}
+              </span>
+            ))}
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-slate-200 bg-white p-6">
+        <h3 className="text-xl font-extrabold text-slate-950">
+          Missing Skills
+        </h3>
+
+        <div className="mt-4 space-y-2">
+          {report.premiumReport.jobMatch?.missingSkills
+            ?.slice(0, 5)
+            .map((item: string) => (
+              <div
+                key={item}
+                className="rounded-xl bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700"
+              >
+                {item}
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white lg:col-span-2">
+        <h3 className="text-xl font-extrabold">Recruiter Review</h3>
+
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          {report.premiumReport.recruiterFeedback
+            ?.slice(0, 3)
+            .map((item: string, index: number) => (
+              <div
+                key={item}
+                className="rounded-2xl bg-white/10 p-4 text-sm leading-6 text-slate-200"
+              >
+                <span className="mb-2 block font-bold text-blue-300">
+                  Insight {index + 1}
+                </span>
+                {item}
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-slate-200 bg-blue-50 p-6 lg:col-span-2">
+        <h3 className="text-xl font-extrabold text-slate-950">
+          Priority Action Plan
+        </h3>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          {report.premiumReport.careerRoadmap
+            ?.slice(0, 3)
+            .map((item: string, index: number) => (
+              <div key={item} className="rounded-2xl bg-white p-4">
+                <p className="text-sm font-bold text-blue-600">
+                  Step {index + 1}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  {item}
+                </p>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+
+    <div className="border-t border-slate-200 bg-slate-50 p-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <h3 className="font-extrabold text-slate-950">
+          Recommended AirportCV Tools
+        </h3>
+
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <a
+            href="/interview-prep"
+            className="rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50"
+          >
+            <div className="text-lg font-bold">Interview Preparation</div>
+            <p className="mt-2 text-sm text-slate-600">
+              Practice airport interview questions.
+            </p>
+          </a>
+
+          <a
+            href="/cover-letter"
+            className="rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50"
+          >
+            <div className="text-lg font-bold">Cover Letter Generator</div>
+            <p className="mt-2 text-sm text-slate-600">
+              Create tailored airport cover letters.
+            </p>
+          </a>
+
+          <a
+            href="/cv-checker"
+            className="rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50"
+          >
+            <div className="text-lg font-bold">Reassess My CV</div>
+            <p className="mt-2 text-sm text-slate-600">
+              Upload your improved CV and track progress.
+            </p>
+          </a>
+        </div>
+      </div>
+
+      <button className="mt-6 w-full rounded-xl bg-slate-950 px-8 py-4 font-bold text-white transition hover:bg-slate-800">
+        Download PDF Report
+      </button>
+
+      <p className="mt-5 text-xs leading-5 text-slate-500">
+        Important Notice: This assessment is generated using AI-assisted analysis
+        of information provided by the candidate. AirportCV does not guarantee
+        interviews, employment offers, salary outcomes, security clearance approval
+        or recruitment decisions. This report is intended for career guidance
+        purposes only and should not be considered legal, immigration, employment
+        or financial advice.
+      </p>
+    </div>
+  </div>
+)}                </div>
               )}
             </div>
           </div>
