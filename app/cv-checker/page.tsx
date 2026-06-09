@@ -761,7 +761,12 @@ return (
         </p>
 
         <button className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500">
-          Join the Early Access List →
+          <a
+  href="/premium-report"
+  className="mt-8 inline-flex rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
+>
+  View Premium Report →
+</a>
         </button>
       </div>
         </div>
