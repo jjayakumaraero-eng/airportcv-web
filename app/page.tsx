@@ -478,45 +478,56 @@ const careerPaths: Record<string, string[]> = {
 
 <main className="min-h-screen bg-[#f5f7fb] text-slate-900">
   <nav className="sticky top-0 z-50 bg-[#030814]">
-    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-      <a href="/" className="flex items-center">
-        <Image
-  src="/airportcv-logo-cropped.png"
-  alt="AirportCV"
-  width={230}
-  height={60}
-  priority
-/>
+  <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <a href="/" className="flex items-center">
+      <Image
+        src="/airportcv-logo-cropped.png"
+        alt="AirportCV"
+        width={230}
+        height={60}
+        priority
+      />
+    </a>
+
+    <div className="hidden items-center gap-8 text-sm font-bold text-slate-200 md:flex">
+      <a href="/" className="transition hover:text-blue-400">
+        Home
       </a>
 
-      <div className="hidden items-center gap-8 text-sm font-bold text-slate-200 md:flex">
-  <a href="/" className="transition hover:text-blue-400">
-    Home
-  </a>
+      <a href="/about" className="transition hover:text-blue-400">
+        About Us
+      </a>
 
-  <a href="/about" className="transition hover:text-blue-400">
-    About Us
-  </a>
+      <a href="/success-stories" className="transition hover:text-blue-400">
+        Success Stories
+      </a>
 
-  
-
-  <a href="/success-stories" className="transition hover:text-blue-400">
-    Success Stories
-  </a>
-
-  <a href="/blog" className="transition hover:text-blue-400">
-    Blog
-  </a>
-</div>
-
-      <a
-        href="/cv-checker"
-        className="rounded-xl bg-blue-600 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 sm:px-5 sm:py-3 sm:text-sm"
-      >
-        Get Started Free
+      <a href="/blog" className="transition hover:text-blue-400">
+        Blog
       </a>
     </div>
-  </nav>
+  </div>
+
+  <div className="border-t border-white/10 px-4 py-3 md:hidden">
+    <div className="flex justify-center gap-5 text-xs font-bold text-slate-200">
+      <a href="/" className="transition hover:text-blue-400">
+        Home
+      </a>
+
+      <a href="/about" className="transition hover:text-blue-400">
+        About
+      </a>
+
+      <a href="/success-stories" className="transition hover:text-blue-400">
+        Stories
+      </a>
+
+      <a href="/blog" className="transition hover:text-blue-400">
+        Blog
+      </a>
+    </div>
+  </div>
+</nav>
       <section className="relative overflow-hidden bg-[#030814]">
   <div
     className="absolute inset-0 opacity-45"
