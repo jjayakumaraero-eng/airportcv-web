@@ -783,7 +783,45 @@ role matching and professional improvement recommendations.
     </div>
   </div>
 </section>
-      
+  <section className="bg-slate-50 py-16">
+  <div className="mx-auto max-w-6xl px-6">
+
+    <h2 className="text-3xl font-bold">
+      Latest Career Guide
+    </h2>
+
+    <div className="mt-8 overflow-hidden rounded-3xl border bg-white shadow-sm">
+
+      <img
+        src="/blog/passenger-service-agent-guide.jpeg"
+        alt=""
+        className="w-full"
+      />
+
+      <div className="p-8">
+
+        <h3 className="text-2xl font-bold">
+          How to Become an Airport Passenger Service Agent in the UK
+        </h3>
+
+        <p className="mt-4 text-slate-600">
+          Discover salary expectations, flexible working opportunities,
+          career progression and how to stand out when applying for airport jobs.
+        </p>
+
+        <a
+          href="/blog/passenger-service-agent-guide"
+          className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white"
+        >
+          Read Guide →
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>    
 
       
      

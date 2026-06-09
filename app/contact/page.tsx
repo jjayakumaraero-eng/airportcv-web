@@ -26,7 +26,7 @@ export default function ContactPage() {
               <div className="rounded-2xl bg-blue-50 p-5">
                 <p className="font-bold text-blue-700">General Enquiries</p>
                 <p className="mt-2 text-slate-700">
-                  hello@airportcv.com
+                  hello@airportcv.co.uk
                 </p>
               </div>
 
