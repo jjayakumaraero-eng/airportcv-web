@@ -407,29 +407,31 @@ const careerPaths: Record<string, string[]> = {
     URL.revokeObjectURL(url);
   }
 async function downloadAssessmentReportPdf() {
-  const element = document.getElementById("premium-report-pdf");
+  try {
+    const element = document.getElementById("premium-report-pdf");
 
-  if (!element) return;
+    if (!element) {
+      alert("Report is not ready yet. Please open the full report first.");
+      return;
+    }
 
-  const canvas = await html2canvas(element, {
-  scale: 2,
-  useCORS: true,
-  backgroundColor: "#ffffff",
-  foreignObjectRendering: false,
-  ignoreElements: (el) => {
-    return el.classList?.contains("ignore-pdf") || false;
-  },
-});
+    const canvas = await html2canvas(element, {
+      scale: 1.5,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      logging: false,
+      foreignObjectRendering: false,
+    });
 
-  const imgData = canvas.toDataURL("image/png");
+    const imgData = canvas.toDataURL("image/png");
 
-  const pdf = new jsPDF("p", "mm", "a4");
-
-  const pdfWidth = 210;
-  const pdfHeight = 297;
-
-  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-  pdf.save("airportcv-assessment-report.pdf");
+    const pdf = new jsPDF("p", "mm", "a4");
+    pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
+    pdf.save("airportcv-assessment-report.pdf");
+  } catch (error) {
+    console.error("PDF DOWNLOAD ERROR:", error);
+    alert("PDF download failed. Please try again after refreshing the page.");
+  }
 }
   function downloadPdfCv() {
     if (!report) return;
