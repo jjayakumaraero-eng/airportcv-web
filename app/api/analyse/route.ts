@@ -7,7 +7,9 @@ function extractPdfText(buffer: Buffer): Promise<string> {
   return new Promise((resolve, reject) => {
     const pdfParser = new PDFParser();
 
-    pdfParser.on("pdfParser_dataError", (errData) => reject(errData.parserError));
+    pdfParser.on("pdfParser_dataError", (errData: any) => {
+  reject(errData.parserError || errData);
+});
 
     pdfParser.on("pdfParser_dataReady", (pdfData) => {
       let text = "";
