@@ -188,8 +188,13 @@ Rules:
     );
 
     return NextResponse.json(
-      { error: "AirportCV AI is busy right now. Please try again in a minute." },
-      { status: 500 }
-    );
-  }
+  {
+    error:
+      error instanceof Error
+        ? error.message
+        : String(error),
+  },
+  { status: 500 }
+);
+}
 }
