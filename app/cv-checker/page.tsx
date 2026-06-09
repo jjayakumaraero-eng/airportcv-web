@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import PremiumAssessmentReport from "@/components/PremiumAssessmentReport";
-import html2canvas from "html2canvas";
+import { toPng } from "html-to-image";
 import { useState } from "react";
 import {
   Document,
@@ -411,32 +411,27 @@ async function downloadAssessmentReportPdf() {
     const element = document.getElementById("premium-report-pdf");
 
     if (!element) {
-      alert("Report is not ready yet. Please open the full report first.");
+      alert("Report is not ready yet.");
       return;
     }
 
-    const canvas = await html2canvas(element, {
-      scale: 1.5,
-      useCORS: true,
+    const imgData = await toPng(element, {
+      cacheBust: true,
+      pixelRatio: 2,
       backgroundColor: "#ffffff",
-      logging: false,
-      foreignObjectRendering: false,
     });
-
-    const imgData = canvas.toDataURL("image/png");
 
     const pdf = new jsPDF("p", "mm", "a4");
     pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
     pdf.save("airportcv-assessment-report.pdf");
   } catch (error) {
-  console.error("PDF DOWNLOAD ERROR:", error);
-
-  alert(
-    `PDF ERROR: ${
-      error instanceof Error ? error.message : String(error)
-    }`
-  );
-}
+    console.error("PDF DOWNLOAD ERROR:", error);
+    alert(
+      `PDF ERROR: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
+  }
 }
   function downloadPdfCv() {
     if (!report) return;
@@ -797,7 +792,18 @@ return (
         </p>
 
         <button
-  onClick={() => setShowPremiumReport(true)}
+  onClick={() => {
+  sessionStorage.setItem(
+    "airportcvPremiumReport",
+    JSON.stringify({
+      report,
+      fullName,
+      role: role === "Other" ? customRole : role,
+    })
+  );
+
+  window.location.href = "/premium-report";
+}}
   className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
 >
   View Full Airport Career Report →
