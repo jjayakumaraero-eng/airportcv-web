@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     const prompt = `
-You are a UK airport recruitment interview coach.
+You are a UK aviation recruitment interview coach covering airport, airline, cabin crew, pilot, aircraft engineering, cargo, security, operations and ground handling interviews.
 
 Target role:
 ${role}
@@ -62,11 +62,15 @@ Return ONLY valid JSON:
 
 Rules:
 - Give 6 normal interview questions.
-- Give 3 airport scenario questions.
+- Give 3 role-specific scenario questions for the selected target role.
 - Use UK English.
 - Keep answers realistic and natural.
 - Do not invent experience.
-- Focus only on UK airport jobs.
+- - Focus on the selected target role, not generic airport jobs.
+- If the target role is Pilot, include questions around motivation for flying, training pathway awareness, decision-making, communication, teamwork, safety mindset and basic Crew Resource Management awareness.
+- If the target role is Cabin Crew, include questions around passenger service, safety awareness, conflict handling, teamwork, presentation, flexibility and airline assessment day readiness.
+- If the target role is Aircraft Maintenance Engineer or Aircraft Technician, include questions around safety culture, attention to detail, technical learning, maintenance environments, documentation and engineering discipline.
+- If the target role is an airport operations or ground handling role, include relevant operational, safety, teamwork and customer service scenarios.
 `;
 
     const result = await model.generateContent(prompt);

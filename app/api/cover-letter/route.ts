@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     const prompt = `
-You are a UK airport recruitment cover letter writer.
+You are a UK aviation recruitment cover letter writer covering airport, airline, cabin crew, pilot, aircraft engineering, cargo, security, operations and ground handling careers.
 
 Target role:
 ${role}
@@ -47,7 +47,11 @@ Rules:
 - Use UK English.
 - Do not invent experience, employers, licences or qualifications.
 - Keep it realistic and human.
-- Make it suitable for UK airport jobs.
+- - Make it suitable for the selected target role.
+- If the target role is Pilot, write for pilot cadet programmes, flight training pathways, airline pilot recruitment or flight operations opportunities as appropriate.
+- If the target role is Cabin Crew, write for airline cabin crew recruitment and customer-facing aviation roles.
+- If the target role is Aircraft Maintenance Engineer or Aircraft Technician, write for engineering and aircraft maintenance opportunities.
+- If the target role is an airport operations role, write for that specific airport function.
 - Keep it under 350 words.
 - Use a professional cover letter structure.
 - Start with Dear Hiring Manager.
