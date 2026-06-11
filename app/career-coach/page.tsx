@@ -463,9 +463,24 @@ const [educationLevel, setEducationLevel] = useState("");
       href="/cv-checker"
       className="rounded-2xl bg-white/10 p-4 transition hover:bg-white/15"
     >
-      <h4 className="font-bold">Check My CV</h4>
+      <h4 className="font-bold">
+        {targetRole === "Cabin Crew"
+          ? "Cabin Crew CV Optimiser"
+          : targetRole === "Pilot"
+          ? "Pilot CV Readiness Check"
+          : targetRole === "Aircraft Maintenance Engineer"
+          ? "Aircraft Engineer CV Check"
+          : "Check My Aviation CV"}
+      </h4>
+
       <p className="mt-2 text-sm text-slate-300">
-        Test your CV against your target aviation role.
+        {targetRole === "Cabin Crew"
+          ? "Check whether your CV is ready for cabin crew applications."
+          : targetRole === "Pilot"
+          ? "Review your CV against pilot pathway and cadet programme expectations."
+          : targetRole === "Aircraft Maintenance Engineer"
+          ? "Check how well your CV supports aircraft maintenance and engineering roles."
+          : "Test your CV against your target aviation role."}
       </p>
     </a>
 
@@ -473,9 +488,18 @@ const [educationLevel, setEducationLevel] = useState("");
       href="/cover-letter"
       className="rounded-2xl bg-white/10 p-4 transition hover:bg-white/15"
     >
-      <h4 className="font-bold">Cover Letter Generator</h4>
+      <h4 className="font-bold">
+        {targetRole === "Cabin Crew"
+          ? "Cabin Crew Cover Letter"
+          : targetRole === "Pilot"
+          ? "Pilot Cover Letter"
+          : targetRole === "Aircraft Maintenance Engineer"
+          ? "Engineering Cover Letter"
+          : "Cover Letter Generator"}
+      </h4>
+
       <p className="mt-2 text-sm text-slate-300">
-        Create a tailored aviation cover letter.
+        Create a tailored application letter for your selected aviation pathway.
       </p>
     </a>
 
@@ -483,14 +507,22 @@ const [educationLevel, setEducationLevel] = useState("");
       href="/interview-prep"
       className="rounded-2xl bg-white/10 p-4 transition hover:bg-white/15"
     >
-      <h4 className="font-bold">Interview Preparation</h4>
+      <h4 className="font-bold">
+        {targetRole === "Cabin Crew"
+          ? "Cabin Crew Interview Prep"
+          : targetRole === "Pilot"
+          ? "Pilot Interview Preparation"
+          : targetRole === "Aircraft Maintenance Engineer"
+          ? "Engineering Interview Prep"
+          : "Interview Preparation"}
+      </h4>
+
       <p className="mt-2 text-sm text-slate-300">
         Practise role-specific aviation interview questions.
       </p>
     </a>
   </div>
 </div>
-
             </div>
           )}
         </div>
