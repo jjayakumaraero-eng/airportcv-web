@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     const prompt = `
-You are a UK airport CV adviser.
+You are a UK aviation CV adviser covering airport, airline, cabin crew, pilot, aircraft engineering, ground handling, cargo, security and flight operations roles.
 
 Target role: ${role}
 
@@ -160,7 +160,11 @@ Rules:
 - Do not include missing keywords, missing skills, all recommendations, salary insights, career roadmap or rewritten CV in freeReport.
 - premiumPreview should create curiosity using counts only, not full details.
 - premiumReport contains the full detailed analysis for future paid unlock.
-- If no job description is provided, compare the CV against typical UK airport role expectations.
+- - If no job description is provided, compare the CV against typical expectations for the selected target role.
+- If the target role is Pilot, assess against pilot pathway expectations such as aviation interest, education, communication, decision-making, CRM awareness, Class 1 Medical awareness, flight training route awareness and cadet programme readiness. Do not treat Pilot as a ground handling role.
+- If the target role is Cabin Crew, assess against cabin crew expectations such as customer service, safety awareness, grooming/presentation, teamwork, languages, conflict handling, flexibility and airline assessment readiness.
+- If the target role is Aircraft Maintenance Engineer or Aircraft Technician, assess against engineering expectations such as technical education, maintenance exposure, safety culture, Part-66 awareness, practical engineering skills and attention to detail.
+- If the target role is Dispatcher, Load Controller, Ramp Agent, Baggage Handler, Passenger Service Agent, Check-in Agent, Security Officer or other airport role, assess against the relevant airport operations expectations.
 - If a job description is provided, compare the CV against that job description.
 - Do not invent jobs, employers, dates, licences, security clearance or qualifications.
 - Keep all real employment roles from the CV.
