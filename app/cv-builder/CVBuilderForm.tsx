@@ -491,9 +491,10 @@ function removeEducationItem(id: string) {
           </h1>
 
           <p className="max-w-3xl text-lg text-slate-700">
-            Build a professional UK-style aviation CV using guided sections,
-            aviation keywords and ATS-friendly structure.
-          </p>
+  Build a professional aviation CV with guided sections, role-specific
+  keywords and a clean ATS-friendly structure. Add only the details that
+  strengthen your CV for your target role.
+</p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
@@ -624,11 +625,10 @@ function removeEducationItem(id: string) {
               <h2 className="text-2xl font-semibold text-slate-900">
                 Target role
               </h2>
-              <p className="mt-2 text-sm text-slate-600">
-                These details help shape the CV around the aviation role the
-                user wants.
-              </p>
-
+             <p className="mt-2 text-sm text-slate-600">
+  Choose the aviation role you want to target. You can also paste a job advert
+  so the CV can later be tailored around the right keywords.
+</p>
               <div className="mt-6 grid gap-5 md:grid-cols-2">
                 <div>
                   <label
