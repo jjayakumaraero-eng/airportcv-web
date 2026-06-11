@@ -536,12 +536,7 @@ return (
                 Upload your CV and receive a free airport readiness score, top improvement areas and best-fit role match.
               </p>
 
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <input className="rounded-xl border px-4 py-3" placeholder="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                <input className="rounded-xl border px-4 py-3" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input className="rounded-xl border px-4 py-3" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
-                <input className="rounded-xl border px-4 py-3" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} />
-              </div>
+              
 
               <label className="mt-6 block text-sm font-semibold">Target role</label>
               <select value={role} onChange={(e) => setRole(e.target.value)} className="mt-2 w-full rounded-xl border px-4 py-3">
