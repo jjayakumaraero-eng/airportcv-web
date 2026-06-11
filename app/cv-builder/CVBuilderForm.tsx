@@ -340,6 +340,7 @@ function getExperienceDates(experience: WorkExperience) {
 export default function CVBuilderForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [previewStarted, setPreviewStarted] = useState(false);
+const [generateMessage, setGenerateMessage] = useState("");
 
   function handleTextChange(
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -464,6 +465,12 @@ function removeEducationItem(id: string) {
     event.preventDefault();
     setPreviewStarted(true);
   }
+  function handleGenerateCV() {
+  setPreviewStarted(true);
+  setGenerateMessage(
+    "CV generation will be added in the next step. For now, review your details in the ATS-friendly preview."
+  );
+}
 
   const skillsPreview = joinItems(formData.selectedSkills, formData.otherSkills);
   const systemsPreview = joinItems(
@@ -1449,12 +1456,28 @@ function removeEducationItem(id: string) {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="mt-8 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800"
-            >
-              Preview my CV details
-            </button>
+           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+  <button
+    type="submit"
+    className="rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
+  >
+    Preview my CV details
+  </button>
+
+  <button
+    type="button"
+    onClick={handleGenerateCV}
+    className="rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800"
+  >
+    Generate my aviation CV
+  </button>
+</div>
+
+{generateMessage && (
+  <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+    {generateMessage}
+  </div>
+)}
 
             <p className="mt-4 text-sm text-slate-500">
               This preview is local only. AI CV generation will be added later.
