@@ -498,6 +498,10 @@ const careerPaths: Record<string, string[]> = {
   Career Assessment
 </a>
 
+<a href="/cv-builder" className="transition hover:text-blue-400">
+  CV Builder
+</a>
+
 <a href="/cv-checker" className="transition hover:text-blue-400">
   CV Checker
 </a>
@@ -610,6 +614,16 @@ const careerPaths: Record<string, string[]> = {
     button: "bg-purple-500 hover:bg-purple-400",
     tick: "text-purple-600",
   },
+  {
+  icon: "📄",
+  title: "Aviation CV Builder",
+  desc: "Create a structured aviation CV for your target airport, airline, pilot, cabin crew, engineering or operations role.",
+  benefits: ["Step-by-step CV creation", "Aviation-focused structure"],
+  href: "/cv-builder",
+  iconBg: "bg-blue-500",
+  button: "bg-blue-500 hover:bg-blue-400",
+  tick: "text-blue-600",
+},
   {
     icon: "📄",
     title: "Aviation CV Checker",
