@@ -16,14 +16,23 @@ import jsPDF from "jspdf";
 
 const roles = [
   "Passenger Service Agent",
+  "Check-in Agent",
+  "Boarding Gate Agent",
+  "Lounge Agent",
   "Ramp Agent",
   "Baggage Handler",
   "Airport Security Officer",
   "Flight Dispatcher",
   "Load Controller",
-  "Other",
+  "Cabin Crew",
+  "Pilot",
+  "Aircraft Maintenance Engineer",
+  "Aircraft Technician",
+  "Cargo Agent",
+  "Airport Operations Officer",
+  "Airport Duty Manager",
+  "Other Airport / Airline Role",
 ];
-
 type Job = {
   jobTitle: string;
   company: string;
@@ -538,7 +547,7 @@ return (
               <select value={role} onChange={(e) => setRole(e.target.value)} className="mt-2 w-full rounded-xl border px-4 py-3">
                 {roles.map((r) => <option key={r}>{r}</option>)}
               </select>
-              {role === "Other" && (
+              {role === "Other Airport / Airline Role" && (
   <input
     value={customRole}
     onChange={(e) => setCustomRole(e.target.value)}

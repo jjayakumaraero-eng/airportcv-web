@@ -5,12 +5,22 @@ import CvUpload from "@/components/CvUpload";
 
 const roles = [
   "Passenger Service Agent",
+  "Check-in Agent",
+  "Boarding Gate Agent",
+  "Lounge Agent",
   "Ramp Agent",
   "Baggage Handler",
   "Airport Security Officer",
   "Flight Dispatcher",
   "Load Controller",
-  "Other",
+  "Cabin Crew",
+  "Pilot",
+  "Aircraft Maintenance Engineer",
+  "Aircraft Technician",
+  "Cargo Agent",
+  "Airport Operations Officer",
+  "Airport Duty Manager",
+  "Other Airport / Airline Role",
 ];
 
 export default function CoverLetterPage() {
@@ -98,7 +108,7 @@ export default function CoverLetterPage() {
                 ))}
               </select>
 
-              {role === "Other" && (
+              {role === "Other Airport / Airline Role" && (
                 <input
                   value={customRole}
                   onChange={(e) => setCustomRole(e.target.value)}
