@@ -525,7 +525,7 @@ function removeEducationItem(id: string) {
                   type="text"
                   value={formData.fullName}
                   onChange={handleTextChange}
-                  placeholder="e.g. Jay Kumar"
+                  placeholder="e.g. Elyas Beneyad"
                   className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
@@ -1490,6 +1490,21 @@ function removeEducationItem(id: string) {
               </div>
             </div>
 
+<div className="rounded-2xl border border-blue-100 bg-blue-50 p-6 text-blue-950 shadow-sm">
+  <h2 className="text-lg font-semibold">ATS-friendly CV tips</h2>
+
+  <p className="mt-2 text-sm">
+    Keep your CV clear, simple and focused on the aviation role you want.
+  </p>
+
+  <ul className="mt-4 space-y-2 text-sm">
+    <li>• Use clear headings such as Work Experience, Education and Skills.</li>
+    <li>• Include aviation keywords from the target job advert.</li>
+    <li>• Add measurable achievements where possible.</li>
+    <li>• Avoid photos, graphics, tables and complex layouts.</li>
+    <li>• Keep optional details relevant to the role.</li>
+  </ul>
+</div>
             <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
               <h2 className="text-xl font-semibold text-slate-900">
                 ATS-friendly CV preview
@@ -1505,6 +1520,20 @@ function removeEducationItem(id: string) {
                 </p>
               ) : (
                 <div className="mt-6 space-y-6 text-sm text-slate-700">
+                 <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+  <h2 className="text-lg font-semibold text-slate-900">What happens next?</h2>
+
+  <p className="mt-2 text-sm text-slate-600">
+    After you add your details, AirportCV will use this information to create a
+    structured aviation CV draft tailored to your target role.
+  </p>
+
+  <ol className="mt-4 space-y-2 text-sm text-slate-700">
+    <li>1. Review your details in the preview.</li>
+    <li>2. Generate a professional CV draft.</li>
+    <li>3. Check and improve it with the Aviation CV Checker.</li>
+  </ol>
+</div>
                   <section>
                     <h3 className="text-lg font-bold uppercase tracking-wide text-slate-900">
                       {formData.fullName || "Your Name"}
