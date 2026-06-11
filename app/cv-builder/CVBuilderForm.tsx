@@ -3,6 +3,20 @@
 import Link from "next/link";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 
+type WorkExperience = {
+  id: string;
+  jobTitle: string;
+  companyName: string;
+  location: string;
+  startMonth: string;
+startYear: string;
+endMonth: string;
+endYear: string;
+  currentlyWorking: boolean;
+  responsibilities: string;
+  achievements: string;
+};
+
 type MultiSelectField =
   | "selectedSkills"
   | "selectedSystems"
@@ -26,14 +40,7 @@ type FormData = {
   selectedSystems: string[];
   otherSystems: string;
 
-  jobTitle: string;
-  companyName: string;
-  employmentLocation: string;
-  startDate: string;
-  endDate: string;
-  currentlyWorking: boolean;
-  responsibilities: string;
-  achievements: string;
+  workExperiences: WorkExperience[];
 
   education: string;
   selectedLicences: string[];
@@ -188,7 +195,44 @@ const availabilityOptions = [
   "1 month notice",
   "More than 1 month",
   "Available from a specific date",
+  ];
+  const monthOptions = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
+
+const currentYear = new Date().getFullYear();
+
+const yearOptions = Array.from({ length: 60 }, (_, index) =>
+  String(currentYear - index)
+);
+
+
+function createWorkExperience(id: string): WorkExperience {
+  return {
+    id,
+    jobTitle: "",
+    companyName: "",
+    location: "",
+    startMonth: "",
+startYear: "",
+endMonth: "",
+endYear: "",
+    currentlyWorking: false,
+    responsibilities: "",
+    achievements: "",
+  };
+}
 
 const initialFormData: FormData = {
   fullName: "",
@@ -207,14 +251,7 @@ const initialFormData: FormData = {
   selectedSystems: [],
   otherSystems: "",
 
-  jobTitle: "",
-  companyName: "",
-  employmentLocation: "",
-  startDate: "",
-  endDate: "",
-  currentlyWorking: false,
-  responsibilities: "",
-  achievements: "",
+  workExperiences: [createWorkExperience("experience-1")],
 
   education: "",
   selectedLicences: [],
@@ -265,6 +302,20 @@ function joinItems(items: string[], otherValue = "") {
   return allItems.length ? allItems.join(", ") : "";
 }
 
+function getExperienceDates(experience: WorkExperience) {
+  const start =
+    experience.startMonth && experience.startYear
+      ? `${experience.startMonth} ${experience.startYear}`
+      : "Start date";
+
+  const end =
+    experience.endMonth && experience.endYear
+      ? `${experience.endMonth} ${experience.endYear}`
+      : "End date";
+
+  return experience.currentlyWorking ? `${start} – Present` : `${start} – ${end}`;
+}
+
 export default function CVBuilderForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [previewStarted, setPreviewStarted] = useState(false);
@@ -280,13 +331,59 @@ export default function CVBuilderForm() {
     }));
   }
 
-  function handleCurrentlyWorkingChange(event: ChangeEvent<HTMLInputElement>) {
-    const checked = event.target.checked;
-
+  function updateWorkExperience(
+    id: string,
+    field: keyof Omit<WorkExperience, "id" | "currentlyWorking">,
+    value: string
+  ) {
     setFormData((currentData) => ({
       ...currentData,
-      currentlyWorking: checked,
-      endDate: checked ? "" : currentData.endDate,
+      workExperiences: currentData.workExperiences.map((experience) =>
+        experience.id === id
+          ? {
+              ...experience,
+              [field]: value,
+            }
+          : experience
+      ),
+    }));
+  }
+
+  function toggleWorkExperienceCurrentlyWorking(id: string, checked: boolean) {
+    setFormData((currentData) => ({
+      ...currentData,
+      workExperiences: currentData.workExperiences.map((experience) =>
+        experience.id === id
+          ? {
+              ...experience,
+              currentlyWorking: checked,
+              endMonth: checked ? "" : experience.endMonth,
+endYear: checked ? "" : experience.endYear,
+            }
+          : experience
+      ),
+    }));
+  }
+
+  function addWorkExperience() {
+    setFormData((currentData) => ({
+      ...currentData,
+      workExperiences: [
+        ...currentData.workExperiences,
+        createWorkExperience(`experience-${Date.now()}`),
+      ],
+    }));
+  }
+
+  function removeWorkExperience(id: string) {
+    setFormData((currentData) => ({
+      ...currentData,
+      workExperiences:
+        currentData.workExperiences.length === 1
+          ? currentData.workExperiences
+          : currentData.workExperiences.filter(
+              (experience) => experience.id !== id
+            ),
     }));
   }
 
@@ -323,13 +420,6 @@ export default function CVBuilderForm() {
     formData.selectedCertifications,
     formData.otherCertifications
   );
-
-  const experienceDates = formData.currentlyWorking
-    ? `${formatMonth(formData.startDate) || "Start date"} – Present`
-    : `${formatMonth(formData.startDate) || "Start date"} – ${
-        formatMonth(formData.endDate) || "End date"
-      }`;
-
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-16">
       <section className="mx-auto max-w-6xl">
@@ -610,155 +700,254 @@ export default function CVBuilderForm() {
               />
             </div>
 
-            <div className="mt-10 border-t border-slate-200 pt-8">
-              <h2 className="text-2xl font-semibold text-slate-900">
-                Work experience
-              </h2>
-              <p className="mt-2 text-sm text-slate-600">
-                Add your most recent or most relevant role first. Use month and
-                year dates for a professional CV format.
-              </p>
+           <div className="mt-10 border-t border-slate-200 pt-8">
+  <h2 className="text-2xl font-semibold text-slate-900">
+    Work experience
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">
+    Add your most recent or most relevant role first. Use month and year dates
+    for a professional CV format.
+  </p>
 
-              <div className="mt-6 grid gap-5 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="jobTitle"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Job title
-                  </label>
-                  <input
-                    id="jobTitle"
-                    name="jobTitle"
-                    type="text"
-                    value={formData.jobTitle}
-                    onChange={handleTextChange}
-                    placeholder="e.g. Passenger Service Agent"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
+  <div className="mt-6 space-y-6">
+    {formData.workExperiences.map((experience, index) => (
+      <div
+        key={experience.id}
+        className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+      >
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <h3 className="font-semibold text-slate-900">
+            Experience {index + 1}
+          </h3>
 
-                <div>
-                  <label
-                    htmlFor="companyName"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Company name
-                  </label>
-                  <input
-                    id="companyName"
-                    name="companyName"
-                    type="text"
-                    value={formData.companyName}
-                    onChange={handleTextChange}
-                    placeholder="e.g. ABC Ground Handling"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
+          {formData.workExperiences.length > 1 && (
+            <button
+              type="button"
+              onClick={() => removeWorkExperience(experience.id)}
+              className="text-sm font-semibold text-red-600 hover:text-red-700"
+            >
+              Remove
+            </button>
+          )}
+        </div>
 
-                <div>
-                  <label
-                    htmlFor="employmentLocation"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Location
-                  </label>
-                  <input
-                    id="employmentLocation"
-                    name="employmentLocation"
-                    type="text"
-                    value={formData.employmentLocation}
-                    onChange={handleTextChange}
-                    placeholder="e.g. Heathrow Airport, London"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Job title
+            </label>
+            <input
+              type="text"
+              value={experience.jobTitle}
+              onChange={(event) =>
+                updateWorkExperience(
+                  experience.id,
+                  "jobTitle",
+                  event.target.value
+                )
+              }
+              placeholder="e.g. Passenger Service Agent"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
 
-                <div>
-                  <label
-                    htmlFor="startDate"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Start date
-                  </label>
-                  <input
-                    id="startDate"
-                    name="startDate"
-                    type="month"
-                    value={formData.startDate}
-                    onChange={handleTextChange}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Company name
+            </label>
+            <input
+              type="text"
+              value={experience.companyName}
+              onChange={(event) =>
+                updateWorkExperience(
+                  experience.id,
+                  "companyName",
+                  event.target.value
+                )
+              }
+              placeholder="e.g. ABC Ground Handling"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
 
-                <div>
-                  <label
-                    htmlFor="endDate"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    End date
-                  </label>
-                  <input
-                    id="endDate"
-                    name="endDate"
-                    type="month"
-                    value={formData.endDate}
-                    onChange={handleTextChange}
-                    disabled={formData.currentlyWorking}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
-                  />
-                </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Location
+            </label>
+            <input
+              type="text"
+              value={experience.location}
+              onChange={(event) =>
+                updateWorkExperience(
+                  experience.id,
+                  "location",
+                  event.target.value
+                )
+              }
+              placeholder="e.g. Heathrow Airport, London"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
 
-                <label className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
-                  <input
-                    type="checkbox"
-                    checked={formData.currentlyWorking}
-                    onChange={handleCurrentlyWorkingChange}
-                    className="h-4 w-4"
-                  />
-                  I currently work here
-                </label>
-              </div>
+          <div>
+  <label className="mb-2 block text-sm font-medium text-slate-800">
+    Start date
+  </label>
+  <div className="grid grid-cols-2 gap-3">
+    <select
+      value={experience.startMonth}
+      onChange={(event) =>
+        updateWorkExperience(
+          experience.id,
+          "startMonth",
+          event.target.value
+        )
+      }
+      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+    >
+      <option value="">Month</option>
+      {monthOptions.map((month) => (
+        <option key={month} value={month}>
+          {month}
+        </option>
+      ))}
+    </select>
 
-              <div className="mt-6 space-y-5">
-                <div>
-                  <label
-                    htmlFor="responsibilities"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Main responsibilities
-                  </label>
-                  <textarea
-                    id="responsibilities"
-                    name="responsibilities"
-                    rows={5}
-                    value={formData.responsibilities}
-                    onChange={handleTextChange}
-                    placeholder="Add your main duties, such as passenger support, safety checks, documentation, operations, dispatch, customer service or technical tasks."
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
+    <select
+      value={experience.startYear}
+      onChange={(event) =>
+        updateWorkExperience(
+          experience.id,
+          "startYear",
+          event.target.value
+        )
+      }
+      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+    >
+      <option value="">Year</option>
+      {yearOptions.map((year) => (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
 
-                <div>
-                  <label
-                    htmlFor="achievements"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Key achievements
-                  </label>
-                  <textarea
-                    id="achievements"
-                    name="achievements"
-                    rows={5}
-                    value={formData.achievements}
-                    onChange={handleTextChange}
-                    placeholder="Add one achievement per line. Example: Handled 150+ passengers per shift while maintaining service standards."
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-              </div>
-            </div>
+<div>
+  <label className="mb-2 block text-sm font-medium text-slate-800">
+    End date
+  </label>
+  <div className="grid grid-cols-2 gap-3">
+    <select
+      value={experience.endMonth}
+      onChange={(event) =>
+        updateWorkExperience(
+          experience.id,
+          "endMonth",
+          event.target.value
+        )
+      }
+      disabled={experience.currentlyWorking}
+      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
+    >
+      <option value="">Month</option>
+      {monthOptions.map((month) => (
+        <option key={month} value={month}>
+          {month}
+        </option>
+      ))}
+    </select>
 
+    <select
+      value={experience.endYear}
+      onChange={(event) =>
+        updateWorkExperience(
+          experience.id,
+          "endYear",
+          event.target.value
+        )
+      }
+      disabled={experience.currentlyWorking}
+      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
+    >
+      <option value="">Year</option>
+      {yearOptions.map((year) => (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
+
+          <label className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm text-slate-700">
+            <input
+              type="checkbox"
+              checked={experience.currentlyWorking}
+              onChange={(event) =>
+                toggleWorkExperienceCurrentlyWorking(
+                  experience.id,
+                  event.target.checked
+                )
+              }
+              className="h-4 w-4"
+            />
+            I currently work here
+          </label>
+        </div>
+
+        <div className="mt-5 space-y-5">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Main responsibilities
+            </label>
+            <textarea
+              rows={5}
+              value={experience.responsibilities}
+              onChange={(event) =>
+                updateWorkExperience(
+                  experience.id,
+                  "responsibilities",
+                  event.target.value
+                )
+              }
+              placeholder="Add your main duties, such as passenger support, safety checks, documentation, operations, dispatch, customer service or technical tasks."
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Key achievements
+            </label>
+            <textarea
+              rows={5}
+              value={experience.achievements}
+              onChange={(event) =>
+                updateWorkExperience(
+                  experience.id,
+                  "achievements",
+                  event.target.value
+                )
+              }
+              placeholder="Add one achievement per line. Example: Handled 150+ passengers per shift while maintaining service standards."
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <button
+    type="button"
+    onClick={addWorkExperience}
+    className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
+  >
+    + Add another experience
+  </button>
+</div>
             <div className="mt-10 border-t border-slate-200 pt-8">
               <h2 className="text-2xl font-semibold text-slate-900">
                 Education, licences and training
@@ -1154,32 +1343,35 @@ export default function CVBuilderForm() {
                   </section>
 
                   <section className="border-t border-slate-200 pt-4">
-                    <h3 className="font-bold uppercase tracking-wide text-slate-900">
-                      Work Experience
-                    </h3>
+  <h3 className="font-bold uppercase tracking-wide text-slate-900">
+    Work Experience
+  </h3>
 
-                    <div className="mt-2">
-                      <p className="font-semibold text-slate-900">
-                        {formData.jobTitle || "Job Title"}
-                        {formData.companyName
-                          ? ` | ${formData.companyName}`
-                          : ""}
-                      </p>
-                      <p>
-                        {formData.employmentLocation ||
-                          "Employment location"}{" "}
-                        | {experienceDates}
-                      </p>
-                      <p className="mt-2 whitespace-pre-line">
-                        {formData.responsibilities ||
-                          "Main responsibilities will appear here."}
-                      </p>
-                      <p className="mt-2 whitespace-pre-line">
-                        {formData.achievements ||
-                          "Key achievements will appear here."}
-                      </p>
-                    </div>
-                  </section>
+  <div className="mt-2 space-y-5">
+    {formData.workExperiences.map((experience) => (
+      <div key={experience.id}>
+        <p className="font-semibold text-slate-900">
+          {experience.jobTitle || "Job Title"}
+          {experience.companyName ? ` | ${experience.companyName}` : ""}
+        </p>
+
+        <p>
+          {experience.location || "Employment location"} |{" "}
+          {getExperienceDates(experience)}
+        </p>
+
+        <p className="mt-2 whitespace-pre-line">
+          {experience.responsibilities ||
+            "Main responsibilities will appear here."}
+        </p>
+
+        <p className="mt-2 whitespace-pre-line">
+          {experience.achievements || "Key achievements will appear here."}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
 
                   <section className="border-t border-slate-200 pt-4">
                     <h3 className="font-bold uppercase tracking-wide text-slate-900">
