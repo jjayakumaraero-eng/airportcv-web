@@ -29,8 +29,25 @@ const initialFormData = {
   email: "",
   phone: "",
   location: "",
+  linkedinUrl: "",
+  websiteUrl: "",
+  rightToWork: "",
+  drivingLicence: "",
+  availability: "",
   careerStage: "",
+  jobDescription: "",
   profile: "",
+  keySkills: "",
+  technicalSkills: "",
+  languages: "",
+  experience: "",
+  achievements: "",
+  education: "",
+  licences: "",
+  certifications: "",
+  systems: "",
+  additionalInfo: "",
+  references: "",
 };
 
 export default function CVBuilderForm() {
@@ -185,6 +202,95 @@ export default function CVBuilderForm() {
                   className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
+<div>
+  <label
+    htmlFor="linkedinUrl"
+    className="mb-2 block text-sm font-medium text-slate-800"
+  >
+    LinkedIn URL
+  </label>
+  <input
+    id="linkedinUrl"
+    name="linkedinUrl"
+    type="url"
+    value={formData.linkedinUrl}
+    onChange={handleChange}
+    placeholder="https://www.linkedin.com/in/your-name"
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+  />
+</div>
+
+<div>
+  <label
+    htmlFor="websiteUrl"
+    className="mb-2 block text-sm font-medium text-slate-800"
+  >
+    Portfolio or personal website
+  </label>
+  <input
+    id="websiteUrl"
+    name="websiteUrl"
+    type="url"
+    value={formData.websiteUrl}
+    onChange={handleChange}
+    placeholder="https://yourwebsite.com"
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+  />
+</div>
+
+<div>
+  <label
+    htmlFor="rightToWork"
+    className="mb-2 block text-sm font-medium text-slate-800"
+  >
+    Right to work
+  </label>
+  <input
+    id="rightToWork"
+    name="rightToWork"
+    type="text"
+    value={formData.rightToWork}
+    onChange={handleChange}
+    placeholder="e.g. Right to work in the UK"
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+  />
+</div>
+
+<div>
+  <label
+    htmlFor="drivingLicence"
+    className="mb-2 block text-sm font-medium text-slate-800"
+  >
+    Driving licence
+  </label>
+  <input
+    id="drivingLicence"
+    name="drivingLicence"
+    type="text"
+    value={formData.drivingLicence}
+    onChange={handleChange}
+    placeholder="e.g. Full UK driving licence"
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+  />
+</div>
+
+<div>
+  <label
+    htmlFor="availability"
+    className="mb-2 block text-sm font-medium text-slate-800"
+  >
+    Availability / notice period
+  </label>
+  <input
+    id="availability"
+    name="availability"
+    type="text"
+    value={formData.availability}
+    onChange={handleChange}
+    placeholder="e.g. Immediately available / 4 weeks notice"
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+  />
+</div>
 
               <div>
                 <label
@@ -216,6 +322,33 @@ export default function CVBuilderForm() {
               </div>
             </div>
 
+<div className="mt-8 border-t border-slate-200 pt-8">
+  <h2 className="text-2xl font-semibold text-slate-900">
+    Targeting and ATS keywords
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">
+    Add the job advert or keywords so your CV can be tailored to the target aviation role.
+  </p>
+
+  <div className="mt-6">
+    <label
+      htmlFor="jobDescription"
+      className="mb-2 block text-sm font-medium text-slate-800"
+    >
+      Target job description or advert keywords
+    </label>
+    <textarea
+      id="jobDescription"
+      name="jobDescription"
+      rows={6}
+      value={formData.jobDescription}
+      onChange={handleChange}
+      placeholder="Paste the job description or key requirements here, such as passenger service, safety, compliance, dispatch, aircraft maintenance, customer service, teamwork or operational control."
+      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+    />
+  </div>
+</div>
+
             <div className="mt-8">
               <label
                 htmlFor="profile"
@@ -233,6 +366,245 @@ export default function CVBuilderForm() {
                 className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
             </div>
+
+<div className="mt-8 border-t border-slate-200 pt-8">
+  <h2 className="text-2xl font-semibold text-slate-900">
+    Skills
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">
+    Add role-specific aviation, technical and language skills.
+  </p>
+
+  <div className="mt-6 space-y-6">
+    <div>
+      <label
+        htmlFor="keySkills"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Key aviation skills
+      </label>
+      <textarea
+        id="keySkills"
+        name="keySkills"
+        rows={4}
+        value={formData.keySkills}
+        onChange={handleChange}
+        placeholder="e.g. Passenger handling, safety awareness, customer service, teamwork, communication, problem solving, attention to detail."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="technicalSkills"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Technical / operational skills
+      </label>
+      <textarea
+        id="technicalSkills"
+        name="technicalSkills"
+        rows={4}
+        value={formData.technicalSkills}
+        onChange={handleChange}
+        placeholder="e.g. Load control, flight planning, aircraft systems, GDS, departure control systems, maintenance documentation, turnaround coordination."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="languages"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Languages
+      </label>
+      <textarea
+        id="languages"
+        name="languages"
+        rows={3}
+        value={formData.languages}
+        onChange={handleChange}
+        placeholder="e.g. English fluent, Hindi fluent, Arabic conversational."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+  </div>
+</div>
+
+<div className="mt-8 border-t border-slate-200 pt-8">
+  <h2 className="text-2xl font-semibold text-slate-900">
+    Experience and achievements
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">
+    Add your work history and measurable achievements. Include aviation experience or transferable experience.
+  </p>
+
+  <div className="mt-6 space-y-6">
+    <div>
+      <label
+        htmlFor="experience"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Work experience
+      </label>
+      <textarea
+        id="experience"
+        name="experience"
+        rows={7}
+        value={formData.experience}
+        onChange={handleChange}
+        placeholder="Add role title, company, location, dates and responsibilities. Example: Passenger Service Agent, ABC Handling, Heathrow Airport, 2022–Present."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="achievements"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Key achievements
+      </label>
+      <textarea
+        id="achievements"
+        name="achievements"
+        rows={5}
+        value={formData.achievements}
+        onChange={handleChange}
+        placeholder="Add measurable achievements where possible. Example: Supported 150+ passengers per shift, improved boarding efficiency, maintained safety compliance."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+  </div>
+</div>
+
+<div className="mt-8 border-t border-slate-200 pt-8">
+  <h2 className="text-2xl font-semibold text-slate-900">
+    Education, licences and training
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">
+    Add your education, aviation licences, certificates, safety training and systems knowledge.
+  </p>
+
+  <div className="mt-6 space-y-6">
+    <div>
+      <label
+        htmlFor="education"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Education
+      </label>
+      <textarea
+        id="education"
+        name="education"
+        rows={4}
+        value={formData.education}
+        onChange={handleChange}
+        placeholder="Add school, college, university, degree, diploma or relevant modules."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="licences"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Aviation licences
+      </label>
+      <textarea
+        id="licences"
+        name="licences"
+        rows={4}
+        value={formData.licences}
+        onChange={handleChange}
+        placeholder="e.g. PPL, CPL, ATPL theory, EASA/UK CAA modules, AME licence details, aircraft type ratings."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="certifications"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Certificates and training
+      </label>
+      <textarea
+        id="certifications"
+        name="certifications"
+        rows={4}
+        value={formData.certifications}
+        onChange={handleChange}
+        placeholder="e.g. Dangerous goods awareness, first aid, aviation security, manual handling, airside safety, cabin crew attestation, CRM."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="systems"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Aviation systems and tools
+      </label>
+      <textarea
+        id="systems"
+        name="systems"
+        rows={4}
+        value={formData.systems}
+        onChange={handleChange}
+        placeholder="e.g. Amadeus, Sabre, Galileo, Altea, WorldTracer, AIMS, Jeppesen, maintenance tracking systems, Microsoft Office."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+  </div>
+</div>
+
+<div className="mt-8 border-t border-slate-200 pt-8">
+  <h2 className="text-2xl font-semibold text-slate-900">
+    Additional information
+  </h2>
+
+  <div className="mt-6 space-y-6">
+    <div>
+      <label
+        htmlFor="additionalInfo"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Additional information
+      </label>
+      <textarea
+        id="additionalInfo"
+        name="additionalInfo"
+        rows={4}
+        value={formData.additionalInfo}
+        onChange={handleChange}
+        placeholder="Add optional professional information such as relocation flexibility, shift work availability, airport ID experience or airside experience."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="references"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        References
+      </label>
+      <input
+        id="references"
+        name="references"
+        type="text"
+        value={formData.references}
+        onChange={handleChange}
+        placeholder="e.g. References available on request"
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+  </div>
+</div>
 
             <button
               type="submit"
