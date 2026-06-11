@@ -494,6 +494,14 @@ const careerPaths: Record<string, string[]> = {
     Home
   </a>
 
+  <a href="/career-coach" className="transition hover:text-blue-400">
+  Career Assessment
+</a>
+
+<a href="/cv-checker" className="transition hover:text-blue-400">
+  CV Checker
+</a>
+
   <a href="/about" className="transition hover:text-blue-400">
     About Us
   </a>
@@ -593,45 +601,45 @@ const careerPaths: Record<string, string[]> = {
     <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       {[
         {
-          icon: "🎤",
-          title: "Interview Preparation",
-          desc: "Prepare with confidence using airport-specific interview questions and answer coaching.",
-          benefits: ["Role-specific questions", "Instant feedback & tips"],
-          href: "/interview-prep",
-          iconBg: "bg-blue-600",
-          button: "bg-blue-600 hover:bg-blue-500",
-          tick: "text-blue-600",
-        },
-        {
-          icon: "✍️",
-          title: "Cover Letter Generator",
-          desc: "Create job-winning cover letters tailored for airport and aviation careers.",
-          benefits: ["Customised for your role", "Professional templates"],
-          href: "/cover-letter",
-          iconBg: "bg-emerald-500",
-          button: "bg-emerald-500 hover:bg-emerald-400",
-          tick: "text-emerald-600",
-        },
-        {
-          icon: "🧭",
-          title: "Airport Career Coach",
-          desc: "Get personalised career guidance and discover your best next career move.",
-          benefits: ["Personalised insights", "Career recommendations"],
-          href: "/career-coach",
-          iconBg: "bg-purple-500",
-          button: "bg-purple-500 hover:bg-purple-400",
-          tick: "text-purple-600",
-        },
-        {
-          icon: "👩‍✈️",
-          title: "Cabin Crew CV Optimiser",
-          desc: "Optimise your CV for cabin crew roles and airline recruitment success.",
-          benefits: ["Cabin crew CV tips", "Airline-focused advice"],
-          href: "/cabin-crew-cv",
-          iconBg: "bg-orange-500",
-          button: "bg-orange-500 hover:bg-orange-400",
-          tick: "text-orange-600",
-        },
+    icon: "🧭",
+    title: "Aviation Career Assessment",
+    desc: "Discover which aviation, airport or airline career path best fits your background, education and goals.",
+    benefits: ["Role suitability guidance", "Personalised next steps"],
+    href: "/career-coach",
+    iconBg: "bg-purple-500",
+    button: "bg-purple-500 hover:bg-purple-400",
+    tick: "text-purple-600",
+  },
+  {
+    icon: "📄",
+    title: "Aviation CV Checker",
+    desc: "Check your CV against your target aviation role and identify missing keywords, skills and ATS issues.",
+    benefits: ["ATS-style feedback", "Premium report preview"],
+    href: "/cv-checker",
+    iconBg: "bg-blue-600",
+    button: "bg-blue-600 hover:bg-blue-500",
+    tick: "text-blue-600",
+  },
+  {
+    icon: "✍️",
+    title: "Cover Letter Generator",
+    desc: "Create tailored cover letters for airport, airline and aviation applications.",
+    benefits: ["Role-specific wording", "Professional structure"],
+    href: "/cover-letter",
+    iconBg: "bg-emerald-500",
+    button: "bg-emerald-500 hover:bg-emerald-400",
+    tick: "text-emerald-600",
+  },
+  {
+    icon: "🎤",
+    title: "Interview Preparation",
+    desc: "Practise role-specific aviation interview questions and prepare stronger answers.",
+    benefits: ["Airport interview questions", "Confidence-building practice"],
+    href: "/interview-prep",
+    iconBg: "bg-orange-500",
+    button: "bg-orange-500 hover:bg-orange-400",
+    tick: "text-orange-600",
+  },
       ].map((item) => (
         <div
           key={item.title}
