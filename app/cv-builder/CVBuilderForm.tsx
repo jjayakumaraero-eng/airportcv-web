@@ -338,9 +338,11 @@ function getExperienceDates(experience: WorkExperience) {
 }
 
 export default function CVBuilderForm() {
-  const [formData, setFormData] = useState<FormData>(initialFormData);
-  const [previewStarted, setPreviewStarted] = useState(false);
+ const [formData, setFormData] = useState<FormData>(initialFormData);
+const [previewStarted, setPreviewStarted] = useState(false);
 const [generateMessage, setGenerateMessage] = useState("");
+const [isGenerating, setIsGenerating] = useState(false);
+const [generatedCV, setGeneratedCV] = useState<any>(null);
 
   function handleTextChange(
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -465,11 +467,36 @@ function removeEducationItem(id: string) {
     event.preventDefault();
     setPreviewStarted(true);
   }
-  function handleGenerateCV() {
+  async function handleGenerateCV() {
   setPreviewStarted(true);
-  setGenerateMessage(
-    "CV generation will be added in the next step. For now, review your details in the ATS-friendly preview."
-  );
+  setGenerateMessage("");
+  setGeneratedCV(null);
+  setIsGenerating(true);
+
+  try {
+    const response = await fetch("/api/cv-builder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "CV generation failed");
+    }
+
+    setGeneratedCV(data.cv);
+  } catch (error) {
+    console.error("Generate CV error:", error);
+    setGenerateMessage(
+      "We could not generate your CV right now. Please check your details and try again shortly."
+    );
+  } finally {
+    setIsGenerating(false);
+  }
 }
 
   const skillsPreview = joinItems(formData.selectedSkills, formData.otherSkills);
@@ -1464,18 +1491,165 @@ function removeEducationItem(id: string) {
     Preview my CV details
   </button>
 
-  <button
-    type="button"
-    onClick={handleGenerateCV}
-    className="rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800"
-  >
-    Generate my aviation CV
-  </button>
+ <button
+  type="button"
+  onClick={handleGenerateCV}
+  disabled={isGenerating}
+  className="rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-blue-300"
+>
+  {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
+</button>
 </div>
 
 {generateMessage && (
   <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
     {generateMessage}
+  </div>
+)}
+{generatedCV && (
+  <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6">
+    <h2 className="text-2xl font-semibold text-slate-900">
+      Generated aviation CV draft
+    </h2>
+
+    <p className="mt-2 text-sm text-slate-600">
+      Review this draft carefully before using it. You can copy sections into
+      your CV and then check the final version with the Aviation CV Checker.
+    </p>
+
+    <div className="mt-6 space-y-6 text-sm text-slate-800">
+      <section>
+        <h3 className="text-lg font-bold uppercase tracking-wide text-slate-900">
+          {generatedCV.cvTitle}
+        </h3>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          Professional Profile
+        </h3>
+        <p className="mt-2 whitespace-pre-line">
+          {generatedCV.professionalProfile}
+        </p>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          Key Skills
+        </h3>
+        <ul className="mt-2 list-disc space-y-1 pl-5">
+          {generatedCV.keySkills?.map((skill: string) => (
+            <li key={skill}>{skill}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          Work Experience
+        </h3>
+        <div className="mt-2 space-y-5">
+          {generatedCV.workExperience?.map(
+            (
+              experience: {
+                jobTitle: string;
+                companyName: string;
+                location: string;
+                dates: string;
+                bullets: string[];
+              },
+              index: number
+            ) => (
+              <div key={`${experience.jobTitle}-${index}`}>
+                <p className="font-semibold text-slate-900">
+                  {experience.jobTitle}
+                  {experience.companyName ? ` | ${experience.companyName}` : ""}
+                </p>
+                <p>
+                  {experience.location} | {experience.dates}
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5">
+                  {experience.bullets?.map((bullet: string) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+              </div>
+            )
+          )}
+        </div>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          Education
+        </h3>
+        <div className="mt-2 space-y-4">
+          {generatedCV.education?.map(
+            (
+              item: {
+                qualification: string;
+                institution: string;
+                location: string;
+                date: string;
+                details: string;
+              },
+              index: number
+            ) => (
+              <div key={`${item.qualification}-${index}`}>
+                <p className="font-semibold text-slate-900">
+                  {item.qualification}
+                  {item.institution ? ` | ${item.institution}` : ""}
+                </p>
+                <p>
+                  {item.location} | {item.date}
+                </p>
+                {item.details && <p className="mt-1">{item.details}</p>}
+              </div>
+            )
+          )}
+        </div>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          Licences and Training
+        </h3>
+        <ul className="mt-2 list-disc space-y-1 pl-5">
+          {generatedCV.licencesAndTraining?.map((item: string) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          Systems and Tools
+        </h3>
+        <ul className="mt-2 list-disc space-y-1 pl-5">
+          {generatedCV.systemsAndTools?.map((item: string) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          Additional Information
+        </h3>
+        <ul className="mt-2 list-disc space-y-1 pl-5">
+          {generatedCV.additionalInformation?.map((item: string) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 className="font-bold uppercase tracking-wide text-slate-900">
+          References
+        </h3>
+        <p className="mt-2">{generatedCV.references}</p>
+      </section>
+    </div>
   </div>
 )}
 

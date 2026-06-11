@@ -23,21 +23,24 @@ export async function POST(request: Request) {
     const prompt = `
 You are an expert UK aviation CV writer.
 
-Create a professional, ATS-friendly UK-style aviation CV draft using the candidate information below.
-
+Create a professional, ATS-friendly UK-style aviation CV draft by rewriting and structuring ONLY the candidate information below.
 The CV must be suitable for aviation, airport, airline, cabin crew, pilot, aircraft engineering, ground handling, cargo, security or flight operations roles.
 
 Important rules:
 - Use UK CV style.
+- Use ONLY the candidate information provided.
+- Do NOT invent employers, job titles, dates, locations, licences, certificates, education, systems, tools, achievements, responsibilities or personal details.
+- Do NOT add experience that the candidate did not provide.
+- Do NOT add qualifications, aviation licences or training unless they appear in the candidate information.
+- Do NOT create fake measurable achievements. Only use numbers or achievements if the candidate provided them.
+- If information is missing, return an empty string or an empty array for that section.
+- Do not use placeholders such as "Not provided", "N/A", "Your details here" or made-up examples.
+- You may improve wording, grammar, structure and professionalism, but you must not add new facts.
+- Use aviation keywords only when they are supported by the candidate's selected role, selected skills, selected licences, selected systems, job advert or written experience.
 - Do not include photo, date of birth, gender, marital status, religion, passport number, National Insurance number or full home address.
 - Use clear ATS-friendly headings.
 - Avoid tables, columns, graphics, icons and complex formatting.
-- Use aviation keywords naturally.
-- Tailor the CV to the target role.
 - Keep the tone professional, confident and realistic.
-- Do not invent licences, employers, degrees or certifications.
-- If information is missing, write a sensible placeholder or omit that detail.
-- Make work experience bullet points achievement-focused where possible.
 - Use British English spelling.
 
 Return ONLY valid JSON in this exact structure:
