@@ -17,6 +17,16 @@ endYear: string;
   achievements: string;
 };
 
+type EducationItem = {
+  id: string;
+  institutionName: string;
+  qualificationName: string;
+  location: string;
+  completionMonth: string;
+  completionYear: string;
+  details: string;
+};
+
 type MultiSelectField =
   | "selectedSkills"
   | "selectedSystems"
@@ -42,7 +52,7 @@ type FormData = {
 
   workExperiences: WorkExperience[];
 
-  education: string;
+  educationItems: EducationItem[];
   selectedLicences: string[];
   otherLicences: string;
   selectedCertifications: string[];
@@ -218,6 +228,17 @@ const yearOptions = Array.from({ length: 60 }, (_, index) =>
 );
 
 
+function createEducationItem(id: string): EducationItem {
+  return {
+    id,
+    institutionName: "",
+    qualificationName: "",
+    location: "",
+    completionMonth: "",
+    completionYear: "",
+    details: "",
+  };
+}
 function createWorkExperience(id: string): WorkExperience {
   return {
     id,
@@ -253,7 +274,7 @@ const initialFormData: FormData = {
 
   workExperiences: [createWorkExperience("experience-1")],
 
-  education: "",
+  educationItems: [createEducationItem("education-1")],
   selectedLicences: [],
   otherLicences: "",
   selectedCertifications: [],
@@ -386,6 +407,43 @@ endYear: checked ? "" : experience.endYear,
             ),
     }));
   }
+  function updateEducationItem(
+  id: string,
+  field: keyof Omit<EducationItem, "id">,
+  value: string
+) {
+  setFormData((currentData) => ({
+    ...currentData,
+    educationItems: currentData.educationItems.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            [field]: value,
+          }
+        : item
+    ),
+  }));
+}
+
+function addEducationItem() {
+  setFormData((currentData) => ({
+    ...currentData,
+    educationItems: [
+      ...currentData.educationItems,
+      createEducationItem(`education-${Date.now()}`),
+    ],
+  }));
+}
+
+function removeEducationItem(id: string) {
+  setFormData((currentData) => ({
+    ...currentData,
+    educationItems:
+      currentData.educationItems.length === 1
+        ? currentData.educationItems
+        : currentData.educationItems.filter((item) => item.id !== id),
+  }));
+}
 
   function toggleSelectedValue(field: MultiSelectField, value: string) {
     setFormData((currentData) => {
@@ -953,24 +1011,161 @@ endYear: checked ? "" : experience.endYear,
                 Education, licences and training
               </h2>
 
-              <div className="mt-6">
-                <label
-                  htmlFor="education"
-                  className="mb-2 block text-sm font-medium text-slate-800"
-                >
-                  Education
-                </label>
-                <textarea
-                  id="education"
-                  name="education"
-                  rows={4}
-                  value={formData.education}
-                  onChange={handleTextChange}
-                  placeholder="Add school, college, university, degree, diploma or relevant aviation modules."
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
+             <div className="mt-6">
+  <h3 className="text-lg font-semibold text-slate-900">Education</h3>
+  <p className="mt-2 text-sm text-slate-600">
+    Add school, college, university or aviation training. Add your highest or
+    most relevant qualification first.
+  </p>
 
+  <div className="mt-5 space-y-6">
+    {formData.educationItems.map((item, index) => (
+      <div
+        key={item.id}
+        className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+      >
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <h4 className="font-semibold text-slate-900">
+            Education {index + 1}
+          </h4>
+
+          {formData.educationItems.length > 1 && (
+            <button
+              type="button"
+              onClick={() => removeEducationItem(item.id)}
+              className="text-sm font-semibold text-red-600 hover:text-red-700"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              School, college or university
+            </label>
+            <input
+              type="text"
+              value={item.institutionName}
+              onChange={(event) =>
+                updateEducationItem(
+                  item.id,
+                  "institutionName",
+                  event.target.value
+                )
+              }
+              placeholder="e.g. University of West London"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Award, degree or qualification
+            </label>
+            <input
+              type="text"
+              value={item.qualificationName}
+              onChange={(event) =>
+                updateEducationItem(
+                  item.id,
+                  "qualificationName",
+                  event.target.value
+                )
+              }
+              placeholder="e.g. BSc Aviation Management"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Location
+            </label>
+            <input
+              type="text"
+              value={item.location}
+              onChange={(event) =>
+                updateEducationItem(item.id, "location", event.target.value)
+              }
+              placeholder="e.g. London, UK"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800">
+              Completion date
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <select
+                value={item.completionMonth}
+                onChange={(event) =>
+                  updateEducationItem(
+                    item.id,
+                    "completionMonth",
+                    event.target.value
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="">Month</option>
+                {monthOptions.map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={item.completionYear}
+                onChange={(event) =>
+                  updateEducationItem(
+                    item.id,
+                    "completionYear",
+                    event.target.value
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="">Year</option>
+                {yearOptions.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <label className="mb-2 block text-sm font-medium text-slate-800">
+            Details or relevant modules
+          </label>
+          <textarea
+            rows={4}
+            value={item.details}
+            onChange={(event) =>
+              updateEducationItem(item.id, "details", event.target.value)
+            }
+            placeholder="Add relevant modules, aviation projects, grades or achievements if useful."
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <button
+    type="button"
+    onClick={addEducationItem}
+    className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
+  >
+    + Add another education
+  </button>
+</div>
               <div className="mt-6">
                 <p className="mb-3 text-sm font-medium text-slate-800">
                   Suggested aviation licences
@@ -1374,13 +1569,36 @@ endYear: checked ? "" : experience.endYear,
 </section>
 
                   <section className="border-t border-slate-200 pt-4">
-                    <h3 className="font-bold uppercase tracking-wide text-slate-900">
-                      Education
-                    </h3>
-                    <p className="mt-2 whitespace-pre-line">
-                      {formData.education || "Education will appear here."}
-                    </p>
-                  </section>
+  <h3 className="font-bold uppercase tracking-wide text-slate-900">
+    Education
+  </h3>
+
+  <div className="mt-2 space-y-5">
+    {formData.educationItems.map((item) => {
+      const completionDate =
+        item.completionMonth && item.completionYear
+          ? `${item.completionMonth} ${item.completionYear}`
+          : "Completion date";
+
+      return (
+        <div key={item.id}>
+          <p className="font-semibold text-slate-900">
+            {item.qualificationName || "Qualification"}
+            {item.institutionName ? ` | ${item.institutionName}` : ""}
+          </p>
+
+          <p>
+            {item.location || "Location"} | {completionDate}
+          </p>
+
+          <p className="mt-2 whitespace-pre-line">
+            {item.details || "Education details will appear here."}
+          </p>
+        </div>
+      );
+    })}
+  </div>
+</section>
 
                   <section className="border-t border-slate-200 pt-4">
                     <h3 className="font-bold uppercase tracking-wide text-slate-900">
