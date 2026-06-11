@@ -510,7 +510,7 @@ const careerPaths: Record<string, string[]> = {
 </div>
 
       <a
-        href="/cv-checker"
+        href="/career-coach"
         className="rounded-xl bg-blue-600 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 sm:px-5 sm:py-3 sm:text-sm"
       >
         Get Started Free
@@ -551,18 +551,18 @@ const careerPaths: Record<string, string[]> = {
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">
         <a
-          href="#tools"
+          href="/career-coach"
           className="rounded-xl bg-blue-600 px-7 py-4 text-center font-bold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-500"
         >
-          Get Your Free Career Assessment →
+          Get Your Free Aviation Career Assessment →
         </a>
 
         <a
-          href="#how-it-works"
-          className="rounded-xl border border-white/30 px-7 py-4 text-center font-bold text-white hover:bg-white/10"
-        >
-          Learn More
-        </a>
+  href="/cv-checker"
+  className="rounded-xl border border-white/30 px-7 py-4 text-center font-bold text-white hover:bg-white/10"
+>
+  Check My CV
+</a>
       </div>
 
       <div className="mt-10 flex items-center gap-4">
@@ -772,10 +772,10 @@ role matching and professional improvement recommendations.
 
         <div>
           <a
-            href="/cv-checker"
+            href="/career-coach"
             className="inline-flex items-center rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
           >
-            Get Your Free Career Assessment →
+            Get Your Free Aviation Career Assessment →
           </a>
         </div>
 

@@ -5,16 +5,29 @@ import CvUpload from "@/components/CvUpload";
 
 const roles = [
   "Passenger Service Agent",
+  "Check-in Agent",
+  "Boarding Gate Agent",
+  "Lounge Agent",
   "Ramp Agent",
   "Baggage Handler",
   "Airport Security Officer",
   "Flight Dispatcher",
   "Load Controller",
-  "Other",
+  "Cabin Crew",
+  "Pilot",
+  "Aircraft Maintenance Engineer",
+  "Aircraft Technician",
+  "Cargo Agent",
+  "Airport Operations Officer",
+  "Airport Duty Manager",
+  "Other Airport / Airline Role",
 ];
 
 export default function CareerCoachPage() {
   const [careerStatus, setCareerStatus] = useState("Starting my career");
+  const [fullName, setFullName] = useState("");
+const [location, setLocation] = useState("");
+const [educationLevel, setEducationLevel] = useState("");
   const [yearsExperience, setYearsExperience] = useState("");
   const [experienceField, setExperienceField] = useState("");
   const [currentJobTitle, setCurrentJobTitle] = useState("");
@@ -43,10 +56,13 @@ export default function CareerCoachPage() {
         careerStatus,
         yearsExperience,
         experienceField,
+        fullName,
+        location,
+        educationLevel,
         leadershipExperience,
         careerGoal,
         currentJobTitle,
-        targetRole: targetRole === "Other" ? customRole : targetRole,
+        targetRole: targetRole === "Other Airport / Airline Role" ? customRole : targetRole,
         cvText,
         experienceDescription,
       }),
@@ -73,19 +89,67 @@ export default function CareerCoachPage() {
 
         <div className="mt-8 rounded-3xl bg-white p-8 shadow-sm">
           <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
-            Airport Career Coach
-          </p>
+  Aviation Career Assessment
+</p>
 
-          <h1 className="mt-3 text-4xl font-bold">
-            Discover Your Best Next Airport Career Move
-          </h1>
+<h1 className="mt-3 text-4xl font-bold">
+  Discover Which Aviation Career Is Right For You
+</h1>
 
-          <p className="mt-4 max-w-2xl text-slate-600">
-            Answer a few questions and receive personalised airport career guidance,
-            promotion readiness insights and recommended roles to target next.
-          </p>
+<p className="mt-4 max-w-2xl text-slate-600">
+  Complete a free aviation career assessment to discover your suitability for airport,
+  airline and aviation roles, identify skill gaps and receive personalised career recommendations.
+</p>
 
           <div className="mt-8 grid gap-6">
+            <div>
+  <label className="block text-sm font-semibold">
+    Full Name
+  </label>
+
+  <input
+    value={fullName}
+    onChange={(e) => setFullName(e.target.value)}
+    placeholder="Enter your full name"
+    className="mt-2 w-full rounded-xl border px-4 py-3"
+  />
+</div>
+
+<div>
+  <label className="block text-sm font-semibold">
+    Country / Location
+  </label>
+
+  <input
+    value={location}
+    onChange={(e) => setLocation(e.target.value)}
+    placeholder="Example: London, United Kingdom"
+    className="mt-2 w-full rounded-xl border px-4 py-3"
+  />
+</div>
+
+<div>
+  <label className="block text-sm font-semibold">
+    Highest Education Level
+  </label>
+
+  <select
+    value={educationLevel}
+    onChange={(e) => setEducationLevel(e.target.value)}
+    className="mt-2 w-full rounded-xl border px-4 py-3"
+  >
+    <option value="">Select education level</option>
+    <option>High School / Secondary School</option>
+    <option>College Diploma</option>
+    <option>Vocational Qualification</option>
+    <option>Bachelor's Degree</option>
+    <option>Master's Degree</option>
+    <option>Doctorate / PhD</option>
+    <option>Professional Aviation Qualification</option>
+    <option>Other</option>
+  </select>
+</div>
+
             <div>
               <label className="block text-sm font-semibold">
                 Current Career Stage
@@ -177,7 +241,7 @@ export default function CareerCoachPage() {
 
             <div>
               <label className="block text-sm font-semibold">
-                What Would You Like Help With?
+                What Is Your Main Aviation Career Goal?
               </label>
               <select
                 value={careerGoal}
@@ -185,36 +249,67 @@ export default function CareerCoachPage() {
                 className="mt-2 w-full rounded-xl border px-4 py-3"
               >
                 <option value="">Select your goal</option>
-                <option>Get my first airport job</option>
-                <option>Find the best airport role for my experience</option>
-                <option>Progress to a Team Leader or Supervisor role</option>
-                <option>Progress into management</option>
-                <option>Change career into the airport industry</option>
-                <option>Plan my long-term airport career path</option>
-                <option>Not sure – explore my options</option>
+
+<option>Get my first aviation job</option>
+
+<option>
+  Find the best aviation role for my experience
+</option>
+
+<option>Become Cabin Crew</option>
+
+<option>Become a Pilot</option>
+
+<option>
+  Become an Aircraft Maintenance Engineer
+</option>
+
+<option>
+  Become an Airport Operations Professional
+</option>
+
+<option>
+  Progress to Team Leader / Supervisor
+</option>
+
+<option>
+  Progress into Management
+</option>
+
+<option>
+  Change career into aviation
+</option>
+
+<option>
+  Plan my long-term aviation career path
+</option>
+
+<option>
+  Not sure – explore my options
+</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-semibold">
-                Specific Role You're Interested In Optional
+                Target Aviation Role (Optional)
               </label>
               <select
                 value={targetRole}
                 onChange={(e) => setTargetRole(e.target.value)}
                 className="mt-2 w-full rounded-xl border px-4 py-3"
               >
-                <option value="">Leave blank if you're exploring options</option>
+                <option value="">I'm not sure yet - recommend suitable aviation careers</option>
                 {roles.map((r) => (
                   <option key={r}>{r}</option>
                 ))}
               </select>
 
-              {targetRole === "Other" && (
+              {targetRole === "Other Airport / Airline Role" && (
                 <input
                   value={customRole}
                   onChange={(e) => setCustomRole(e.target.value)}
-                  placeholder="Type your target airport role"
+                  placeholder="Type your exact aviation, airport or airline role"
                   className="mt-3 w-full rounded-xl border px-4 py-3"
                 />
               )}
@@ -249,7 +344,9 @@ export default function CareerCoachPage() {
               disabled={loading}
               className="rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white hover:bg-blue-500 disabled:bg-slate-400"
             >
-              {loading ? "Creating Your Career Plan..." : "Get My Career Plan"}
+              {loading
+  ? "Assessing Your Aviation Career Options..."
+  : "Get My Free Aviation Career Assessment"}
             </button>
           </div>
 
@@ -259,17 +356,18 @@ export default function CareerCoachPage() {
             </div>
           )}
 
-          {result && (
-            <div className="mt-10 space-y-6">
-              <div className="rounded-3xl border border-blue-100 bg-blue-50 p-6">
-                <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">
-                  Promotion Readiness
-                </p>
+         {result && (
+  <div className="mt-10 space-y-6">
 
-                <h2 className="mt-2 text-2xl font-bold text-slate-900">
-                  {result.promotionReadiness}
-                </h2>
-              </div>
+    <div className="rounded-3xl border border-blue-100 bg-blue-50 p-6">
+      <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">
+        Aviation Career Suitability
+      </p>
+
+      <h2 className="mt-2 text-2xl font-bold text-slate-900">
+        {result.promotionReadiness}
+      </h2>
+    </div>
 
               <div className="rounded-3xl bg-blue-50 p-6">
                 <p className="text-sm font-semibold text-blue-700">
@@ -290,8 +388,8 @@ export default function CareerCoachPage() {
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="rounded-3xl bg-white p-6 shadow-sm">
                   <h3 className="text-xl font-bold">
-                    Recommended Roles To Apply For Now
-                  </h3>
+  Recommended Aviation Roles
+</h3>
 
                   <ul className="mt-3 list-disc pl-5 text-slate-700">
                     {result.rolesToApplyNow?.map((item: string) => (
@@ -301,7 +399,9 @@ export default function CareerCoachPage() {
                 </div>
 
                 <div className="rounded-3xl bg-white p-6 shadow-sm">
-                  <h3 className="text-xl font-bold">Your Next Career Step</h3>
+                  <h3 className="text-xl font-bold">
+  Future Career Pathways
+</h3>
 
                   <ul className="mt-3 list-disc pl-5 text-slate-700">
                     {result.rolesToTargetLater?.map((item: string) => (
@@ -312,7 +412,9 @@ export default function CareerCoachPage() {
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-bold">Skills to Build</h3>
+                <h3 className="text-xl font-bold">
+  Skills & Qualifications To Develop
+</h3>
 
                 <div className="mt-3 flex flex-wrap gap-2">
                   {result.skillsToBuild?.map((item: string) => (
@@ -327,7 +429,9 @@ export default function CareerCoachPage() {
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-bold">CV Positioning Advice</h3>
+                <h3 className="text-xl font-bold">
+  How To Strengthen Your Application
+</h3>
 
                 <ul className="mt-3 list-disc pl-5 text-slate-700">
                   {result.cvPositioningAdvice?.map((item: string) => (
@@ -345,6 +449,48 @@ export default function CareerCoachPage() {
                   ))}
                 </ol>
               </div>
+<div className="rounded-3xl bg-slate-950 p-6 text-white shadow-sm">
+  <h3 className="text-xl font-bold">
+    Recommended AirportCV Tools
+  </h3>
+
+  <p className="mt-2 text-slate-300">
+    Based on your assessment, continue with the tools below to improve your aviation applications.
+  </p>
+
+  <div className="mt-5 grid gap-4 md:grid-cols-3">
+    <a
+      href="/cv-checker"
+      className="rounded-2xl bg-white/10 p-4 transition hover:bg-white/15"
+    >
+      <h4 className="font-bold">Check My CV</h4>
+      <p className="mt-2 text-sm text-slate-300">
+        Test your CV against your target aviation role.
+      </p>
+    </a>
+
+    <a
+      href="/cover-letter"
+      className="rounded-2xl bg-white/10 p-4 transition hover:bg-white/15"
+    >
+      <h4 className="font-bold">Cover Letter Generator</h4>
+      <p className="mt-2 text-sm text-slate-300">
+        Create a tailored aviation cover letter.
+      </p>
+    </a>
+
+    <a
+      href="/interview-prep"
+      className="rounded-2xl bg-white/10 p-4 transition hover:bg-white/15"
+    >
+      <h4 className="font-bold">Interview Preparation</h4>
+      <p className="mt-2 text-sm text-slate-300">
+        Practise role-specific aviation interview questions.
+      </p>
+    </a>
+  </div>
+</div>
+
             </div>
           )}
         </div>
