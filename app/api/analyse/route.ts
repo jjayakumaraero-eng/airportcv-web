@@ -181,20 +181,27 @@ Rules:
       premiumReport: parsed.premiumReport,
     });
   } catch (error) {
-    console.error("AIRPORTCV API ERROR FULL:", error);
-    console.error(
-      "AIRPORTCV API ERROR MESSAGE:",
-      error instanceof Error ? error.message : String(error)
-    );
+  console.error("AIRPORTCV API ERROR FULL:", error);
 
+  const message =
+    error instanceof Error ? error.message : String(error);
+
+  if (message.includes("429") || message.includes("quota")) {
     return NextResponse.json(
-  {
-    error:
-      error instanceof Error
-        ? error.message
-        : String(error),
-  },
-  { status: 500 }
-);
+      {
+        error:
+          "AirportCV is currently processing a high number of assessments. Please try again shortly.",
+      },
+      { status: 429 }
+    );
+  }
+
+  return NextResponse.json(
+    {
+      error:
+        "AirportCV AI is busy right now. Please try again in a minute.",
+    },
+    { status: 500 }
+  );
 }
 }
