@@ -30,6 +30,7 @@ Important rules:
 - Use UK CV style.
 - Use ONLY the candidate information provided.
 - Do NOT invent employers, job titles, dates, locations, licences, certificates, education, systems, tools, achievements, responsibilities or personal details.
+- The "cvTitle" must be the candidate's full name only. Do not add the target role, "CV", "resume", or extra title wording.
 - Do NOT add experience that the candidate did not provide.
 - Do NOT add qualifications, aviation licences or training unless they appear in the candidate information.
 - Do NOT create fake measurable achievements. Only use numbers or achievements if the candidate provided them.

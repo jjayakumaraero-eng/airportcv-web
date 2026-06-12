@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { type ChangeEvent, type FormEvent, useState } from "react";
-
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+} from "docx";
 type WorkExperience = {
   id: string;
   jobTitle: string;
@@ -343,6 +350,8 @@ const [previewStarted, setPreviewStarted] = useState(false);
 const [generateMessage, setGenerateMessage] = useState("");
 const [isGenerating, setIsGenerating] = useState(false);
 const [generatedCV, setGeneratedCV] = useState<any>(null);
+const [downloadMessage, setDownloadMessage] = useState("");
+const [isDownloading, setIsDownloading] = useState(false);
 
   function handleTextChange(
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -467,6 +476,242 @@ function removeEducationItem(id: string) {
     event.preventDefault();
     setPreviewStarted(true);
   }
+  async function handleDownloadWord() {
+  if (!generatedCV) return;
+
+  setIsDownloading(true);
+  setDownloadMessage("");
+
+  try {
+    const children: Paragraph[] = [
+  new Paragraph({
+    children: [
+      new TextRun({
+        text: generatedCV.cvTitle || "Aviation CV",
+        bold: true,
+        size: 32,
+      }),
+    ],
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 300 },
+  }),
+];
+
+if (generatedCV.professionalProfile) {
+  children.push(
+    new Paragraph({
+      text: "PROFESSIONAL PROFILE",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 200, after: 100 },
+    }),
+    new Paragraph({
+      text: generatedCV.professionalProfile,
+      spacing: { after: 200 },
+    })
+  );
+}
+
+if (generatedCV.keySkills?.length) {
+  children.push(
+    new Paragraph({
+      text: "KEY SKILLS",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 200, after: 100 },
+    }),
+    ...generatedCV.keySkills.map(
+      (skill: string) =>
+        new Paragraph({
+          text: skill,
+          bullet: { level: 0 },
+        })
+    )
+  );
+}
+
+if (generatedCV.workExperience?.length) {
+  children.push(
+    new Paragraph({
+      text: "WORK EXPERIENCE",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 300, after: 100 },
+    }),
+    ...generatedCV.workExperience.flatMap(
+      (experience: {
+        jobTitle: string;
+        companyName: string;
+        location: string;
+        dates: string;
+        bullets: string[];
+      }) => [
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `${experience.jobTitle || ""}${
+                experience.companyName ? ` | ${experience.companyName}` : ""
+              }`,
+              bold: true,
+            }),
+          ],
+          spacing: { before: 150 },
+        }),
+        ...(experience.location || experience.dates
+          ? [
+              new Paragraph({
+                text: `${experience.location || ""}${
+                  experience.dates ? ` | ${experience.dates}` : ""
+                }`,
+                spacing: { after: 80 },
+              }),
+            ]
+          : []),
+        ...(experience.bullets || []).map(
+          (bullet: string) =>
+            new Paragraph({
+              text: bullet,
+              bullet: { level: 0 },
+            })
+        ),
+      ]
+    )
+  );
+}
+
+if (generatedCV.education?.length) {
+  children.push(
+    new Paragraph({
+      text: "EDUCATION",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 300, after: 100 },
+    }),
+    ...generatedCV.education.flatMap(
+      (item: {
+        qualification: string;
+        institution: string;
+        location: string;
+        date: string;
+        details: string;
+      }) => [
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `${item.qualification || ""}${
+                item.institution ? ` | ${item.institution}` : ""
+              }`,
+              bold: true,
+            }),
+          ],
+          spacing: { before: 150 },
+        }),
+        ...(item.location || item.date
+          ? [
+              new Paragraph({
+                text: `${item.location || ""}${item.date ? ` | ${item.date}` : ""}`,
+              }),
+            ]
+          : []),
+        ...(item.details
+          ? [
+              new Paragraph({
+                text: item.details,
+                spacing: { after: 100 },
+              }),
+            ]
+          : []),
+      ]
+    )
+  );
+}
+
+if (generatedCV.licencesAndTraining?.length) {
+  children.push(
+    new Paragraph({
+      text: "LICENCES AND TRAINING",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 300, after: 100 },
+    }),
+    ...generatedCV.licencesAndTraining.map(
+      (item: string) =>
+        new Paragraph({
+          text: item,
+          bullet: { level: 0 },
+        })
+    )
+  );
+}
+
+if (generatedCV.systemsAndTools?.length) {
+  children.push(
+    new Paragraph({
+      text: "SYSTEMS AND TOOLS",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 300, after: 100 },
+    }),
+    ...generatedCV.systemsAndTools.map(
+      (item: string) =>
+        new Paragraph({
+          text: item,
+          bullet: { level: 0 },
+        })
+    )
+  );
+}
+
+if (generatedCV.additionalInformation?.length) {
+  children.push(
+    new Paragraph({
+      text: "ADDITIONAL INFORMATION",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 300, after: 100 },
+    }),
+    ...generatedCV.additionalInformation.map(
+      (item: string) =>
+        new Paragraph({
+          text: item,
+          bullet: { level: 0 },
+        })
+    )
+  );
+}
+
+if (generatedCV.references) {
+  children.push(
+    new Paragraph({
+      text: "REFERENCES",
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 300, after: 100 },
+    }),
+    new Paragraph({
+      text: generatedCV.references,
+    })
+  );
+}
+
+   const wordDocument = new Document({
+  sections: [
+    {
+      properties: {},
+      children,
+    },
+  ],
+});
+
+const blob = await Packer.toBlob(wordDocument);
+const url = URL.createObjectURL(blob);
+
+const link = window.document.createElement("a");
+    link.href = url;
+    link.download = `${formData.fullName || "aviation-cv"}-airportcv.docx`;
+    link.click();
+
+    URL.revokeObjectURL(url);
+    setDownloadMessage("Word document downloaded.");
+  } catch (error) {
+    console.error("Word download error:", error);
+    setDownloadMessage("Could not download the Word document. Please try again.");
+  } finally {
+    setIsDownloading(false);
+  }
+}
   async function handleGenerateCV() {
   setPreviewStarted(true);
   setGenerateMessage("");
@@ -1508,14 +1753,31 @@ function removeEducationItem(id: string) {
 )}
 {generatedCV && (
   <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-    <h2 className="text-2xl font-semibold text-slate-900">
-      Generated aviation CV draft
-    </h2>
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+  <h2 className="text-2xl font-semibold text-slate-900">
+    Generated aviation CV draft
+  </h2>
 
-    <p className="mt-2 text-sm text-slate-600">
-      Review this draft carefully before using it. You can copy sections into
-      your CV and then check the final version with the Aviation CV Checker.
-    </p>
+  <button
+    type="button"
+    onClick={handleDownloadWord}
+    disabled={isDownloading}
+    className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+  >
+    {isDownloading ? "Preparing Word file..." : "Download Word"}
+  </button>
+</div>
+
+   <p className="mt-2 text-sm text-slate-600">
+  Review this draft carefully before using it. Download it as a Word document,
+  edit it if needed, then check the final version with the Aviation CV Checker.
+</p>
+
+{downloadMessage && (
+  <div className="mt-4 rounded-xl bg-green-50 p-3 text-sm font-medium text-green-800">
+    {downloadMessage}
+  </div>
+)}
 
     <div className="mt-6 space-y-6 text-sm text-slate-800">
       <section>
