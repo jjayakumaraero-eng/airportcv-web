@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import CvUpload from "@/components/CvUpload";
-
+import Link from "next/link";
 const roles = [
   "Passenger Service Agent",
   "Check-in Agent",
@@ -164,6 +164,19 @@ export default function CoverLetterPage() {
               </p>
             </div>
           )}
+          <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4">
+  <p className="text-sm text-blue-950">
+    Ready for the next stage? Practise aviation interview questions for the same
+    target role.
+  </p>
+
+  <Link
+    href="/interview-prep"
+    className="mt-3 inline-flex rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+  >
+    Prepare for interview questions
+  </Link>
+</div>
         </div>
       </div>
     </main>
