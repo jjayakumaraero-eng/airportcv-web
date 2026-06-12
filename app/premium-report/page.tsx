@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toPng } from "html-to-image";
-import jsPDF from "jspdf";
 import PremiumAssessmentReport from "@/components/PremiumAssessmentReport";
 
 type StoredReport = {
@@ -22,33 +20,7 @@ export default function PremiumReportPage() {
     }
   }, []);
 
-  async function downloadAssessmentReportPdf() {
-    try {
-      const element = document.getElementById("premium-report-pdf");
-
-      if (!element) {
-        alert("Report is not ready yet.");
-        return;
-      }
-
-      const imgData = await toPng(element, {
-        cacheBust: true,
-        pixelRatio: 2,
-        backgroundColor: "#ffffff",
-      });
-
-      const pdf = new jsPDF("p", "mm", "a4");
-      pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
-      pdf.save("airportcv-assessment-report.pdf");
-    } catch (error) {
-      console.error("PDF DOWNLOAD ERROR:", error);
-      alert(
-        `PDF ERROR: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
-    }
-  }
+  
 
   if (!data) {
     return (
@@ -83,17 +55,12 @@ export default function PremiumReportPage() {
             Your Full Aviation Career Assessment
           </h1>
 
-          <p className="mt-2 text-slate-600">
-            Review your full report below and download your professional PDF copy.
-          </p>
+         <p className="mt-2 text-slate-600">
+  Review your full aviation career assessment report below.
+</p>
         </div>
 
-        <button
-          onClick={downloadAssessmentReportPdf}
-          className="rounded-xl bg-slate-950 px-8 py-4 font-bold text-white transition hover:bg-slate-800"
-        >
-          Download PDF Report
-        </button>
+        
       </div>
 
       <div className="overflow-x-auto">
