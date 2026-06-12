@@ -40,6 +40,7 @@ type MultiSelectField =
   | "selectedLicences"
   | "selectedCertifications";
 
+  
 type FormData = {
   fullName: string;
   targetRole: string;
@@ -775,7 +776,23 @@ const link = window.document.createElement("a");
   strengthen your CV for your target role.
 </p>
         </div>
-
+<div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950">
+  <p className="font-semibold">Privacy note</p>
+  <p className="mt-2">
+    Your CV details may contain personal information. AirportCV uses the
+    information you provide only to generate your aviation CV draft. Only include
+    details that are useful for your CV. Avoid unnecessary sensitive information
+    such as passport numbers, National Insurance numbers, full home address,
+    date of birth, health information or financial details.
+  </p>
+  <p className="mt-2">
+    Read our{" "}
+    <Link href="/privacy" className="font-semibold underline">
+      Privacy Policy
+    </Link>
+    .
+  </p>
+</div>
         <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
           <form
             onSubmit={handleSubmit}
@@ -785,13 +802,16 @@ const link = window.document.createElement("a");
               <h2 className="text-2xl font-semibold text-slate-900">
                 CV heading
               </h2>
+              
               <p className="mt-2 text-sm text-slate-600">
                 Add the contact details you want shown at the top of your CV.
               </p>
             </div>
+            
 
             <div className="mt-6 grid gap-5 md:grid-cols-2">
               <div>
+               
                 <label
                   htmlFor="fullName"
                   className="mb-2 block text-sm font-medium text-slate-800"
