@@ -139,7 +139,23 @@ export default function CoverLetterPage() {
                 className="mt-2 h-40 w-full rounded-xl border px-4 py-3"
               />
             </div>
-
+<div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950">
+  <p className="font-semibold">Privacy note</p>
+  <p className="mt-2">
+    The details you provide may contain personal information from your CV,
+    job history or target role. AirportCV uses this information only to generate
+    your aviation cover letter. Avoid unnecessary sensitive information such as
+    passport numbers, National Insurance numbers, full home address, date of
+    birth, health information or financial details.
+  </p>
+  <p className="mt-2">
+    Read our{" "}
+    <Link href="/privacy" className="font-semibold underline">
+      Privacy Policy
+    </Link>
+    .
+  </p>
+</div>
             <button
               onClick={generateCoverLetter}
               disabled={loading}
