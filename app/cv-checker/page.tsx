@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
 import PremiumAssessmentReport from "@/components/PremiumAssessmentReport";
 import { toPng } from "html-to-image";
@@ -567,6 +568,22 @@ return (
   placeholder="Paste the airport job description here..."
   className="mt-2 h-40 w-full rounded-xl border px-4 py-3"
 />
+<div className="rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950">
+  <p className="font-semibold">Privacy note</p>
+  <p className="mt-2">
+    Your CV may contain personal information. AirportCV uses the CV content you
+    provide only to generate your result. Do not include unnecessary sensitive
+    information such as passport numbers, National Insurance numbers, full home
+    address, date of birth, health information or financial details.
+  </p>
+  <p className="mt-2">
+    Read our{" "}
+    <Link href="/privacy" className="font-semibold underline">
+      Privacy Policy
+    </Link>
+    .
+  </p>
+</div>
 
               <button onClick={checkCv} disabled={loading} className="mt-6 w-full rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white hover:bg-blue-500 disabled:bg-slate-400">
                 {loading ? "Checking your CV..." : "Check My Airport CV"}
@@ -1042,6 +1059,20 @@ return (
     />
   </div>
 )}
+<div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4">
+  <p className="text-sm text-blue-950">
+    Happy with your CV improvements? Create a tailored aviation cover letter for
+    the same role.
+  </p>
+
+  <Link
+    href="/cover-letter"
+    className="mt-3 inline-flex rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+  >
+    Generate my cover letter
+  </Link>
+</div>
+
              </div>
               )}
             </div>
