@@ -1778,6 +1778,19 @@ const link = window.document.createElement("a");
     {downloadMessage}
   </div>
 )}
+<div className="mt-5 rounded-xl border border-blue-100 bg-blue-50 p-4">
+  <p className="text-sm text-blue-950">
+    Next step: once you have reviewed or edited your Word CV, check it against
+    your target aviation role.
+  </p>
+
+  <Link
+    href="/cv-checker"
+    className="mt-3 inline-flex rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+  >
+    Check this CV with Aviation CV Checker
+  </Link>
+</div>
 
     <div className="mt-6 space-y-6 text-sm text-slate-800">
       <section>
