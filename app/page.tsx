@@ -284,8 +284,7 @@ export default function Home() {
 
 <div className="mt-5 flex items-center gap-4 text-sm font-semibold text-slate-600">
   {[
-    "ATS-friendly structure",
-    "Aviation-specific wording",
+    
   ].map((item) => (
     <div key={item} className="flex shrink-0 items-center gap-2">
       <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
@@ -311,56 +310,167 @@ export default function Home() {
 </section>
       <section id="tools" className="bg-white px-6 py-20">
   <div className="mx-auto max-w-7xl">
-    <div className="mx-auto max-w-3xl text-center">
-      <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-        AirportCV Tools
+    <div className="mx-auto max-w-4xl text-center">
+      <p className="mx-auto inline-flex rounded-full bg-blue-50 px-5 py-2 text-sm font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+        ✦ AIRPORTCV TOOLS
       </p>
 
-      <h2 className="mt-4 text-4xl font-extrabold text-slate-950 md:text-5xl">
-        One platform for your aviation application journey
+      <h2 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
+        One platform for your{" "}
+        <span className="text-blue-600">aviation</span> application journey
       </h2>
 
-      <p className="mt-5 text-lg leading-8 text-slate-600">
+      <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
         Build your CV, check your application, create cover letters and prepare
         for interviews with tools designed around airport, airline and aviation
         roles.
       </p>
     </div>
 
-    <div className="mt-14 grid gap-5 lg:grid-cols-5">
-      {tools.map((tool) => (
+    <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+      {[
+        {
+          label: "CV BUILDER",
+          badge: "Most Popular",
+          icon: "📄",
+          title: "Create a Professional Aviation CV",
+          description:
+            "Build a UK-style aviation CV in minutes with role-specific examples and expert guidance.",
+          href: "/cv-builder",
+          cta: "Build My CV",
+          iconClass: "bg-blue-600",
+          ctaClass: "text-blue-700",
+          featured: true,
+        },
+        {
+          label: "CV CHECKER",
+          icon: "✅",
+          title: "Check Your CV Strength",
+          description:
+            "Get an ATS score, personalised feedback and tips to improve your application.",
+          href: "/cv-checker",
+          cta: "Check My CV",
+          iconClass: "bg-emerald-600",
+          ctaClass: "text-emerald-700",
+          featured: false,
+        },
+        {
+          label: "COVER LETTER",
+          icon: "✍️",
+          title: "Generate Cover Letters",
+          description:
+            "Create tailored cover letters for airline, airport and aviation roles.",
+          href: "/cover-letter",
+          cta: "Create Cover Letter",
+          iconClass: "bg-purple-600",
+          ctaClass: "text-purple-700",
+          featured: false,
+        },
+        {
+          label: "INTERVIEW PREP",
+          icon: "🎙️",
+          title: "Prepare for Interviews",
+          description:
+            "Access role-specific Q&A, scenario questions and expert interview tips.",
+          href: "/interview-prep",
+          cta: "Start Practicing",
+          iconClass: "bg-blue-600",
+          ctaClass: "text-blue-700",
+          featured: false,
+        },
+        {
+          label: "RESOURCES",
+          icon: "📋",
+          title: "Templates & Examples",
+          description:
+            "Download CV examples, templates and aviation career resources.",
+          href: "/blog",
+          cta: "Browse Resources",
+          iconClass: "bg-cyan-600",
+          ctaClass: "text-cyan-700",
+          featured: false,
+        },
+      ].map((item) => (
         <a
-          key={tool.title}
-          href={tool.href}
-          className={`group rounded-3xl border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${
-            tool.featured
-              ? "border-blue-200 bg-blue-50 lg:col-span-2"
+          key={item.title}
+          href={item.href}
+          className={`group flex min-h-[330px] flex-col rounded-[1.75rem] border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${
+            item.featured
+              ? "border-blue-300 bg-blue-50"
               : "border-slate-200 bg-white"
           }`}
         >
-          <div
-            className={`flex h-12 w-12 items-center justify-center rounded-2xl ${tool.accent} text-xl text-white shadow-lg`}
-          >
-            {tool.icon}
+          <div className="flex items-start justify-between gap-3">
+            <div
+              className={`flex h-14 w-14 items-center justify-center rounded-2xl ${item.iconClass} text-2xl text-white shadow-lg`}
+            >
+              {item.icon}
+            </div>
+
+            {item.badge ? (
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-blue-700 shadow-sm ring-1 ring-blue-100">
+                ✦ {item.badge}
+              </span>
+            ) : null}
           </div>
 
-          <p className="mt-5 text-xs font-bold uppercase tracking-wide text-blue-600">
-            {tool.eyebrow}
+          <p
+            className={`mt-6 text-xs font-extrabold uppercase tracking-wide ${
+              item.ctaClass
+            }`}
+          >
+            {item.label}
           </p>
 
-          <h3 className="mt-2 text-2xl font-extrabold leading-tight text-slate-950">
-            {tool.title}
+          <h3 className="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-slate-950">
+            {item.title}
           </h3>
 
-          <p className="mt-4 text-sm leading-6 text-slate-600">
-            {tool.description}
+          <p className="mt-5 text-sm leading-7 text-slate-600">
+            {item.description}
           </p>
 
-          <p className="mt-6 text-sm font-extrabold text-blue-700 group-hover:text-blue-900">
-            {tool.cta} →
+          <p
+            className={`mt-auto pt-8 text-base font-extrabold ${item.ctaClass} group-hover:underline`}
+          >
+            {item.cta} →
           </p>
         </a>
       ))}
+    </div>
+
+    <div className="mt-10 rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+      <div className="grid gap-6 text-sm md:grid-cols-3">
+        <div className="flex items-center justify-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white">
+            ✓
+          </span>
+          <div>
+            <p className="font-extrabold text-slate-950">UK-style CV guidance</p>
+            <p className="text-slate-500">Built for aviation applicants</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white">
+            ✓
+          </span>
+          <div>
+            <p className="font-extrabold text-slate-950">ATS-friendly structure</p>
+            <p className="text-slate-500">Increase your interview chances</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white">
+            ✓
+          </span>
+          <div>
+            <p className="font-extrabold text-slate-950">Aviation-specific wording</p>
+            <p className="text-slate-500">Stand out from other applicants</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
