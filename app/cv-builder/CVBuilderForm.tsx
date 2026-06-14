@@ -354,6 +354,10 @@ const [isGenerating, setIsGenerating] = useState(false);
 const [generatedCV, setGeneratedCV] = useState<any>(null);
 const [downloadMessage, setDownloadMessage] = useState("");
 const [isDownloading, setIsDownloading] = useState(false);
+const [profileSuggestions, setProfileSuggestions] = useState<string[]>([]);
+const [isGeneratingProfileSuggestions, setIsGeneratingProfileSuggestions] =
+  useState(false);
+const [profileSuggestionMessage, setProfileSuggestionMessage] = useState("");
 
 const builderSteps = [
   "Contact",
@@ -731,7 +735,49 @@ const link = window.document.createElement("a");
     setIsDownloading(false);
   }
 }
-  async function handleGenerateCV() {
+async function handleGenerateProfileSuggestions() {
+  setIsGeneratingProfileSuggestions(true);
+  setProfileSuggestionMessage("");
+  setProfileSuggestions([]);
+
+  try {
+    const response = await fetch("/api/cv-suggestions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        suggestionType: "profile",
+        formData,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Could not generate profile suggestions.");
+    }
+
+    setProfileSuggestions(data.suggestions || []);
+
+    if (data.usage) {
+      setProfileSuggestionMessage(
+        `Generated 3 profile suggestions. You have ${data.usage.remaining} of ${data.usage.limit} AI uses remaining this month.`
+      );
+    } else {
+      setProfileSuggestionMessage("Generated 3 profile suggestions.");
+    }
+  } catch (error) {
+    setProfileSuggestionMessage(
+      error instanceof Error
+        ? error.message
+        : "Could not generate profile suggestions right now."
+    );
+  } finally {
+    setIsGeneratingProfileSuggestions(false);
+  }
+}  
+async function handleGenerateCV() {
   setPreviewStarted(true);
   setGenerateMessage("");
   setGeneratedCV(null);
@@ -1137,6 +1183,61 @@ if (data.usage) {
         placeholder="Write a short summary of your aviation background, strengths and career goal."
         className="mt-6 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
       />
+      <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4">
+  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p className="text-sm font-extrabold text-blue-950">
+        Need help writing this section?
+      </p>
+      <p className="mt-1 text-sm text-blue-900">
+        Generate 3 profile options based on your CV focus and details.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      onClick={handleGenerateProfileSuggestions}
+      disabled={isGeneratingProfileSuggestions}
+      className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+    >
+      {isGeneratingProfileSuggestions
+        ? "Generating..."
+        : "Generate suggestions"}
+    </button>
+  </div>
+
+  {profileSuggestionMessage && (
+    <p className="mt-3 text-sm font-medium text-blue-950">
+      {profileSuggestionMessage}
+    </p>
+  )}
+
+  {profileSuggestions.length > 0 && (
+    <div className="mt-4 grid gap-3">
+      {profileSuggestions.map((suggestion, index) => (
+        <div
+          key={`${suggestion}-${index}`}
+          className="rounded-xl border border-blue-100 bg-white p-4"
+        >
+          <p className="text-sm leading-6 text-slate-700">{suggestion}</p>
+
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((currentData) => ({
+                ...currentData,
+                profile: suggestion,
+              }))
+            }
+            className="mt-3 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold text-blue-700 transition hover:bg-blue-100"
+          >
+            Use this profile
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
     </div>
 
     <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
