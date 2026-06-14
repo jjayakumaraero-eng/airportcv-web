@@ -495,32 +495,65 @@ const careerPaths: Record<string, string[]> = {
     Home
   </a>
 
-  <a href="/career-coach" className="transition hover:text-blue-400">
-  Career Assessment
-</a>
+  <div className="group relative">
+    <button className="transition hover:text-blue-400">
+      Tools
+    </button>
 
+    <div className="invisible absolute left-0 top-full z-50 mt-4 w-72 rounded-2xl border border-slate-200 bg-white p-3 text-slate-900 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
+      <a href="/career-coach" className="block rounded-xl px-4 py-3 hover:bg-blue-50">
+        <span className="block font-bold">Career Assessment</span>
+        <span className="block text-xs font-normal text-slate-500">
+          Find your aviation career path
+        </span>
+      </a>
 
+      <a href="/cv-builder" className="block rounded-xl px-4 py-3 hover:bg-blue-50">
+        <span className="block font-bold">CV Builder</span>
+        <span className="block text-xs font-normal text-slate-500">
+          Create a UK-style aviation CV
+        </span>
+      </a>
 
-  <a href="/about" className="transition hover:text-blue-400">
-    About Us
+      <a href="/cv-checker" className="block rounded-xl px-4 py-3 hover:bg-blue-50">
+        <span className="block font-bold">CV Checker</span>
+        <span className="block text-xs font-normal text-slate-500">
+          Improve your CV before applying
+        </span>
+      </a>
+
+      <a href="/cover-letter" className="block rounded-xl px-4 py-3 hover:bg-blue-50">
+        <span className="block font-bold">Cover Letter Generator</span>
+        <span className="block text-xs font-normal text-slate-500">
+          Write tailored aviation cover letters
+        </span>
+      </a>
+
+      <a href="/interview-prep" className="block rounded-xl px-4 py-3 hover:bg-blue-50">
+        <span className="block font-bold">Interview Preparation</span>
+        <span className="block text-xs font-normal text-slate-500">
+          Practise aviation interview questions
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <a href="/pricing" className="transition hover:text-blue-400">
+    Pricing
   </a>
 
-  
+  <a href="/about" className="transition hover:text-blue-400">
+    About
+  </a>
 
   <a href="/success-stories" className="transition hover:text-blue-400">
     Success Stories
   </a>
 
-<a
-  href="/pricing"
-  className="transition hover:text-blue-400">
-  Pricing
-</a>
   <a href="/blog" className="transition hover:text-blue-400">
     Blog
   </a>
 </div>
-
 
       <a
         href="/career-coach"
