@@ -475,67 +475,107 @@ export default function Home() {
   </div>
 </section>
 
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-                How it works
-              </p>
+      <section className="bg-slate-50 px-6 py-20">
+  <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-4xl text-center">
+      <p className="mx-auto inline-flex rounded-full bg-blue-50 px-5 py-2 text-sm font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+        ✦ HOW AIRPORTCV WORKS
+      </p>
 
-              <h2 className="mt-4 text-4xl font-extrabold text-slate-950">
-                From unsure to application-ready
-              </h2>
+      <h2 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
+        Go from unsure to{" "}
+        <span className="text-blue-600">application-ready</span>
+      </h2>
 
-              <p className="mt-5 text-lg leading-8 text-slate-600">
-                AirportCV guides you through the same practical steps you would
-                take when applying for aviation roles: decide the path, prepare
-                the CV, then strengthen the full application.
-              </p>
+      <p className="mx-auto mt-5 max-w-4xl text-lg leading-8 text-slate-600">
+        AirportCV gives you a simple aviation career workflow. Start with the
+        tool that matches your situation, then move step by step towards a
+        stronger CV, better application and more confident interview.
+      </p>
+    </div>
 
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="/cv-builder"
-                  className="rounded-xl bg-blue-700 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
-                >
-                  Start with CV Builder
-                </a>
+    <div className="relative mt-14">
+      <div className="hidden xl:block">
+        <div className="absolute left-[30%] top-[44%] h-px w-[10%] border-t-2 border-dotted border-blue-500" />
+        <div className="absolute left-[40%] top-[calc(44%-5px)] h-0 w-0 border-y-[6px] border-l-[9px] border-y-transparent border-l-blue-500" />
 
-                <a
-                  href="/career-coach"
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-center font-bold text-slate-700 hover:bg-slate-50"
-                >
-                  Take assessment first
-                </a>
-              </div>
+        <div className="absolute left-[63%] top-[44%] h-px w-[10%] border-t-2 border-dotted border-blue-500" />
+        <div className="absolute left-[73%] top-[calc(44%-5px)] h-0 w-0 border-y-[6px] border-l-[9px] border-y-transparent border-l-blue-500" />
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-3">
+        {[
+          {
+            number: "01",
+            icon: "🧭",
+            title: "Choose your aviation goal",
+            text: "Pick a target role such as cabin crew, passenger service, ramp, operations, security, engineering or ground handling.",
+            href: "/career-coach",
+            cta: "Find my path",
+          },
+          {
+            number: "02",
+            icon: "📄",
+            title: "Build or improve your CV",
+            text: "Create a new UK-style aviation CV or check your existing CV for structure, keywords and role fit.",
+            href: "/cv-builder",
+            cta: "Build my CV",
+          },
+          {
+            number: "03",
+            icon: "✍️",
+            title: "Prepare the full application",
+            text: "Generate a tailored cover letter and practise role-specific interview questions before you apply.",
+            href: "/cover-letter",
+            cta: "Create cover letter",
+          },
+        ].map((step) => (
+          <a
+            key={step.number}
+            href={step.href}
+            className="group relative flex min-h-[300px] flex-col items-center rounded-[1.75rem] border border-slate-200 bg-white px-8 pb-8 pt-12 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+          >
+            <div className="absolute -top-6 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-lg font-extrabold text-white shadow-lg shadow-blue-600/25">
+              {step.number}
             </div>
 
-            <div className="space-y-4">
-              {journeySteps.map((step) => (
-                <div
-                  key={step.number}
-                  className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
-                >
-                  <div className="flex gap-5">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-700 font-extrabold text-white">
-                      {step.number}
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-extrabold text-slate-950">
-                        {step.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">
-                        {step.text}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-3xl ring-1 ring-blue-100">
+              {step.icon}
             </div>
-          </div>
-        </div>
-      </section>
+
+            <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-slate-950">
+              {step.title}
+            </h3>
+
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              {step.text}
+            </p>
+
+            <p className="mt-auto pt-6 text-base font-extrabold text-blue-700 group-hover:underline">
+              {step.cta} →
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <a
+        href="/cv-builder"
+        className="inline-flex min-w-[260px] justify-center rounded-2xl bg-blue-600 px-8 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Build My Aviation CV →
+      </a>
+
+      <a
+        href="/career-coach"
+        className="inline-flex min-w-[260px] justify-center rounded-2xl border-2 border-blue-600 bg-white px-8 py-4 text-base font-extrabold text-slate-950 transition hover:bg-blue-50"
+      >
+        Take Career Assessment
+      </a>
+    </div>
+  </div>
+</section>
 
       <section className="bg-slate-50 px-6 py-20">
         <div className="mx-auto max-w-7xl">
