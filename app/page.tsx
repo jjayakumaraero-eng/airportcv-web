@@ -659,47 +659,142 @@ export default function Home() {
     </div>
   </div>
 </section>
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-              Why AirportCV
-            </p>
+     <section className="bg-white px-6 py-20">
+  <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-4xl text-center">
+      <p className="mx-auto inline-flex rounded-full bg-blue-50 px-5 py-2 text-sm font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+        ✦ WHY AIRPORTCV
+      </p>
 
-            <h2 className="mt-4 text-4xl font-extrabold text-slate-950">
-              Focused on aviation, not generic job applications
-            </h2>
+      <h2 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
+        Built for <span className="text-blue-600">aviation</span> careers.
+        <br />
+        Not just another CV builder.
+      </h2>
 
-            <p className="mx-auto mt-5 max-w-3xl text-lg text-slate-600">
-              Generic CV tools can miss aviation-specific language, shift-work
-              context, safety responsibilities, operational accuracy and
-              customer-facing airport experience.
-            </p>
+      <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+        We understand aviation roles, employers and what it takes to get
+        noticed. That’s why AirportCV gives you more than just a template.
+      </p>
+    </div>
+
+    <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      {[
+        {
+          number: "1.",
+          icon: "✈️",
+          title: "Aviation-specific wording",
+          text: "Use the language aviation employers expect: safety, service, compliance, operations and teamwork.",
+          highlight: "Speak the employer's language",
+        },
+        {
+          number: "2.",
+          icon: "📄",
+          title: "ATS-friendly CV structure",
+          text: "Clear sections, relevant keywords and easy-to-scan layouts for online applications.",
+          highlight: "Better visibility to recruiters",
+        },
+        {
+          number: "3.",
+          icon: "🎧",
+          title: "Full application support",
+          text: "Move from CV builder to CV checker, cover letter and interview preparation in one journey.",
+          highlight: "End-to-end application help",
+        },
+        {
+          number: "4.",
+          icon: "🔒",
+          title: "Privacy-first by default",
+          text: "Your CV is not saved to your account by default. You stay in control.",
+          highlight: "Your data, your control",
+        },
+      ].map((item) => (
+        <div
+          key={item.title}
+          className="flex min-h-[360px] flex-col rounded-[1.75rem] border border-slate-200 bg-white p-6 text-center shadow-sm"
+        >
+          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-slate-50 text-4xl ring-1 ring-slate-100">
+            {item.icon}
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {trustPoints.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-center"
-              >
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-3xl shadow-sm">
-                  {item.icon}
-                </div>
+          <h3 className="mt-6 text-2xl font-extrabold leading-tight text-slate-950">
+            {item.number} {item.title}
+          </h3>
 
-                <h3 className="mt-5 text-xl font-extrabold text-slate-950">
-                  {item.title}
-                </h3>
+          <div className="mx-auto mt-4 h-1 w-10 rounded-full bg-blue-600" />
 
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  {item.text}
-                </p>
-              </div>
-            ))}
+          <p className="mt-5 text-base leading-8 text-slate-600">
+            {item.text}
+          </p>
+
+          <div className="mt-auto pt-6">
+            <div className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-bold text-blue-700">
+              ✓ {item.highlight}
+            </div>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
 
+    <div className="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+      <div className="grid md:grid-cols-[1fr_auto_1fr]">
+        <div className="bg-red-50 px-6 py-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-red-100 text-2xl">
+              ❌
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-extrabold text-red-600">
+                Generic CV builder:
+              </h3>
+              <p className="mt-2 text-lg leading-8 text-slate-700">
+                General templates, broad advice, no aviation role focus.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center bg-white px-4 py-6">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 text-2xl font-extrabold text-slate-950 ring-1 ring-slate-200">
+            VS
+          </div>
+        </div>
+
+        <div className="bg-emerald-50 px-6 py-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-2xl">
+              ✅
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-extrabold text-emerald-700">
+                AirportCV:
+              </h3>
+              <p className="mt-2 text-lg leading-8 text-slate-700">
+                Aviation roles, airport keywords, CV + cover letter + interview
+                workflow.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="mt-10 flex flex-col items-center justify-center">
+      <a
+        href="/cv-builder"
+        className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-8 py-4 text-lg font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        ✈ Build My Aviation CV →
+      </a>
+
+      <p className="mt-5 text-sm font-medium text-slate-500">
+        Designed for aviation job seekers
+      </p>
+    </div>
+  </div>
+</section>
       <section className="bg-slate-50 px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
