@@ -824,7 +824,7 @@ const link = window.document.createElement("a");
                   type="text"
                   value={formData.fullName}
                   onChange={handleTextChange}
-                  placeholder="e.g. Elyas Beneyad"
+                  placeholder="e.g. John Smith"
                   className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>

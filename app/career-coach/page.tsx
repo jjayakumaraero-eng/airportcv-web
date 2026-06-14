@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CvUpload from "@/components/CvUpload";
+import Link from "next/link";
 
 const roles = [
   "Passenger Service Agent",
@@ -101,6 +102,23 @@ const [educationLevel, setEducationLevel] = useState("");
   airline and aviation roles, identify skill gaps and receive personalised career recommendations.
 </p>
 
+<div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950">
+  <p className="font-semibold">Privacy note</p>
+  <p className="mt-2">
+    Your answers may include personal career information, experience, education
+    and goals. AirportCV uses this information only to generate your aviation
+    career assessment result. Avoid unnecessary sensitive information such as
+    passport numbers, National Insurance numbers, full home address, date of
+    birth, health information or financial details.
+  </p>
+  <p className="mt-2">
+    Read our{" "}
+    <Link href="/privacy" className="font-semibold underline">
+      Privacy Policy
+    </Link>
+    .
+  </p>
+</div>
           <div className="mt-8 grid gap-6">
             <div>
   <label className="block text-sm font-semibold">
@@ -523,6 +541,25 @@ const [educationLevel, setEducationLevel] = useState("");
     </a>
   </div>
 </div>
+{result && (
+  <div className="mt-10 space-y-6">
+    
+
+    <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4">
+      <p className="text-sm text-blue-950">
+        Ready to turn this career guidance into a professional aviation CV?
+      </p>
+
+      <Link
+        href="/cv-builder"
+        className="mt-3 inline-flex rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+      >
+        Build my aviation CV
+      </Link>
+    </div>
+  </div>
+)}
+
             </div>
           )}
         </div>

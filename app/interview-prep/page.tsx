@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CvUpload from "@/components/CvUpload";
+import Link from "next/link";
 
 const roles = [
   "Passenger Service Agent",
@@ -160,6 +161,24 @@ async function scoreAnswer() {
               />
             </div>
 
+<div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950">
+  <p className="font-semibold">Privacy note</p>
+  <p className="mt-2">
+    Your interview preparation details may include personal career information,
+    experience, education, target roles and job application context. AirportCV
+    uses this information only to generate your aviation interview preparation
+    result. Avoid unnecessary sensitive information such as passport numbers,
+    National Insurance numbers, full home address, date of birth, health
+    information or financial details.
+  </p>
+  <p className="mt-2">
+    Read our{" "}
+    <Link href="/privacy" className="font-semibold underline">
+      Privacy Policy
+    </Link>
+    .
+  </p>
+</div>
             <button
               onClick={generateInterviewPack}
               disabled={loading}
