@@ -854,7 +854,7 @@ if (data.usage) {
       </p>
     </div>
 
-    <div className="mt-8 grid gap-8 lg:grid-cols-[2fr_1fr]">
+   <div className="mt-8 grid gap-8 xl:grid-cols-[1fr_0.95fr]">
           <form
             onSubmit={handleSubmit}
             className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200"
@@ -2014,236 +2014,156 @@ if (data.usage) {
             </p>
           </form>
 
-          <aside className="space-y-6">
-            <div className="rounded-2xl bg-slate-900 p-6 text-white shadow-sm">
-              <h2 className="text-xl font-semibold">Recommended journey</h2>
+         <aside className="xl:sticky xl:top-6 xl:self-start">
+  <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="flex items-start justify-between gap-4">
+      <div>
+        <h2 className="text-xl font-extrabold text-slate-950">
+          Live Preview
+        </h2>
 
-              <ol className="mt-5 space-y-4 text-sm text-slate-200">
-                <li>1. Complete Career Assessment</li>
-                <li className="font-semibold text-white">2. Build your CV</li>
-                <li>3. Check your CV</li>
-                <li>4. Generate Cover Letter</li>
-                <li>5. Practise Interview Questions</li>
-              </ol>
-
-              <div className="mt-8 space-y-3">
-                <Link
-                  href="/career-coach"
-                  className="block rounded-xl bg-white px-4 py-3 text-center font-semibold text-slate-900 hover:bg-slate-100"
-                >
-                  Career Assessment
-                </Link>
-
-                <Link
-                  href="/cv-checker"
-                  className="block rounded-xl border border-slate-600 px-4 py-3 text-center font-semibold text-white hover:bg-slate-800"
-                >
-                  CV Checker
-                </Link>
-              </div>
-            </div>
-
-<div className="rounded-2xl border border-blue-100 bg-blue-50 p-6 text-blue-950 shadow-sm">
-  <h2 className="text-lg font-semibold">ATS-friendly CV tips</h2>
-
-  <p className="mt-2 text-sm">
-    Keep your CV clear, simple and focused on the aviation role you want.
-  </p>
-
-  <ul className="mt-4 space-y-2 text-sm">
-    <li>• Use clear headings such as Work Experience, Education and Skills.</li>
-    <li>• Include aviation keywords from the target job advert.</li>
-    <li>• Add measurable achievements where possible.</li>
-    <li>• Avoid photos, graphics, tables and complex layouts.</li>
-    <li>• Keep optional details relevant to the role.</li>
-  </ul>
-</div>
-            <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-              <h2 className="text-xl font-semibold text-slate-900">
-                ATS-friendly CV preview
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-600">
-                Clear UK-style headings, simple text and aviation keywords.
-              </p>
-
-              {!previewStarted ? (
-                <p className="mt-4 text-sm text-slate-600">
-                  Complete the form and click preview to see your CV structure.
-                </p>
-              ) : (
-                <div className="mt-6 space-y-6 text-sm text-slate-700">
-                 <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-  <h2 className="text-lg font-semibold text-slate-900">What happens next?</h2>
-
-  <p className="mt-2 text-sm text-slate-600">
-    After you add your details, AirportCV will use this information to create a
-    structured aviation CV draft tailored to your target role.
-  </p>
-
-  <ol className="mt-4 space-y-2 text-sm text-slate-700">
-    <li>1. Review your details in the preview.</li>
-    <li>2. Generate a professional CV draft.</li>
-    <li>3. Check and improve it with the Aviation CV Checker.</li>
-  </ol>
-</div>
-                  <section>
-                    <h3 className="text-lg font-bold uppercase tracking-wide text-slate-900">
-                      {formData.fullName || "Your Name"}
-                    </h3>
-                    <div className="mt-2 space-y-1">
-                      <p>{formData.location || "Location"}</p>
-                      <p>{formData.email || "Email"}</p>
-                      <p>{formData.phone || "Phone"}</p>
-                      {formData.linkedinUrl && <p>{formData.linkedinUrl}</p>}
-                      {formData.websiteUrl && <p>{formData.websiteUrl}</p>}
-                    </div>
-                  </section>
-
-                  <section className="border-t border-slate-200 pt-4">
-                    <h3 className="font-bold uppercase tracking-wide text-slate-900">
-                      Professional Profile
-                    </h3>
-                    <p className="mt-2 whitespace-pre-line">
-                      {formData.profile ||
-                        "Professional summary will appear here."}
-                    </p>
-                  </section>
-
-                  <section className="border-t border-slate-200 pt-4">
-                    <h3 className="font-bold uppercase tracking-wide text-slate-900">
-                      Key Skills
-                    </h3>
-                    <p className="mt-2 whitespace-pre-line">
-                      {skillsPreview || "Selected aviation skills will appear here."}
-                    </p>
-                  </section>
-
-                  <section className="border-t border-slate-200 pt-4">
-  <h3 className="font-bold uppercase tracking-wide text-slate-900">
-    Work Experience
-  </h3>
-
-  <div className="mt-2 space-y-5">
-    {formData.workExperiences.map((experience) => (
-      <div key={experience.id}>
-        <p className="font-semibold text-slate-900">
-          {experience.jobTitle || "Job Title"}
-          {experience.companyName ? ` | ${experience.companyName}` : ""}
-        </p>
-
-        <p>
-          {experience.location || "Employment location"} |{" "}
-          {getExperienceDates(experience)}
-        </p>
-
-        <p className="mt-2 whitespace-pre-line">
-          {experience.responsibilities ||
-            "Main responsibilities will appear here."}
-        </p>
-
-        <p className="mt-2 whitespace-pre-line">
-          {experience.achievements || "Key achievements will appear here."}
+        <p className="mt-1 flex items-center gap-2 text-sm text-slate-500">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          Your CV updates as you type
         </p>
       </div>
-    ))}
-  </div>
-</section>
 
-                  <section className="border-t border-slate-200 pt-4">
-  <h3 className="font-bold uppercase tracking-wide text-slate-900">
-    Education
-  </h3>
+      <div className="rounded-2xl bg-slate-100 p-1 text-sm font-bold text-slate-600">
+        <span className="inline-flex rounded-xl bg-white px-4 py-2 text-blue-700 shadow-sm">
+          Preview
+        </span>
+      </div>
+    </div>
 
-  <div className="mt-2 space-y-5">
-    {formData.educationItems.map((item) => {
-      const completionDate =
-        item.completionMonth && item.completionYear
-          ? `${item.completionMonth} ${item.completionYear}`
-          : "Completion date";
+    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+      <div className="flex items-start justify-between gap-6 border-b border-slate-200 pb-5">
+        <div>
+          <h3 className="text-3xl font-extrabold tracking-wide text-slate-950">
+            {formData.fullName || "YOUR NAME"}
+          </h3>
 
-      return (
-        <div key={item.id}>
-          <p className="font-semibold text-slate-900">
-            {item.qualificationName || "Qualification"}
-            {item.institutionName ? ` | ${item.institutionName}` : ""}
-          </p>
-
-          <p>
-            {item.location || "Location"} | {completionDate}
-          </p>
-
-          <p className="mt-2 whitespace-pre-line">
-            {item.details || "Education details will appear here."}
+          <p className="mt-2 text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
+            {formData.targetRole || "Target aviation role"}
           </p>
         </div>
-      );
-    })}
-  </div>
-</section>
 
-                  <section className="border-t border-slate-200 pt-4">
-                    <h3 className="font-bold uppercase tracking-wide text-slate-900">
-                      Licences, Certificates and Training
-                    </h3>
-                    <div className="mt-2 space-y-2">
-                      <p>{licencesPreview || "Licences will appear here."}</p>
-                      <p>
-                        {certificationsPreview ||
-                          "Certificates and training will appear here."}
-                      </p>
-                      <p>
-                        {systemsPreview ||
-                          "Aviation systems and tools will appear here."}
-                      </p>
-                    </div>
-                  </section>
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-3xl">
+          ✈️
+        </div>
+      </div>
 
-                  <section className="border-t border-slate-200 pt-4">
-                    <h3 className="font-bold uppercase tracking-wide text-slate-900">
-                      Additional Information
-                    </h3>
-                    <div className="mt-2 space-y-2">
-                      {formData.languages && <p>{formData.languages}</p>}
-                      {formData.rightToWork && (
-                        <p>
-                          Right to work: {formData.rightToWork}
-                          {formData.rightToWorkUntil
-                            ? ` ${formData.rightToWorkUntil}`
-                            : ""}
-                        </p>
-                      )}
-                      {formData.drivingLicence && (
-                        <p>Driving licence: {formData.drivingLicence}</p>
-                      )}
-                      {formData.availability && (
-                        <p>
-                          Availability: {formData.availability}
-                          {formData.availableFrom
-                            ? ` ${formData.availableFrom}`
-                            : ""}
-                        </p>
-                      )}
-                      {formData.additionalInfo && (
-                        <p className="whitespace-pre-line">
-                          {formData.additionalInfo}
-                        </p>
-                      )}
-                    </div>
-                  </section>
+      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
+        {formData.email && <span>✉ {formData.email}</span>}
+        {formData.phone && <span>☎ {formData.phone}</span>}
+        {formData.location && <span>📍 {formData.location}</span>}
+        {formData.linkedinUrl && <span>in {formData.linkedinUrl}</span>}
+        {!formData.email &&
+          !formData.phone &&
+          !formData.location &&
+          !formData.linkedinUrl && (
+            <span>Contact details will appear here</span>
+          )}
+      </div>
 
-                  <section className="border-t border-slate-200 pt-4">
-                    <h3 className="font-bold uppercase tracking-wide text-slate-900">
-                      References
-                    </h3>
-                    <p className="mt-2">
-                      {formData.references || "References available on request"}
-                    </p>
-                  </section>
-                </div>
-              )}
+      <section className="mt-6">
+        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
+          Professional Summary
+        </h4>
+
+        <p className="mt-4 text-sm leading-7 text-slate-700">
+          {formData.profile ||
+            "Your professional profile will appear here. Add a short summary of your aviation background, strengths and career goal."}
+        </p>
+      </section>
+
+      <section className="mt-7">
+        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
+          Key Skills
+        </h4>
+
+        {skillsPreview ? (
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            {skillsPreview
+              .split(",")
+              .map((skill) => skill.trim())
+              .filter(Boolean)
+              .slice(0, 10)
+              .map((skill) => (
+                <p key={skill} className="flex gap-2 text-sm text-slate-700">
+                  <span className="font-extrabold text-blue-600">✓</span>
+                  <span>{skill}</span>
+                </p>
+              ))}
+          </div>
+        ) : (
+          <p className="mt-4 text-sm leading-7 text-slate-600">
+            Selected aviation skills will appear here.
+          </p>
+        )}
+      </section>
+
+      <section className="mt-7">
+        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
+          Work Experience
+        </h4>
+
+        <div className="mt-4 space-y-4">
+          {formData.workExperiences.slice(0, 2).map((experience) => (
+            <div key={experience.id}>
+              <p className="text-sm font-extrabold text-slate-950">
+                {experience.jobTitle || "Job title"}
+                {experience.companyName ? ` | ${experience.companyName}` : ""}
+              </p>
+
+              <p className="mt-1 text-xs font-semibold text-slate-500">
+                {(experience.location || "Location") +
+                  " | " +
+                  getExperienceDates(experience)}
+              </p>
+
+              <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-700">
+                {experience.responsibilities ||
+                  "Main responsibilities will appear here."}
+              </p>
             </div>
-          </aside>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-7">
+        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
+          Education & Training
+        </h4>
+
+        <div className="mt-4 space-y-3">
+          {formData.educationItems.slice(0, 2).map((item) => (
+            <div key={item.id}>
+              <p className="text-sm font-extrabold text-slate-950">
+                {item.qualificationName || "Qualification"}
+                {item.institutionName ? ` | ${item.institutionName}` : ""}
+              </p>
+
+              <p className="mt-1 text-xs font-semibold text-slate-500">
+                {item.location || "Location"}
+                {item.completionMonth && item.completionYear
+                  ? ` | ${item.completionMonth} ${item.completionYear}`
+                  : ""}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-blue-950">
+      <p className="font-extrabold">ATS-friendly reminder</p>
+      <p className="mt-1">
+        Keep your CV clear and focused. Use aviation keywords from the job
+        advert, but only include details that are true and relevant.
+      </p>
+    </div>
+  </div>
+</aside>
         </div>
       </section>
     </main>
