@@ -349,7 +349,10 @@ function getExperienceDates(experience: WorkExperience) {
 export default function CVBuilderForm() {
  const [formData, setFormData] = useState<FormData>(initialFormData);
 const [currentStep, setCurrentStep] = useState(1);
- const [previewStarted, setPreviewStarted] = useState(false);
+const [selectedTemplate, setSelectedTemplate] = useState<
+  "classic" | "modern" | "compact"
+>("modern"); 
+const [previewStarted, setPreviewStarted] = useState(false);
 const [generateMessage, setGenerateMessage] = useState("");
 const [isGenerating, setIsGenerating] = useState(false);
 const [generatedCV, setGeneratedCV] = useState<any>(null);
@@ -373,6 +376,7 @@ const builderSteps = [
   "Work Experience",
   "Education & Training",
   "Additional Sections",
+  "Choose Template",
   "Review & Generate",
 ];
 
@@ -506,231 +510,261 @@ function removeEducationItem(id: string) {
     event.preventDefault();
     setPreviewStarted(true);
   }
-  async function handleDownloadWord() {
+ async function handleDownloadWord() {
   if (!generatedCV) return;
 
   setIsDownloading(true);
   setDownloadMessage("");
 
+  const isClassic = selectedTemplate === "classic";
+  const isModern = selectedTemplate === "modern";
+  const isCompact = selectedTemplate === "compact";
+
+  const accentColor = isModern ? "2563EB" : isClassic ? "111827" : "475569";
+  const titleSize = isCompact ? 28 : 32;
+  const headingSize = isCompact ? 20 : 22;
+  const bodySize = isCompact ? 20 : 22;
+  const smallSize = isCompact ? 18 : 20;
+  const sectionBefore = isCompact ? 180 : 260;
+  const sectionAfter = isCompact ? 60 : 100;
+  const bulletAfter = isCompact ? 20 : 40;
+
+  const sectionHeading = (text: string) =>
+    new Paragraph({
+      children: [
+        new TextRun({
+          text,
+          bold: true,
+          color: accentColor,
+          size: headingSize,
+        }),
+      ],
+      spacing: { before: sectionBefore, after: sectionAfter },
+    });
+
+  const bodyParagraph = (text: string) =>
+    new Paragraph({
+      children: [
+        new TextRun({
+          text,
+          size: bodySize,
+        }),
+      ],
+      spacing: { after: isCompact ? 80 : 140 },
+    });
+
+  const bulletParagraph = (text: string) =>
+    new Paragraph({
+      children: [
+        new TextRun({
+          text,
+          size: bodySize,
+        }),
+      ],
+      bullet: { level: 0 },
+      spacing: { after: bulletAfter },
+    });
+
   try {
     const children: Paragraph[] = [
-  new Paragraph({
-    children: [
-      new TextRun({
-        text: generatedCV.cvTitle || "Aviation CV",
-        bold: true,
-        size: 32,
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: generatedCV.cvTitle || "Aviation CV",
+            bold: true,
+            size: titleSize,
+            color: isClassic ? "111827" : accentColor,
+          }),
+        ],
+        alignment: AlignmentType.CENTER,
+        spacing: { after: isCompact ? 180 : 280 },
       }),
-    ],
-    alignment: AlignmentType.CENTER,
-    spacing: { after: 300 },
-  }),
-];
+    ];
 
-if (generatedCV.professionalProfile) {
-  children.push(
-    new Paragraph({
-      text: "PROFESSIONAL PROFILE",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 200, after: 100 },
-    }),
-    new Paragraph({
-      text: generatedCV.professionalProfile,
-      spacing: { after: 200 },
-    })
-  );
-}
-
-if (generatedCV.keySkills?.length) {
-  children.push(
-    new Paragraph({
-      text: "KEY SKILLS",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 200, after: 100 },
-    }),
-    ...generatedCV.keySkills.map(
-      (skill: string) =>
-        new Paragraph({
-          text: skill,
-          bullet: { level: 0 },
-        })
-    )
-  );
-}
-
-if (generatedCV.workExperience?.length) {
-  children.push(
-    new Paragraph({
-      text: "WORK EXPERIENCE",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 300, after: 100 },
-    }),
-    ...generatedCV.workExperience.flatMap(
-      (experience: {
-        jobTitle: string;
-        companyName: string;
-        location: string;
-        dates: string;
-        bullets: string[];
-      }) => [
+    if (isModern) {
+      children.push(
         new Paragraph({
           children: [
             new TextRun({
-              text: `${experience.jobTitle || ""}${
-                experience.companyName ? ` | ${experience.companyName}` : ""
-              }`,
-              bold: true,
+              text: "Created with AirportCV",
+              size: smallSize,
+              color: "64748B",
             }),
           ],
-          spacing: { before: 150 },
-        }),
-        ...(experience.location || experience.dates
-          ? [
-              new Paragraph({
-                text: `${experience.location || ""}${
-                  experience.dates ? ` | ${experience.dates}` : ""
-                }`,
-                spacing: { after: 80 },
-              }),
-            ]
-          : []),
-        ...(experience.bullets || []).map(
-          (bullet: string) =>
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 220 },
+        })
+      );
+    }
+
+    if (generatedCV.professionalProfile) {
+      children.push(
+        sectionHeading("PROFESSIONAL PROFILE"),
+        bodyParagraph(generatedCV.professionalProfile)
+      );
+    }
+
+    if (generatedCV.keySkills?.length) {
+      children.push(
+        sectionHeading("KEY SKILLS"),
+        ...generatedCV.keySkills.map((skill: string) => bulletParagraph(skill))
+      );
+    }
+
+    if (generatedCV.workExperience?.length) {
+      children.push(
+        sectionHeading("WORK EXPERIENCE"),
+        ...generatedCV.workExperience.flatMap(
+          (experience: {
+            jobTitle: string;
+            companyName: string;
+            location: string;
+            dates: string;
+            bullets: string[];
+          }) => [
             new Paragraph({
-              text: bullet,
-              bullet: { level: 0 },
-            })
-        ),
-      ]
-    )
-  );
-}
-
-if (generatedCV.education?.length) {
-  children.push(
-    new Paragraph({
-      text: "EDUCATION",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 300, after: 100 },
-    }),
-    ...generatedCV.education.flatMap(
-      (item: {
-        qualification: string;
-        institution: string;
-        location: string;
-        date: string;
-        details: string;
-      }) => [
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: `${item.qualification || ""}${
-                item.institution ? ` | ${item.institution}` : ""
-              }`,
-              bold: true,
+              children: [
+                new TextRun({
+                  text: `${experience.jobTitle || ""}${
+                    experience.companyName ? ` | ${experience.companyName}` : ""
+                  }`,
+                  bold: true,
+                  size: bodySize,
+                  color: "111827",
+                }),
+              ],
+              spacing: { before: isCompact ? 80 : 140, after: 40 },
             }),
-          ],
-          spacing: { before: 150 },
-        }),
-        ...(item.location || item.date
-          ? [
-              new Paragraph({
-                text: `${item.location || ""}${item.date ? ` | ${item.date}` : ""}`,
-              }),
-            ]
-          : []),
-        ...(item.details
-          ? [
-              new Paragraph({
-                text: item.details,
-                spacing: { after: 100 },
-              }),
-            ]
-          : []),
-      ]
-    )
-  );
-}
+            ...(experience.location || experience.dates
+              ? [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: `${experience.location || ""}${
+                          experience.dates ? ` | ${experience.dates}` : ""
+                        }`,
+                        italics: true,
+                        size: smallSize,
+                        color: "64748B",
+                      }),
+                    ],
+                    spacing: { after: isCompact ? 40 : 80 },
+                  }),
+                ]
+              : []),
+            ...(experience.bullets || []).map((bullet: string) =>
+              bulletParagraph(bullet)
+            ),
+          ]
+        )
+      );
+    }
 
-if (generatedCV.licencesAndTraining?.length) {
-  children.push(
-    new Paragraph({
-      text: "LICENCES AND TRAINING",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 300, after: 100 },
-    }),
-    ...generatedCV.licencesAndTraining.map(
-      (item: string) =>
-        new Paragraph({
-          text: item,
-          bullet: { level: 0 },
-        })
-    )
-  );
-}
+    if (generatedCV.education?.length) {
+      children.push(
+        sectionHeading("EDUCATION"),
+        ...generatedCV.education.flatMap(
+          (item: {
+            qualification: string;
+            institution: string;
+            location: string;
+            date: string;
+            details: string;
+          }) => [
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: `${item.qualification || ""}${
+                    item.institution ? ` | ${item.institution}` : ""
+                  }`,
+                  bold: true,
+                  size: bodySize,
+                  color: "111827",
+                }),
+              ],
+              spacing: { before: isCompact ? 80 : 140, after: 40 },
+            }),
+            ...(item.location || item.date
+              ? [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: `${item.location || ""}${
+                          item.date ? ` | ${item.date}` : ""
+                        }`,
+                        italics: true,
+                        size: smallSize,
+                        color: "64748B",
+                      }),
+                    ],
+                    spacing: { after: isCompact ? 40 : 80 },
+                  }),
+                ]
+              : []),
+            ...(item.details
+              ? [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: item.details,
+                        size: bodySize,
+                      }),
+                    ],
+                    spacing: { after: isCompact ? 60 : 100 },
+                  }),
+                ]
+              : []),
+          ]
+        )
+      );
+    }
 
-if (generatedCV.systemsAndTools?.length) {
-  children.push(
-    new Paragraph({
-      text: "SYSTEMS AND TOOLS",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 300, after: 100 },
-    }),
-    ...generatedCV.systemsAndTools.map(
-      (item: string) =>
-        new Paragraph({
-          text: item,
-          bullet: { level: 0 },
-        })
-    )
-  );
-}
+    if (generatedCV.licencesAndTraining?.length) {
+      children.push(
+        sectionHeading("LICENCES AND TRAINING"),
+        ...generatedCV.licencesAndTraining.map((item: string) =>
+          bulletParagraph(item)
+        )
+      );
+    }
 
-if (generatedCV.additionalInformation?.length) {
-  children.push(
-    new Paragraph({
-      text: "ADDITIONAL INFORMATION",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 300, after: 100 },
-    }),
-    ...generatedCV.additionalInformation.map(
-      (item: string) =>
-        new Paragraph({
-          text: item,
-          bullet: { level: 0 },
-        })
-    )
-  );
-}
+    if (generatedCV.systemsAndTools?.length) {
+      children.push(
+        sectionHeading("SYSTEMS AND TOOLS"),
+        ...generatedCV.systemsAndTools.map((item: string) =>
+          bulletParagraph(item)
+        )
+      );
+    }
 
-if (generatedCV.references) {
-  children.push(
-    new Paragraph({
-      text: "REFERENCES",
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 300, after: 100 },
-    }),
-    new Paragraph({
-      text: generatedCV.references,
-    })
-  );
-}
+    if (generatedCV.additionalInformation?.length) {
+      children.push(
+        sectionHeading("ADDITIONAL INFORMATION"),
+        ...generatedCV.additionalInformation.map((item: string) =>
+          bulletParagraph(item)
+        )
+      );
+    }
 
-   const wordDocument = new Document({
-  sections: [
-    {
-      properties: {},
-      children,
-    },
-  ],
-});
+    if (generatedCV.references) {
+      children.push(sectionHeading("REFERENCES"), bodyParagraph(generatedCV.references));
+    }
 
-const blob = await Packer.toBlob(wordDocument);
-const url = URL.createObjectURL(blob);
+    const wordDocument = new Document({
+      sections: [
+        {
+          properties: {},
+          children,
+        },
+      ],
+    });
 
-const link = window.document.createElement("a");
+    const blob = await Packer.toBlob(wordDocument);
+    const url = URL.createObjectURL(blob);
+
+    const link = window.document.createElement("a");
     link.href = url;
-    link.download = `${formData.fullName || "aviation-cv"}-airportcv.docx`;
+    link.download = `${formData.fullName || "aviation-cv"}-airportcv-${selectedTemplate}.docx`;
     link.click();
 
     URL.revokeObjectURL(url);
@@ -924,6 +958,37 @@ if (data.usage) {
     formData.selectedCertifications,
     formData.otherCertifications
   );
+  const templateStyles = {
+  classic: {
+    page: "bg-white px-6 py-7 shadow-2xl shadow-slate-300/70 ring-1 ring-slate-200",
+    heading: "text-slate-950",
+    accent: "border-slate-900",
+    role: "text-slate-600",
+    icon: "hidden",
+    section: "border-slate-900",
+  },
+  modern: {
+    page: "bg-white px-6 py-7 shadow-2xl shadow-slate-300/70 ring-1 ring-slate-200",
+    heading: "text-slate-950",
+    accent: "border-blue-600",
+    role: "text-blue-700",
+    icon: "flex",
+    section: "border-blue-600",
+  },
+  compact: {
+    page: "bg-white px-5 py-6 shadow-2xl shadow-slate-300/70 ring-1 ring-slate-200",
+    heading: "text-slate-950",
+    accent: "border-slate-500",
+    role: "text-slate-500",
+    icon: "hidden",
+    section: "border-slate-500",
+  },
+}[selectedTemplate];
+
+const previewTextSize =
+  selectedTemplate === "compact" ? "text-[9px] leading-4" : "text-[10px] leading-4";
+
+const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
   return (
     <main className="min-h-screen bg-[#f4f7fb]">
       <div className="grid min-h-screen lg:grid-cols-[210px_1fr]">
@@ -2241,57 +2306,158 @@ if (data.usage) {
                   </>
                 )}
 
-                {currentStep === 7 && (
-                  <>
-                    <div>
-                      <p className="text-sm font-extrabold text-blue-700">
-                        Step 7
-                      </p>
-                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
-                        Review & Generate
-                      </h1>
-                      <p className="mt-2 text-sm text-slate-600">
-                        Review the live preview, generate your AI CV draft and download it as Word.
-                      </p>
-                    </div>
+               {currentStep === 7 && (
+  <>
+    <div>
+      <p className="text-sm font-extrabold text-blue-700">Step 7</p>
 
-                    <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
-                      <p className="text-sm font-extrabold text-blue-950">
-                        Ready to generate your aviation CV?
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-blue-900">
-                        AirportCV will use the details you entered to create a professional UK-style aviation CV draft. Review it before applying.
-                      </p>
+      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+        Choose your CV template
+      </h1>
 
-                      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                        <button
-                          type="button"
-                          onClick={goToPreviousStep}
-                          className="rounded-2xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-blue-700 transition hover:bg-blue-50"
-                        >
-                          ← Back
-                        </button>
+      <p className="mt-2 text-sm text-slate-600">
+        Pick an ATS-friendly layout. You can change this later before download.
+      </p>
+    </div>
 
-                        <button
-                          type="button"
-                          onClick={handleGenerateCV}
-                          disabled={isGenerating}
-                          className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
-                        >
-                          {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
-                        </button>
+    <div className="mt-6 grid gap-4 md:grid-cols-3">
+      {[
+        {
+          id: "classic",
+          name: "Classic ATS",
+          description: "Simple, traditional and easy for recruiters to scan.",
+        },
+        {
+          id: "modern",
+          name: "Modern Aviation",
+          description: "Clean blue accents with a polished aviation feel.",
+        },
+        {
+          id: "compact",
+          name: "Compact Professional",
+          description: "Best if you have more experience, skills or training.",
+        },
+      ].map((template) => (
+        <button
+          key={template.id}
+          type="button"
+          onClick={() =>
+            setSelectedTemplate(
+              template.id as "classic" | "modern" | "compact"
+            )
+          }
+          className={`rounded-2xl border p-4 text-left transition ${
+            selectedTemplate === template.id
+              ? "border-blue-600 bg-blue-50 ring-2 ring-blue-100"
+              : "border-slate-200 bg-white hover:border-blue-200 hover:bg-blue-50"
+          }`}
+        >
+          <div className="mb-4 rounded-xl border border-slate-200 bg-white p-3">
+            <div
+              className={`h-2 w-2/3 rounded-full ${
+                template.id === "classic"
+                  ? "bg-slate-900"
+                  : template.id === "modern"
+                    ? "bg-blue-600"
+                    : "bg-slate-500"
+              }`}
+            />
+            <div className="mt-3 h-1.5 w-full rounded-full bg-slate-200" />
+            <div className="mt-2 h-1.5 w-5/6 rounded-full bg-slate-200" />
+            <div className="mt-4 h-1.5 w-1/2 rounded-full bg-slate-300" />
+            <div className="mt-2 h-1.5 w-full rounded-full bg-slate-200" />
+            <div className="mt-2 h-1.5 w-4/5 rounded-full bg-slate-200" />
+          </div>
 
-                        <button
-                          type="button"
-                          onClick={handleDownloadWord}
-                          disabled={!generatedCV || isDownloading}
-                          className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-                        >
-                          {isDownloading ? "Preparing..." : "Download Word"}
-                        </button>
-                      </div>
-                    </div>
+          <p className="font-extrabold text-slate-950">{template.name}</p>
 
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            {template.description}
+          </p>
+
+          {selectedTemplate === template.id && (
+            <p className="mt-3 text-sm font-extrabold text-blue-700">
+              ✓ Selected
+            </p>
+          )}
+        </button>
+      ))}
+    </div>
+
+    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+      <button
+        type="button"
+        onClick={goToPreviousStep}
+        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+      >
+        ← Back
+      </button>
+
+      <button
+        type="button"
+        onClick={goToNextStep}
+        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Continue →
+      </button>
+    </div>
+  </>
+)}
+
+{currentStep === 8 && (
+  <>
+    <div>
+      <p className="text-sm font-extrabold text-blue-700">Step 8</p>
+
+      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+        Review & Generate
+      </h1>
+
+      <p className="mt-2 text-sm text-slate-600">
+        Review the live preview, generate your AI CV draft and download it as
+        Word.
+      </p>
+    </div>
+
+    <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+      <p className="text-sm font-extrabold text-blue-950">
+        Ready to generate your aviation CV?
+      </p>
+
+      <p className="mt-2 text-sm leading-6 text-blue-900">
+        AirportCV will use the details you entered and your selected template to
+        create a professional UK-style aviation CV draft. Review it before
+        applying.
+      </p>
+
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+        <button
+          type="button"
+          onClick={goToPreviousStep}
+          className="rounded-2xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-blue-700 transition hover:bg-blue-50"
+        >
+          ← Back
+        </button>
+
+        <button
+          type="button"
+          onClick={handleGenerateCV}
+          disabled={isGenerating}
+          className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+        >
+          {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleDownloadWord}
+          disabled={!generatedCV || isDownloading}
+          className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+        >
+          {isDownloading ? "Preparing..." : "Download Word"}
+        </button>
+      </div>
+    </div>
                     {generateMessage && (
                       <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
                         {generateMessage}
@@ -2351,25 +2517,25 @@ if (data.usage) {
     </div>
 
     <div className="mt-5 rounded-3xl bg-slate-100 p-4">
-      <div className="mx-auto aspect-[210/297] w-full max-w-[430px] overflow-hidden bg-white px-6 py-7 shadow-2xl shadow-slate-300/70 ring-1 ring-slate-200">
+      <div
+  className={`mx-auto aspect-[210/297] w-full max-w-[430px] overflow-hidden ${templateStyles.page}`}
+>
         <div className="flex items-start justify-between gap-5 border-b border-slate-200 pb-3">
           <div>
-            <h3 className="text-xl font-extrabold uppercase tracking-wide text-slate-950">
+            <h3 className={`text-xl font-extrabold uppercase tracking-wide ${templateStyles.heading}`}>
               {formData.fullName || "YOUR NAME"}
             </h3>
 
-            <p className="mt-1.5 text-[11px] font-extrabold uppercase tracking-[0.25em] text-blue-700">
+            <p className={`mt-1.5 text-[11px] font-extrabold uppercase tracking-[0.25em] ${templateStyles.role}`}>
               Aviation Professional
             </p>
           </div>
 
-          <Image
-  src="/airportcv-logo-light.png"
-  alt="AirportCV logo"
-  width={160}
-  height={52}
-  className="h-auto w-32"
-/>
+         <div
+  className={`${templateStyles.icon} h-11 w-11 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-xl`}
+>
+  ✈️
+</div>
         </div>
 
         <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 border-b border-slate-200 pb-3 text-[9px] font-medium text-slate-600">
@@ -2386,18 +2552,18 @@ if (data.usage) {
         </div>
 
         <section className="mt-4">
-          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+          <h4 className={`border-b-2 ${templateStyles.section} pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950`}>
             Professional Summary
           </h4>
 
-          <p className="mt-2 text-[10px] leading-4 text-slate-700">
+          <p className={`mt-2 ${previewTextSize} text-slate-700`}>
             {formData.profile ||
               "Your professional profile will appear here. Add a short summary of your aviation background, strengths and career goal."}
           </p>
         </section>
 
         <section className="mt-4">
-          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+         <h4 className={`border-b-2 ${templateStyles.section} pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950`}>
             Key Skills
           </h4>
 
@@ -2423,7 +2589,7 @@ if (data.usage) {
         </section>
 
         <section className="mt-4">
-          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+          <h4 className={`border-b-2 ${templateStyles.section} pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950`}>
             Professional Experience
           </h4>
 
@@ -2448,7 +2614,7 @@ if (data.usage) {
                 </p>
 
                 {experience.responsibilities ? (
-                  <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-[9.5px] leading-4 text-slate-700">
+                  <ul className={`mt-1.5 list-disc space-y-0.5 pl-4 ${previewTextSize} text-slate-700`}>
                     {experience.responsibilities
                       .split("\n")
                       .map((item) => item.trim())
@@ -2469,7 +2635,7 @@ if (data.usage) {
         </section>
 
         <section className="mt-4">
-          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+          <h4 className={`border-b-2 ${templateStyles.section} pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950`}>
             Education & Training
           </h4>
 
@@ -2514,7 +2680,7 @@ if (data.usage) {
           formData.additionalInfo ||
           formData.references) && (
           <section className="mt-4">
-            <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+            <h4 className={`border-b-2 ${templateStyles.section} pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950`}>
               Additional Information
             </h4>
 
