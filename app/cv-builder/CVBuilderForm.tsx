@@ -366,13 +366,13 @@ const [responsibilitySuggestionMessageByExperience, setResponsibilitySuggestionM
   useState<Record<string, string>>({});
 
 const builderSteps = [
-  "Contact",
-  "Profile",
-  "Skills",
-  "Experience",
-  "Education",
-  "Final details",
-  "Review",
+  "CV Heading",
+  "Professional Profile",
+  "Key Skills",
+  "Work Experience",
+  "Education & Training",
+  "Additional Sections",
+  "Review & Generate",
 ];
 
 function goToNextStep() {
@@ -924,1374 +924,1413 @@ if (data.usage) {
     formData.otherCertifications
   );
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-10">
-  <section className="mx-auto max-w-7xl">
-    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-      <div>
-        <p className="inline-flex rounded-full bg-blue-50 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
-          ✦ CV Builder
-        </p>
-
-        <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-slate-950 md:text-5xl">
-          Build Your Aviation CV
-        </h1>
-
-        <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-          Create a professional, ATS-friendly CV designed for airport, airline
-          and aviation roles. Add your details once, then generate a clear
-          UK-style CV draft.
-        </p>
-
-        <div className="mt-7 flex flex-wrap gap-4 text-sm font-semibold text-slate-600">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
-            <span className="text-blue-600">✓</span>
-            Aviation-focused wording
-          </span>
-
-          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
-            <span className="text-blue-600">✓</span>
-            ATS-friendly structure
-          </span>
-
-          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
-            <span className="text-blue-600">✓</span>
-            Word download
-          </span>
-        </div>
-      </div>
-
-      <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-slate-500">
-              AI usage
-            </p>
-            <p className="mt-2 text-3xl font-extrabold text-slate-950">
-              Free plan
-            </p>
+    <main className="min-h-screen bg-[#f4f7fb]">
+      <div className="grid min-h-screen lg:grid-cols-[210px_1fr]">
+        <aside className="hidden bg-blue-950 px-5 py-6 text-white lg:flex lg:flex-col">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-2xl">
+              ✈️
+            </div>
+            <div>
+              <p className="text-lg font-extrabold">AirportCV</p>
+              <p className="text-xs font-semibold text-blue-200">
+                Aviation careers
+              </p>
+            </div>
           </div>
 
-          <div className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-bold text-blue-700 ring-1 ring-blue-100">
-            5 uses/month
-          </div>
-        </div>
+          <nav className="mt-10 space-y-1">
+            {builderSteps.map((step, index) => {
+              const active = currentStep === index + 1;
+              const complete = currentStep > index + 1;
 
-        <div className="mt-5 h-2 overflow-hidden rounded-full bg-slate-100">
-          <div className="h-full w-1/5 rounded-full bg-blue-600" />
-        </div>
+              return (
+                <button
+                  key={step}
+                  type="button"
+                  onClick={() => setCurrentStep(index + 1)}
+                  className={`flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-bold transition ${
+                    active
+                      ? "bg-white text-blue-950 shadow-lg"
+                      : "text-blue-100 hover:bg-white/10"
+                  }`}
+                >
+                  <span
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-extrabold ${
+                      active
+                        ? "border-blue-600 bg-blue-600 text-white"
+                        : complete
+                          ? "border-emerald-300 bg-emerald-400 text-blue-950"
+                          : "border-white/30 bg-white/5 text-white"
+                    }`}
+                  >
+                    {complete ? "✓" : index + 1}
+                  </span>
+                  <span>{step}</span>
+                </button>
+              );
+            })}
+          </nav>
 
-        <div className="mt-5 flex flex-col gap-3 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
-          <p>Usage is counted when you generate a CV.</p>
+          <div className="mt-auto space-y-4">
+            <div className="rounded-2xl bg-white/10 p-4">
+              <p className="text-sm font-extrabold">AI usage</p>
+              <p className="mt-2 text-xs text-blue-100">
+                Usage is counted when AI creates suggestions or generates your CV.
+              </p>
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/20">
+                <div className="h-full w-1/5 rounded-full bg-emerald-400" />
+              </div>
+            </div>
 
-          <Link
-            href="/pricing"
-            className="font-extrabold text-blue-700 hover:underline"
-          >
-            View Premium →
-          </Link>
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-blue-950">
-      <p className="font-extrabold">Privacy note</p>
-
-      <p className="mt-1">
-        Only include details that are useful for your CV. Avoid unnecessary
-        sensitive information such as passport numbers, National Insurance
-        numbers, full home address, date of birth, health information or
-        financial details. Read our{" "}
-        <Link href="/privacy" className="font-bold underline">
-          Privacy Policy
-        </Link>
-        .
-      </p>
-    </div>
-
-   <div className="mt-8 grid gap-8 xl:grid-cols-[1fr_0.95fr]">
-         <form
-  onSubmit={handleSubmit}
-  className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm"
->
-  <div className="mb-8 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-    <p className="text-sm font-extrabold text-slate-950">
-      Complete your CV step by step
-    </p>
-
-    <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-    {builderSteps.map((step, index) => (
-  <div
-    key={step}
-    className={`flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold ring-1 transition ${
-      currentStep === index + 1
-        ? "bg-blue-600 text-white ring-blue-600"
-        : "bg-white text-slate-600 ring-slate-200"
-    }`}
-  >
-    <span
-  className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-extrabold ${
-    currentStep === index + 1
-      ? "bg-white text-blue-700"
-      : "bg-blue-50 text-blue-700"
-  }`}
->
-  {index + 1}
-</span>
-    {step}
-  </div>
-))}
-    </div>
-  </div>
-
-{currentStep === 1 && (
-  <>
-    <div>
-      <h2 className="text-2xl font-semibold text-slate-900">
-        Contact details
-      </h2>
-
-      <p className="mt-2 text-sm text-slate-600">
-        Add the contact details you want shown at the top of your CV.
-      </p>
-    </div>
-
-    <div className="mt-6 grid gap-5 md:grid-cols-2">
-      <div>
-        <label
-          htmlFor="fullName"
-          className="mb-2 block text-sm font-medium text-slate-800"
-        >
-          Full name
-        </label>
-        <input
-          id="fullName"
-          name="fullName"
-          type="text"
-          value={formData.fullName}
-          onChange={handleTextChange}
-          placeholder="e.g. John Smith"
-          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="location"
-          className="mb-2 block text-sm font-medium text-slate-800"
-        >
-          Location
-        </label>
-        <input
-          id="location"
-          name="location"
-          type="text"
-          value={formData.location}
-          onChange={handleTextChange}
-          placeholder="e.g. London, UK"
-          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="email"
-          className="mb-2 block text-sm font-medium text-slate-800"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleTextChange}
-          placeholder="you@example.com"
-          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="phone"
-          className="mb-2 block text-sm font-medium text-slate-800"
-        >
-          Phone
-        </label>
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          value={formData.phone}
-          onChange={handleTextChange}
-          placeholder="+44 7000 000000"
-          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="linkedinUrl"
-          className="mb-2 block text-sm font-medium text-slate-800"
-        >
-          LinkedIn URL
-        </label>
-        <input
-          id="linkedinUrl"
-          name="linkedinUrl"
-          type="url"
-          value={formData.linkedinUrl}
-          onChange={handleTextChange}
-          placeholder="https://www.linkedin.com/in/your-name"
-          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="websiteUrl"
-          className="mb-2 block text-sm font-medium text-slate-800"
-        >
-          Portfolio or personal website
-        </label>
-        <input
-          id="websiteUrl"
-          name="websiteUrl"
-          type="url"
-          value={formData.websiteUrl}
-          onChange={handleTextChange}
-          placeholder="https://yourwebsite.com"
-          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-    </div>
-
-    <div className="mt-8 flex justify-end border-t border-slate-200 pt-6">
-      <button
-        type="button"
-        onClick={goToNextStep}
-        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
-      >
-        Save & Next →
-      </button>
-    </div>
-  </>
-)}
-
-{currentStep === 2 && (
-  <>
-    <div>
-      <h2 className="text-2xl font-semibold text-slate-900">CV focus</h2>
-
-      <p className="mt-2 text-sm text-slate-600">
-        Add your career stage and, if you have one, paste a job advert or
-        keywords so your CV can be tailored around the right language.
-      </p>
-    </div>
-
-    <div className="mt-6 grid gap-5 md:grid-cols-2">
-      <div>
-        <label
-          htmlFor="careerStage"
-          className="mb-2 block text-sm font-medium text-slate-800"
-        >
-          Career stage
-        </label>
-        <select
-          id="careerStage"
-          name="careerStage"
-          value={formData.careerStage}
-          onChange={handleTextChange}
-          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-        >
-          <option value="" disabled>
-            Select career stage
-          </option>
-          {careerStages.map((stage) => (
-            <option key={stage} value={stage}>
-              {stage}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-
-    <div className="mt-6">
-      <label
-        htmlFor="jobDescription"
-        className="mb-2 block text-sm font-medium text-slate-800"
-      >
-        Optional job advert or keywords
-      </label>
-      <textarea
-        id="jobDescription"
-        name="jobDescription"
-        rows={5}
-        value={formData.jobDescription}
-        onChange={handleTextChange}
-        placeholder="Paste key requirements from the job advert, such as passenger service, safety, compliance, dispatch, aircraft maintenance or customer service."
-        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-      />
-    </div>
-
-    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
-      <button
-        type="button"
-        onClick={goToPreviousStep}
-        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
-      >
-        ← Back
-      </button>
-
-      <button
-        type="button"
-        onClick={goToNextStep}
-        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
-      >
-        Save & Next →
-      </button>
-    </div>
-  </>
-)}
-
-{currentStep === 3 && (
-  <>
-    <div>
-      <h2 className="text-2xl font-semibold text-slate-900">
-        Professional profile
-      </h2>
-
-      <p className="mt-2 text-sm text-slate-600">
-        A short opening summary for the top of the CV.
-      </p>
-
-      <textarea
-        id="profile"
-        name="profile"
-        rows={5}
-        value={formData.profile}
-        onChange={handleTextChange}
-        placeholder="Write a short summary of your aviation background, strengths and career goal."
-        className="mt-6 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-      />
-      <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4">
-  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <div>
-      <p className="text-sm font-extrabold text-blue-950">
-        Need help writing this section?
-      </p>
-      <p className="mt-1 text-sm text-blue-900">
-        Generate 3 profile options based on your CV focus and details.
-      </p>
-    </div>
-
-    <button
-      type="button"
-      onClick={handleGenerateProfileSuggestions}
-      disabled={isGeneratingProfileSuggestions}
-      className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
-    >
-      {isGeneratingProfileSuggestions
-        ? "Generating..."
-        : "Generate suggestions"}
-    </button>
-  </div>
-
-  {profileSuggestionMessage && (
-    <p className="mt-3 text-sm font-medium text-blue-950">
-      {profileSuggestionMessage}
-    </p>
-  )}
-
-  {profileSuggestions.length > 0 && (
-    <div className="mt-4 grid gap-3">
-      {profileSuggestions.map((suggestion, index) => (
-        <div
-          key={`${suggestion}-${index}`}
-          className="rounded-xl border border-blue-100 bg-white p-4"
-        >
-          <p className="text-sm leading-6 text-slate-700">{suggestion}</p>
-
-          <button
-            type="button"
-            onClick={() =>
-              setFormData((currentData) => ({
-                ...currentData,
-                profile: suggestion,
-              }))
-            }
-            className="mt-3 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold text-blue-700 transition hover:bg-blue-100"
-          >
-            Use this profile
-          </button>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-    </div>
-
-    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
-      <button
-        type="button"
-        onClick={goToPreviousStep}
-        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
-      >
-        ← Back
-      </button>
-
-      <button
-        type="button"
-        onClick={goToNextStep}
-        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
-      >
-        Save & Next →
-      </button>
-    </div>
-  </>
-)}
-
-{currentStep === 4 && (
-  <>
-    <div>
-      <h2 className="text-2xl font-semibold text-slate-900">
-        Suggested aviation skills
-      </h2>
-
-      <p className="mt-2 text-sm text-slate-600">
-        Choose any that match your background, or add your own. This is for CV
-        wording, not a job application checklist.
-      </p>
-
-      <div className="mt-6 flex flex-wrap gap-2">
-        {aviationSkills.map((skill) => {
-          const selected = formData.selectedSkills.includes(skill);
-
-          return (
-            <button
-              key={skill}
-              type="button"
-              onClick={() => toggleSelectedValue("selectedSkills", skill)}
-              className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                selected
-                  ? "border-blue-600 bg-blue-600 text-white shadow-sm"
-                  : "border-slate-200 bg-slate-50 text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-              }`}
+            <Link
+              href="/dashboard"
+              className="block rounded-2xl bg-white/10 px-4 py-3 text-sm font-bold text-blue-50 transition hover:bg-white/15"
             >
-              {selected ? "✓ " : ""}
-              {skill}
-            </button>
-          );
-        })}
-      </div>
+              ← Back to dashboard
+            </Link>
+          </div>
+        </aside>
 
-      <textarea
-        id="otherSkills"
-        name="otherSkills"
-        rows={3}
-        value={formData.otherSkills}
-        onChange={handleTextChange}
-        placeholder="Add any other skills you want included."
-        className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-      />
-    </div>
+        <section className="flex min-w-0 flex-col">
+          <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 px-5 py-4 backdrop-blur">
+            <div className="mx-auto flex max-w-[1500px] flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-2xl ring-1 ring-blue-100">
+                  ✈️
+                </div>
+                <div>
+                  <p className="text-xl font-extrabold text-slate-950">
+                    Aviation CV Builder
+                  </p>
+                  <p className="text-sm text-slate-500">
+                    Build a polished aviation CV step by step
+                  </p>
+                </div>
+                <span className="hidden rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700 ring-1 ring-emerald-100 sm:inline-flex">
+                  ✓ Live preview
+                </span>
+              </div>
 
-    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
-      <button
-        type="button"
-        onClick={goToPreviousStep}
-        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
-      >
-        ← Back
-      </button>
-
-      <button
-        type="button"
-        onClick={goToNextStep}
-        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
-      >
-        Save & Next →
-      </button>
-    </div>
-  </>
-)}
-
-{currentStep === 5 && (
-  <>
-    <div>
-      <h2 className="text-2xl font-semibold text-slate-900">
-        Work experience
-      </h2>
-
-      <p className="mt-2 text-sm text-slate-600">
-        Add your most recent or most relevant role first. Use month and year
-        dates for a professional CV format.
-      </p>
-
-      <div className="mt-6 space-y-6">
-        {formData.workExperiences.map((experience, index) => (
-          <div
-            key={experience.id}
-            className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-          >
-            <div className="mb-5 flex items-center justify-between gap-4">
-              <h3 className="font-semibold text-slate-900">
-                Experience {index + 1}
-              </h3>
-
-              {formData.workExperiences.length > 1 && (
+              <div className="flex flex-wrap gap-3">
                 <button
                   type="button"
-                  onClick={() => removeWorkExperience(experience.id)}
-                  className="text-sm font-semibold text-red-600 hover:text-red-700"
+                  onClick={handleGenerateCV}
+                  disabled={isGenerating}
+                  className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
                 >
-                  Remove
+                  {isGenerating ? "Generating..." : "Generate CV"}
                 </button>
-              )}
+
+                <button
+                  type="button"
+                  onClick={handleDownloadWord}
+                  disabled={!generatedCV || isDownloading}
+                  className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-800 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-400"
+                >
+                  {isDownloading ? "Preparing..." : "Download Word"}
+                </button>
+
+                <Link
+                  href="/cv-checker"
+                  className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-slate-900/15 transition hover:bg-slate-800"
+                >
+                  Check with CV Checker →
+                </Link>
+              </div>
             </div>
+          </header>
 
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  Job title
-                </label>
-                <input
-                  type="text"
-                  value={experience.jobTitle}
-                  onChange={(event) =>
-                    updateWorkExperience(
-                      experience.id,
-                      "jobTitle",
-                      event.target.value
-                    )
-                  }
-                  placeholder="e.g. Passenger Service Agent"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  Company name
-                </label>
-                <input
-                  type="text"
-                  value={experience.companyName}
-                  onChange={(event) =>
-                    updateWorkExperience(
-                      experience.id,
-                      "companyName",
-                      event.target.value
-                    )
-                  }
-                  placeholder="e.g. ABC Ground Handling"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  value={experience.location}
-                  onChange={(event) =>
-                    updateWorkExperience(
-                      experience.id,
-                      "location",
-                      event.target.value
-                    )
-                  }
-                  placeholder="e.g. Heathrow Airport, London"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  Start date
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <select
-                    value={experience.startMonth}
-                    onChange={(event) =>
-                      updateWorkExperience(
-                        experience.id,
-                        "startMonth",
-                        event.target.value
-                      )
-                    }
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  >
-                    <option value="">Month</option>
-                    {monthOptions.map((month) => (
-                      <option key={month} value={month}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
-
-                  <select
-                    value={experience.startYear}
-                    onChange={(event) =>
-                      updateWorkExperience(
-                        experience.id,
-                        "startYear",
-                        event.target.value
-                      )
-                    }
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  >
-                    <option value="">Year</option>
-                    {yearOptions.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
+          <div className="mx-auto grid w-full max-w-[1500px] gap-6 px-5 py-6 xl:grid-cols-[minmax(520px,690px)_1fr]">
+            <form
+              onSubmit={handleSubmit}
+              className="min-w-0 space-y-5"
+            >
+              <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm lg:hidden">
+                <p className="text-sm font-extrabold text-slate-950">
+                  Step {currentStep} of {builderSteps.length}
+                </p>
+                <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                  {builderSteps.map((step, index) => (
+                    <button
+                      key={step}
+                      type="button"
+                      onClick={() => setCurrentStep(index + 1)}
+                      className={`shrink-0 rounded-full px-4 py-2 text-xs font-extrabold ${
+                        currentStep === index + 1
+                          ? "bg-blue-600 text-white"
+                          : "bg-slate-100 text-slate-600"
+                      }`}
+                    >
+                      {index + 1}. {step}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  End date
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <select
-                    value={experience.endMonth}
-                    onChange={(event) =>
-                      updateWorkExperience(
-                        experience.id,
-                        "endMonth",
-                        event.target.value
-                      )
-                    }
-                    disabled={experience.currentlyWorking}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
-                  >
-                    <option value="">Month</option>
-                    {monthOptions.map((month) => (
-                      <option key={month} value={month}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
+              <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+                {currentStep === 1 && (
+                  <>
+                    <div>
+                      <p className="text-sm font-extrabold text-blue-700">
+                        Step 1
+                      </p>
+                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+                        CV Heading
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Add your name, contact details and optional job advert keywords.
+                      </p>
+                    </div>
 
-                  <select
-                    value={experience.endYear}
-                    onChange={(event) =>
-                      updateWorkExperience(
-                        experience.id,
-                        "endYear",
-                        event.target.value
-                      )
-                    }
-                    disabled={experience.currentlyWorking}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
-                  >
-                    <option value="">Year</option>
-                    {yearOptions.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+                    <div className="mt-6 grid gap-5 md:grid-cols-2">
+                      <div>
+                        <label
+                          htmlFor="fullName"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Full name
+                        </label>
+                        <input
+                          id="fullName"
+                          name="fullName"
+                          type="text"
+                          value={formData.fullName}
+                          onChange={handleTextChange}
+                          placeholder="e.g. John Smith"
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
 
-              <label className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm text-slate-700">
-                <input
-                  type="checkbox"
-                  checked={experience.currentlyWorking}
-                  onChange={(event) =>
-                    toggleWorkExperienceCurrentlyWorking(
-                      experience.id,
-                      event.target.checked
-                    )
-                  }
-                  className="h-4 w-4"
-                />
-                I currently work here
-              </label>
-            </div>
+                      <div>
+                        <label
+                          htmlFor="location"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Location
+                        </label>
+                        <input
+                          id="location"
+                          name="location"
+                          type="text"
+                          value={formData.location}
+                          onChange={handleTextChange}
+                          placeholder="e.g. London, UK"
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
 
-            <div className="mt-5 space-y-5">
-              <div>
-  <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-    <label className="block text-sm font-medium text-slate-800">
-      Main responsibilities
-    </label>
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Email
+                        </label>
+                        <input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleTextChange}
+                          placeholder="you@example.com"
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
 
-    <button
-      type="button"
-      onClick={() => handleGenerateResponsibilitySuggestions(experience)}
-      disabled={
-        isGeneratingResponsibilitiesFor === experience.id ||
-        !experience.jobTitle.trim()
-      }
-      className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
-    >
-      {isGeneratingResponsibilitiesFor === experience.id
-        ? "Suggesting..."
-        : "Suggest responsibilities"}
-    </button>
-  </div>
+                      <div>
+                        <label
+                          htmlFor="phone"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Phone
+                        </label>
+                        <input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleTextChange}
+                          placeholder="+44 7000 000000"
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
 
-  {!experience.jobTitle.trim() && (
-    <p className="mb-2 text-xs text-slate-500">
-      Add a job title first to get better AI suggestions.
-    </p>
-  )}
+                      <div>
+                        <label
+                          htmlFor="linkedinUrl"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          LinkedIn URL
+                        </label>
+                        <input
+                          id="linkedinUrl"
+                          name="linkedinUrl"
+                          type="url"
+                          value={formData.linkedinUrl}
+                          onChange={handleTextChange}
+                          placeholder="https://www.linkedin.com/in/your-name"
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
 
-  <textarea
-    rows={5}
-    value={experience.responsibilities}
-    onChange={(event) =>
-      updateWorkExperience(
-        experience.id,
-        "responsibilities",
-        event.target.value
-      )
-    }
-    placeholder="Add your main duties, such as passenger support, safety checks, documentation, operations, dispatch, customer service or technical tasks."
-    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-  />
+                      <div>
+                        <label
+                          htmlFor="websiteUrl"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Portfolio or website
+                        </label>
+                        <input
+                          id="websiteUrl"
+                          name="websiteUrl"
+                          type="url"
+                          value={formData.websiteUrl}
+                          onChange={handleTextChange}
+                          placeholder="https://yourwebsite.com"
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
 
-  {responsibilitySuggestionMessageByExperience[experience.id] && (
-    <p className="mt-3 text-sm font-medium text-blue-950">
-      {responsibilitySuggestionMessageByExperience[experience.id]}
-    </p>
-  )}
+                      <div>
+                        <label
+                          htmlFor="careerStage"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Career stage
+                        </label>
+                        <select
+                          id="careerStage"
+                          name="careerStage"
+                          value={formData.careerStage}
+                          onChange={handleTextChange}
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        >
+                          <option value="" disabled>
+                            Select career stage
+                          </option>
+                          {careerStages.map((stage) => (
+                            <option key={stage} value={stage}>
+                              {stage}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-  {(responsibilitySuggestionsByExperience[experience.id] || []).length > 0 && (
-    <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-4">
-      <p className="text-sm font-extrabold text-blue-950">
-        Choose responsibilities to add
-      </p>
+                      <div className="md:col-span-2">
+                        <label
+                          htmlFor="jobDescription"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Optional job advert or keywords
+                        </label>
+                        <textarea
+                          id="jobDescription"
+                          name="jobDescription"
+                          rows={4}
+                          value={formData.jobDescription}
+                          onChange={handleTextChange}
+                          placeholder="Paste job advert keywords such as passenger service, safety, compliance, dispatch, aircraft maintenance or customer service."
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
+                    </div>
 
-      <div className="mt-3 grid gap-2">
-        {responsibilitySuggestionsByExperience[experience.id].map(
-          (suggestion, suggestionIndex) => (
-            <button
-              key={`${suggestion}-${suggestionIndex}`}
-              type="button"
-              onClick={() =>
-                addResponsibilitySuggestionToExperience(
-                  experience.id,
-                  suggestion
-                )
-              }
-              className="rounded-xl border border-blue-100 bg-white px-4 py-3 text-left text-sm leading-6 text-slate-700 transition hover:border-blue-300 hover:bg-blue-50"
-            >
-              + {suggestion}
-            </button>
-          )
-        )}
-      </div>
-    </div>
-  )}
-</div>
+                    <div className="mt-8 flex justify-end border-t border-slate-200 pt-6">
+                      <button
+                        type="button"
+                        onClick={goToNextStep}
+                        className="rounded-2xl bg-blue-600 px-7 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+                      >
+                        Continue →
+                      </button>
+                    </div>
+                  </>
+                )}
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  Key achievements
-                </label>
-                <textarea
-                  rows={5}
-                  value={experience.achievements}
-                  onChange={(event) =>
-                    updateWorkExperience(
-                      experience.id,
-                      "achievements",
-                      event.target.value
-                    )
-                  }
-                  placeholder="Add one achievement per line. Example: Handled 150+ passengers per shift while maintaining service standards."
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+                {currentStep === 2 && (
+                  <>
+                    <div>
+                      <p className="text-sm font-extrabold text-blue-700">
+                        Step 2
+                      </p>
+                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+                        Professional Profile
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Write a strong opening summary or use AI suggestions.
+                      </p>
+                    </div>
 
-      <button
-        type="button"
-        onClick={addWorkExperience}
-        className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
-      >
-        + Add another experience
-      </button>
-    </div>
+                    <textarea
+                      id="profile"
+                      name="profile"
+                      rows={7}
+                      value={formData.profile}
+                      onChange={handleTextChange}
+                      placeholder="Write a short summary of your aviation background, strengths and career goal."
+                      className="mt-6 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    />
 
-    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
-      <button
-        type="button"
-        onClick={goToPreviousStep}
-        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
-      >
-        ← Back
-      </button>
+                    <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <p className="text-sm font-extrabold text-blue-950">
+                            ✨ AI recommended profiles
+                          </p>
+                          <p className="mt-1 text-sm text-blue-900">
+                            Generate 3 profile options based on your CV heading and focus.
+                          </p>
+                        </div>
 
-      <button
-        type="button"
-        onClick={goToNextStep}
-        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
-      >
-        Save & Next →
-      </button>
-    </div>
-  </>
-)}
+                        <button
+                          type="button"
+                          onClick={handleGenerateProfileSuggestions}
+                          disabled={isGeneratingProfileSuggestions}
+                          className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+                        >
+                          {isGeneratingProfileSuggestions
+                            ? "Generating..."
+                            : "Generate suggestions"}
+                        </button>
+                      </div>
 
-{currentStep === 6 && (
-  <>
-    <div>
-      <h2 className="text-2xl font-semibold text-slate-900">
-        Education, licences and training
-      </h2>
+                      {profileSuggestionMessage && (
+                        <p className="mt-3 text-sm font-medium text-blue-950">
+                          {profileSuggestionMessage}
+                        </p>
+                      )}
 
-      <div className="mt-6">
-        <h3 className="text-lg font-semibold text-slate-900">Education</h3>
-        <p className="mt-2 text-sm text-slate-600">
-          Add school, college, university or aviation training. Add your highest
-          or most relevant qualification first.
-        </p>
+                      {profileSuggestions.length > 0 && (
+                        <div className="mt-4 grid gap-3">
+                          {profileSuggestions.map((suggestion, index) => (
+                            <div
+                              key={`${suggestion}-${index}`}
+                              className="rounded-xl border border-blue-100 bg-white p-4"
+                            >
+                              <p className="text-sm leading-6 text-slate-700">
+                                {suggestion}
+                              </p>
 
-        <div className="mt-5 space-y-6">
-          {formData.educationItems.map((item, index) => (
-            <div
-              key={item.id}
-              className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-            >
-              <div className="mb-5 flex items-center justify-between gap-4">
-                <h4 className="font-semibold text-slate-900">
-                  Education {index + 1}
-                </h4>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setFormData((currentData) => ({
+                                    ...currentData,
+                                    profile: suggestion,
+                                  }))
+                                }
+                                className="mt-3 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold text-blue-700 transition hover:bg-blue-100"
+                              >
+                                Use this profile
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
 
-                {formData.educationItems.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeEducationItem(item.id)}
-                    className="text-sm font-semibold text-red-600 hover:text-red-700"
-                  >
-                    Remove
-                  </button>
+                    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+                      <button
+                        type="button"
+                        onClick={goToPreviousStep}
+                        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goToNextStep}
+                        className="rounded-2xl bg-blue-600 px-7 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+                      >
+                        Continue →
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {currentStep === 3 && (
+                  <>
+                    <div>
+                      <p className="text-sm font-extrabold text-blue-700">
+                        Step 3
+                      </p>
+                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+                        Key Skills
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Choose aviation skills that truthfully match your background.
+                      </p>
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {aviationSkills.map((skill) => {
+                        const selected = formData.selectedSkills.includes(skill);
+
+                        return (
+                          <button
+                            key={skill}
+                            type="button"
+                            onClick={() => toggleSelectedValue("selectedSkills", skill)}
+                            className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                              selected
+                                ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                                : "border-slate-200 bg-slate-50 text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                            }`}
+                          >
+                            {selected ? "✓ " : ""}
+                            {skill}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <textarea
+                      id="otherSkills"
+                      name="otherSkills"
+                      rows={3}
+                      value={formData.otherSkills}
+                      onChange={handleTextChange}
+                      placeholder="Add any other skills you want included."
+                      className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    />
+
+                    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+                      <button
+                        type="button"
+                        onClick={goToPreviousStep}
+                        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goToNextStep}
+                        className="rounded-2xl bg-blue-600 px-7 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+                      >
+                        Continue →
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {currentStep === 4 && (
+                  <>
+                    <div>
+                      <p className="text-sm font-extrabold text-blue-700">
+                        Step 4
+                      </p>
+                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+                        Work Experience
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Add your most recent or most relevant aviation experience first.
+                      </p>
+                    </div>
+
+                    <div className="mt-6 space-y-6">
+                      {formData.workExperiences.map((experience, index) => (
+                        <div
+                          key={experience.id}
+                          className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+                        >
+                          <div className="mb-5 flex items-center justify-between gap-4">
+                            <h3 className="font-extrabold text-slate-950">
+                              Experience {index + 1}
+                            </h3>
+
+                            {formData.workExperiences.length > 1 && (
+                              <button
+                                type="button"
+                                onClick={() => removeWorkExperience(experience.id)}
+                                className="text-sm font-extrabold text-red-600 hover:text-red-700"
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+
+                          <div className="grid gap-5 md:grid-cols-2">
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                Job title
+                              </label>
+                              <input
+                                type="text"
+                                value={experience.jobTitle}
+                                onChange={(event) =>
+                                  updateWorkExperience(
+                                    experience.id,
+                                    "jobTitle",
+                                    event.target.value
+                                  )
+                                }
+                                placeholder="e.g. Passenger Service Agent"
+                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                Company name
+                              </label>
+                              <input
+                                type="text"
+                                value={experience.companyName}
+                                onChange={(event) =>
+                                  updateWorkExperience(
+                                    experience.id,
+                                    "companyName",
+                                    event.target.value
+                                  )
+                                }
+                                placeholder="e.g. ABC Ground Handling"
+                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                Location
+                              </label>
+                              <input
+                                type="text"
+                                value={experience.location}
+                                onChange={(event) =>
+                                  updateWorkExperience(
+                                    experience.id,
+                                    "location",
+                                    event.target.value
+                                  )
+                                }
+                                placeholder="e.g. Heathrow Airport, London"
+                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                Start date
+                              </label>
+                              <div className="grid grid-cols-2 gap-3">
+                                <select
+                                  value={experience.startMonth}
+                                  onChange={(event) =>
+                                    updateWorkExperience(
+                                      experience.id,
+                                      "startMonth",
+                                      event.target.value
+                                    )
+                                  }
+                                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                >
+                                  <option value="">Month</option>
+                                  {monthOptions.map((month) => (
+                                    <option key={month} value={month}>
+                                      {month}
+                                    </option>
+                                  ))}
+                                </select>
+
+                                <select
+                                  value={experience.startYear}
+                                  onChange={(event) =>
+                                    updateWorkExperience(
+                                      experience.id,
+                                      "startYear",
+                                      event.target.value
+                                    )
+                                  }
+                                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                >
+                                  <option value="">Year</option>
+                                  {yearOptions.map((year) => (
+                                    <option key={year} value={year}>
+                                      {year}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                End date
+                              </label>
+                              <div className="grid grid-cols-2 gap-3">
+                                <select
+                                  value={experience.endMonth}
+                                  onChange={(event) =>
+                                    updateWorkExperience(
+                                      experience.id,
+                                      "endMonth",
+                                      event.target.value
+                                    )
+                                  }
+                                  disabled={experience.currentlyWorking}
+                                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
+                                >
+                                  <option value="">Month</option>
+                                  {monthOptions.map((month) => (
+                                    <option key={month} value={month}>
+                                      {month}
+                                    </option>
+                                  ))}
+                                </select>
+
+                                <select
+                                  value={experience.endYear}
+                                  onChange={(event) =>
+                                    updateWorkExperience(
+                                      experience.id,
+                                      "endYear",
+                                      event.target.value
+                                    )
+                                  }
+                                  disabled={experience.currentlyWorking}
+                                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
+                                >
+                                  <option value="">Year</option>
+                                  {yearOptions.map((year) => (
+                                    <option key={year} value={year}>
+                                      {year}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+
+                            <label className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm text-slate-700 ring-1 ring-slate-200">
+                              <input
+                                type="checkbox"
+                                checked={experience.currentlyWorking}
+                                onChange={(event) =>
+                                  toggleWorkExperienceCurrentlyWorking(
+                                    experience.id,
+                                    event.target.checked
+                                  )
+                                }
+                                className="h-4 w-4"
+                              />
+                              I currently work here
+                            </label>
+                          </div>
+
+                          <div className="mt-5">
+                            <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                              <label className="block text-sm font-bold text-slate-800">
+                                Main responsibilities
+                              </label>
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleGenerateResponsibilitySuggestions(experience)
+                                }
+                                disabled={
+                                  isGeneratingResponsibilitiesFor === experience.id ||
+                                  !experience.jobTitle.trim()
+                                }
+                                className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+                              >
+                                {isGeneratingResponsibilitiesFor === experience.id
+                                  ? "Suggesting..."
+                                  : "Suggest responsibilities"}
+                              </button>
+                            </div>
+
+                            {!experience.jobTitle.trim() && (
+                              <p className="mb-2 text-xs text-slate-500">
+                                Add a job title first to get better AI suggestions.
+                              </p>
+                            )}
+
+                            <textarea
+                              rows={5}
+                              value={experience.responsibilities}
+                              onChange={(event) =>
+                                updateWorkExperience(
+                                  experience.id,
+                                  "responsibilities",
+                                  event.target.value
+                                )
+                              }
+                              placeholder="Add your main duties, one per line."
+                              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+
+                            {responsibilitySuggestionMessageByExperience[
+                              experience.id
+                            ] && (
+                              <p className="mt-3 text-sm font-medium text-blue-950">
+                                {
+                                  responsibilitySuggestionMessageByExperience[
+                                    experience.id
+                                  ]
+                                }
+                              </p>
+                            )}
+
+                            {(responsibilitySuggestionsByExperience[
+                              experience.id
+                            ] || []).length > 0 && (
+                              <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-4">
+                                <p className="text-sm font-extrabold text-blue-950">
+                                  ✨ Recommended phrases
+                                </p>
+
+                                <div className="mt-3 grid gap-2">
+                                  {responsibilitySuggestionsByExperience[
+                                    experience.id
+                                  ].map((suggestion, suggestionIndex) => (
+                                    <button
+                                      key={`${suggestion}-${suggestionIndex}`}
+                                      type="button"
+                                      onClick={() =>
+                                        addResponsibilitySuggestionToExperience(
+                                          experience.id,
+                                          suggestion
+                                        )
+                                      }
+                                      className="rounded-xl border border-blue-100 bg-white px-4 py-3 text-left text-sm leading-6 text-slate-700 transition hover:border-blue-300 hover:bg-blue-50"
+                                    >
+                                      + {suggestion}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="mt-5">
+                            <label className="mb-2 block text-sm font-bold text-slate-800">
+                              Key achievements
+                            </label>
+                            <textarea
+                              rows={4}
+                              value={experience.achievements}
+                              onChange={(event) =>
+                                updateWorkExperience(
+                                  experience.id,
+                                  "achievements",
+                                  event.target.value
+                                )
+                              }
+                              placeholder="Add one achievement per line, if useful."
+                              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={addWorkExperience}
+                      className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-extrabold text-blue-700 hover:bg-blue-100"
+                    >
+                      + Add another experience
+                    </button>
+
+                    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+                      <button
+                        type="button"
+                        onClick={goToPreviousStep}
+                        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goToNextStep}
+                        className="rounded-2xl bg-blue-600 px-7 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+                      >
+                        Continue →
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {currentStep === 5 && (
+                  <>
+                    <div>
+                      <p className="text-sm font-extrabold text-blue-700">
+                        Step 5
+                      </p>
+                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+                        Education & Training
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Add education, licences, certificates and aviation systems.
+                      </p>
+                    </div>
+
+                    <div className="mt-6 space-y-6">
+                      {formData.educationItems.map((item, index) => (
+                        <div
+                          key={item.id}
+                          className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+                        >
+                          <div className="mb-5 flex items-center justify-between gap-4">
+                            <h3 className="font-extrabold text-slate-950">
+                              Education {index + 1}
+                            </h3>
+
+                            {formData.educationItems.length > 1 && (
+                              <button
+                                type="button"
+                                onClick={() => removeEducationItem(item.id)}
+                                className="text-sm font-extrabold text-red-600 hover:text-red-700"
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+
+                          <div className="grid gap-5 md:grid-cols-2">
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                School, college or university
+                              </label>
+                              <input
+                                type="text"
+                                value={item.institutionName}
+                                onChange={(event) =>
+                                  updateEducationItem(
+                                    item.id,
+                                    "institutionName",
+                                    event.target.value
+                                  )
+                                }
+                                placeholder="e.g. University of West London"
+                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                Award, degree or qualification
+                              </label>
+                              <input
+                                type="text"
+                                value={item.qualificationName}
+                                onChange={(event) =>
+                                  updateEducationItem(
+                                    item.id,
+                                    "qualificationName",
+                                    event.target.value
+                                  )
+                                }
+                                placeholder="e.g. BSc Aviation Management"
+                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                Location
+                              </label>
+                              <input
+                                type="text"
+                                value={item.location}
+                                onChange={(event) =>
+                                  updateEducationItem(
+                                    item.id,
+                                    "location",
+                                    event.target.value
+                                  )
+                                }
+                                placeholder="e.g. London, UK"
+                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="mb-2 block text-sm font-bold text-slate-800">
+                                Completion date
+                              </label>
+                              <div className="grid grid-cols-2 gap-3">
+                                <select
+                                  value={item.completionMonth}
+                                  onChange={(event) =>
+                                    updateEducationItem(
+                                      item.id,
+                                      "completionMonth",
+                                      event.target.value
+                                    )
+                                  }
+                                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                >
+                                  <option value="">Month</option>
+                                  {monthOptions.map((month) => (
+                                    <option key={month} value={month}>
+                                      {month}
+                                    </option>
+                                  ))}
+                                </select>
+
+                                <select
+                                  value={item.completionYear}
+                                  onChange={(event) =>
+                                    updateEducationItem(
+                                      item.id,
+                                      "completionYear",
+                                      event.target.value
+                                    )
+                                  }
+                                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                >
+                                  <option value="">Year</option>
+                                  {yearOptions.map((year) => (
+                                    <option key={year} value={year}>
+                                      {year}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          <textarea
+                            rows={4}
+                            value={item.details}
+                            onChange={(event) =>
+                              updateEducationItem(
+                                item.id,
+                                "details",
+                                event.target.value
+                              )
+                            }
+                            placeholder="Add relevant modules, aviation projects, grades or achievements if useful."
+                            className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={addEducationItem}
+                      className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-extrabold text-blue-700 hover:bg-blue-100"
+                    >
+                      + Add another education
+                    </button>
+
+                    <div className="mt-8 space-y-6 border-t border-slate-200 pt-6">
+                      <div>
+                        <p className="mb-3 text-sm font-bold text-slate-800">
+                          Suggested aviation licences
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {aviationLicences.map((licence) => {
+                            const selected =
+                              formData.selectedLicences.includes(licence);
+
+                            return (
+                              <button
+                                key={licence}
+                                type="button"
+                                onClick={() =>
+                                  toggleSelectedValue("selectedLicences", licence)
+                                }
+                                className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                                  selected
+                                    ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                                    : "border-slate-200 bg-slate-50 text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                                }`}
+                              >
+                                {selected ? "✓ " : ""}
+                                {licence}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        <textarea
+                          id="otherLicences"
+                          name="otherLicences"
+                          rows={2}
+                          value={formData.otherLicences}
+                          onChange={handleTextChange}
+                          placeholder="Add any other licences."
+                          className="mt-4 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
+
+                      <div>
+                        <p className="mb-3 text-sm font-bold text-slate-800">
+                          Certificates and training
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {aviationCertifications.map((certificate) => {
+                            const selected =
+                              formData.selectedCertifications.includes(certificate);
+
+                            return (
+                              <button
+                                key={certificate}
+                                type="button"
+                                onClick={() =>
+                                  toggleSelectedValue(
+                                    "selectedCertifications",
+                                    certificate
+                                  )
+                                }
+                                className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                                  selected
+                                    ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                                    : "border-slate-200 bg-slate-50 text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                                }`}
+                              >
+                                {selected ? "✓ " : ""}
+                                {certificate}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        <textarea
+                          id="otherCertifications"
+                          name="otherCertifications"
+                          rows={2}
+                          value={formData.otherCertifications}
+                          onChange={handleTextChange}
+                          placeholder="Add any other certificates or training."
+                          className="mt-4 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
+
+                      <div>
+                        <p className="mb-3 text-sm font-bold text-slate-800">
+                          Aviation systems and tools
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {aviationSystems.map((system) => {
+                            const selected =
+                              formData.selectedSystems.includes(system);
+
+                            return (
+                              <button
+                                key={system}
+                                type="button"
+                                onClick={() =>
+                                  toggleSelectedValue("selectedSystems", system)
+                                }
+                                className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                                  selected
+                                    ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                                    : "border-slate-200 bg-slate-50 text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                                }`}
+                              >
+                                {selected ? "✓ " : ""}
+                                {system}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        <textarea
+                          id="otherSystems"
+                          name="otherSystems"
+                          rows={2}
+                          value={formData.otherSystems}
+                          onChange={handleTextChange}
+                          placeholder="Add any other systems, tools or software."
+                          className="mt-4 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+                      <button
+                        type="button"
+                        onClick={goToPreviousStep}
+                        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goToNextStep}
+                        className="rounded-2xl bg-blue-600 px-7 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+                      >
+                        Continue →
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {currentStep === 6 && (
+                  <>
+                    <div>
+                      <p className="text-sm font-extrabold text-blue-700">
+                        Step 6
+                      </p>
+                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+                        Additional Sections
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Add optional details only if they strengthen your CV.
+                      </p>
+                    </div>
+
+                    <div className="mt-6 grid gap-5 md:grid-cols-2">
+                      <div>
+                        <label
+                          htmlFor="rightToWork"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Right to work
+                        </label>
+                        <select
+                          id="rightToWork"
+                          name="rightToWork"
+                          value={formData.rightToWork}
+                          onChange={handleTextChange}
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        >
+                          <option value="">Choose an option</option>
+                          {rightToWorkOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {formData.rightToWork === "Limited right to work until" && (
+                        <div>
+                          <label
+                            htmlFor="rightToWorkUntil"
+                            className="mb-2 block text-sm font-bold text-slate-800"
+                          >
+                            Right to work valid until
+                          </label>
+                          <input
+                            id="rightToWorkUntil"
+                            name="rightToWorkUntil"
+                            type="date"
+                            value={formData.rightToWorkUntil}
+                            onChange={handleTextChange}
+                            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                          />
+                        </div>
+                      )}
+
+                      <div>
+                        <label
+                          htmlFor="drivingLicence"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Driving licence
+                        </label>
+                        <select
+                          id="drivingLicence"
+                          name="drivingLicence"
+                          value={formData.drivingLicence}
+                          onChange={handleTextChange}
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        >
+                          <option value="">Choose an option</option>
+                          {drivingLicenceOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="availability"
+                          className="mb-2 block text-sm font-bold text-slate-800"
+                        >
+                          Availability / notice period
+                        </label>
+                        <select
+                          id="availability"
+                          name="availability"
+                          value={formData.availability}
+                          onChange={handleTextChange}
+                          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        >
+                          <option value="">Choose an option</option>
+                          {availabilityOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {formData.availability ===
+                        "Available from a specific date" && (
+                        <div>
+                          <label
+                            htmlFor="availableFrom"
+                            className="mb-2 block text-sm font-bold text-slate-800"
+                          >
+                            Available from
+                          </label>
+                          <input
+                            id="availableFrom"
+                            name="availableFrom"
+                            type="date"
+                            value={formData.availableFrom}
+                            onChange={handleTextChange}
+                            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="mt-6 space-y-5">
+                      <textarea
+                        id="languages"
+                        name="languages"
+                        rows={3}
+                        value={formData.languages}
+                        onChange={handleTextChange}
+                        placeholder="Languages, e.g. English fluent, Hindi fluent."
+                        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                      />
+
+                      <textarea
+                        id="additionalInfo"
+                        name="additionalInfo"
+                        rows={4}
+                        value={formData.additionalInfo}
+                        onChange={handleTextChange}
+                        placeholder="Additional professional information such as airside experience, shift flexibility, relocation flexibility or airport ID experience."
+                        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                      />
+
+                      <input
+                        id="references"
+                        name="references"
+                        type="text"
+                        value={formData.references}
+                        onChange={handleTextChange}
+                        placeholder="References available on request"
+                        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                      />
+                    </div>
+
+                    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+                      <button
+                        type="button"
+                        onClick={goToPreviousStep}
+                        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goToNextStep}
+                        className="rounded-2xl bg-blue-600 px-7 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+                      >
+                        Review CV →
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {currentStep === 7 && (
+                  <>
+                    <div>
+                      <p className="text-sm font-extrabold text-blue-700">
+                        Step 7
+                      </p>
+                      <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+                        Review & Generate
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Review the live preview, generate your AI CV draft and download it as Word.
+                      </p>
+                    </div>
+
+                    <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+                      <p className="text-sm font-extrabold text-blue-950">
+                        Ready to generate your aviation CV?
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-blue-900">
+                        AirportCV will use the details you entered to create a professional UK-style aviation CV draft. Review it before applying.
+                      </p>
+
+                      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                        <button
+                          type="button"
+                          onClick={goToPreviousStep}
+                          className="rounded-2xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-blue-700 transition hover:bg-blue-50"
+                        >
+                          ← Back
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={handleGenerateCV}
+                          disabled={isGenerating}
+                          className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+                        >
+                          {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={handleDownloadWord}
+                          disabled={!generatedCV || isDownloading}
+                          className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+                        >
+                          {isDownloading ? "Preparing..." : "Download Word"}
+                        </button>
+                      </div>
+                    </div>
+
+                    {generateMessage && (
+                      <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+                        {generateMessage}
+                      </div>
+                    )}
+
+                    {generatedCV && (
+                      <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
+                        <h2 className="text-lg font-extrabold text-emerald-950">
+                          Your aviation CV draft is ready
+                        </h2>
+                        <p className="mt-1 text-sm leading-6 text-emerald-900">
+                          Download your Word CV, edit it if needed, then check the final version with the Aviation CV Checker.
+                        </p>
+
+                        {downloadMessage && (
+                          <p className="mt-3 text-sm font-semibold text-green-800">
+                            {downloadMessage}
+                          </p>
+                        )}
+
+                        <Link
+                          href="/cv-checker"
+                          className="mt-4 inline-flex rounded-xl bg-blue-600 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-blue-700"
+                        >
+                          Check this CV with Aviation CV Checker
+                        </Link>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
+            </form>
 
-              <div className="grid gap-5 md:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800">
-                    School, college or university
-                  </label>
-                  <input
-                    type="text"
-                    value={item.institutionName}
-                    onChange={(event) =>
-                      updateEducationItem(
-                        item.id,
-                        "institutionName",
-                        event.target.value
-                      )
-                    }
-                    placeholder="e.g. University of West London"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800">
-                    Award, degree or qualification
-                  </label>
-                  <input
-                    type="text"
-                    value={item.qualificationName}
-                    onChange={(event) =>
-                      updateEducationItem(
-                        item.id,
-                        "qualificationName",
-                        event.target.value
-                      )
-                    }
-                    placeholder="e.g. BSc Aviation Management"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800">
-                    Location
-                  </label>
-                  <input
-                    type="text"
-                    value={item.location}
-                    onChange={(event) =>
-                      updateEducationItem(item.id, "location", event.target.value)
-                    }
-                    placeholder="e.g. London, UK"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800">
-                    Completion date
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <select
-                      value={item.completionMonth}
-                      onChange={(event) =>
-                        updateEducationItem(
-                          item.id,
-                          "completionMonth",
-                          event.target.value
-                        )
-                      }
-                      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                      <option value="">Month</option>
-                      {monthOptions.map((month) => (
-                        <option key={month} value={month}>
-                          {month}
-                        </option>
-                      ))}
-                    </select>
-
-                    <select
-                      value={item.completionYear}
-                      onChange={(event) =>
-                        updateEducationItem(
-                          item.id,
-                          "completionYear",
-                          event.target.value
-                        )
-                      }
-                      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                      <option value="">Year</option>
-                      {yearOptions.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-5">
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  Details or relevant modules
-                </label>
-                <textarea
-                  rows={4}
-                  value={item.details}
-                  onChange={(event) =>
-                    updateEducationItem(item.id, "details", event.target.value)
-                  }
-                  placeholder="Add relevant modules, aviation projects, grades or achievements if useful."
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <button
-          type="button"
-          onClick={addEducationItem}
-          className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
-        >
-          + Add another education
-        </button>
-      </div>
-
-      <div className="mt-8 grid gap-6">
-        <div>
-          <p className="mb-3 text-sm font-medium text-slate-800">
-            Suggested aviation licences
-          </p>
-          <div className="grid gap-3 md:grid-cols-2">
-            {aviationLicences.map((licence) => (
-              <label
-                key={licence}
-                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-              >
-                <input
-                  type="checkbox"
-                  checked={formData.selectedLicences.includes(licence)}
-                  onChange={() =>
-                    toggleSelectedValue("selectedLicences", licence)
-                  }
-                  className="h-4 w-4"
-                />
-                {licence}
-              </label>
-            ))}
-          </div>
-
-          <textarea
-            id="otherLicences"
-            name="otherLicences"
-            rows={3}
-            value={formData.otherLicences}
-            onChange={handleTextChange}
-            placeholder="Add any other licences."
-            className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-
-        <div>
-          <p className="mb-3 text-sm font-medium text-slate-800">
-            Suggested certificates and training
-          </p>
-          <div className="grid gap-3 md:grid-cols-2">
-            {aviationCertifications.map((certificate) => (
-              <label
-                key={certificate}
-                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-              >
-                <input
-                  type="checkbox"
-                  checked={formData.selectedCertifications.includes(
-                    certificate
-                  )}
-                  onChange={() =>
-                    toggleSelectedValue("selectedCertifications", certificate)
-                  }
-                  className="h-4 w-4"
-                />
-                {certificate}
-              </label>
-            ))}
-          </div>
-
-          <textarea
-            id="otherCertifications"
-            name="otherCertifications"
-            rows={3}
-            value={formData.otherCertifications}
-            onChange={handleTextChange}
-            placeholder="Add any other certificates or training."
-            className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-
-        <div>
-          <p className="mb-3 text-sm font-medium text-slate-800">
-            Aviation systems and tools
-          </p>
-          <div className="grid gap-3 md:grid-cols-2">
-            {aviationSystems.map((system) => (
-              <label
-                key={system}
-                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-              >
-                <input
-                  type="checkbox"
-                  checked={formData.selectedSystems.includes(system)}
-                  onChange={() => toggleSelectedValue("selectedSystems", system)}
-                  className="h-4 w-4"
-                />
-                {system}
-              </label>
-            ))}
-          </div>
-
-          <textarea
-            id="otherSystems"
-            name="otherSystems"
-            rows={3}
-            value={formData.otherSystems}
-            onChange={handleTextChange}
-            placeholder="Add any other systems, tools or software."
-            className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
-      <button
-        type="button"
-        onClick={goToPreviousStep}
-        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
-      >
-        ← Back
-      </button>
-
-      <button
-        type="button"
-        onClick={goToNextStep}
-        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
-      >
-        Save & Next →
-      </button>
-    </div>
-  </>
-)}
-
-{currentStep === 7 && (
-  <>
-    <div>
-      <h2 className="text-2xl font-semibold text-slate-900">
-        Final details
-      </h2>
-
-      <p className="mt-2 text-sm text-slate-600">
-        Only include these if they strengthen the CV for your aviation role.
-      </p>
-
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
-        <div>
-          <label
-            htmlFor="rightToWork"
-            className="mb-2 block text-sm font-medium text-slate-800"
-          >
-            Right to work
-          </label>
-          <select
-            id="rightToWork"
-            name="rightToWork"
-            value={formData.rightToWork}
-            onChange={handleTextChange}
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          >
-            <option value="">Choose an option</option>
-            {rightToWorkOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {formData.rightToWork === "Limited right to work until" && (
-          <div>
-            <label
-              htmlFor="rightToWorkUntil"
-              className="mb-2 block text-sm font-medium text-slate-800"
-            >
-              Right to work valid until
-            </label>
-            <input
-              id="rightToWorkUntil"
-              name="rightToWorkUntil"
-              type="date"
-              value={formData.rightToWorkUntil}
-              onChange={handleTextChange}
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-        )}
-
-        <div>
-          <label
-            htmlFor="drivingLicence"
-            className="mb-2 block text-sm font-medium text-slate-800"
-          >
-            Driving licence
-          </label>
-          <select
-            id="drivingLicence"
-            name="drivingLicence"
-            value={formData.drivingLicence}
-            onChange={handleTextChange}
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          >
-            <option value="">Choose an option</option>
-            {drivingLicenceOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label
-            htmlFor="availability"
-            className="mb-2 block text-sm font-medium text-slate-800"
-          >
-            Availability / notice period
-          </label>
-          <select
-            id="availability"
-            name="availability"
-            value={formData.availability}
-            onChange={handleTextChange}
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          >
-            <option value="">Choose an option</option>
-            {availabilityOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {formData.availability === "Available from a specific date" && (
-          <div>
-            <label
-              htmlFor="availableFrom"
-              className="mb-2 block text-sm font-medium text-slate-800"
-            >
-              Available from
-            </label>
-            <input
-              id="availableFrom"
-              name="availableFrom"
-              type="date"
-              value={formData.availableFrom}
-              onChange={handleTextChange}
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="mt-6 space-y-5">
-        <div>
-          <label
-            htmlFor="languages"
-            className="mb-2 block text-sm font-medium text-slate-800"
-          >
-            Languages
-          </label>
-          <textarea
-            id="languages"
-            name="languages"
-            rows={3}
-            value={formData.languages}
-            onChange={handleTextChange}
-            placeholder="e.g. English fluent, Hindi fluent, Arabic conversational."
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="additionalInfo"
-            className="mb-2 block text-sm font-medium text-slate-800"
-          >
-            Additional professional information
-          </label>
-          <textarea
-            id="additionalInfo"
-            name="additionalInfo"
-            rows={4}
-            value={formData.additionalInfo}
-            onChange={handleTextChange}
-            placeholder="Add optional professional information such as airside experience, shift flexibility, relocation flexibility or airport ID experience."
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="references"
-            className="mb-2 block text-sm font-medium text-slate-800"
-          >
-            References
-          </label>
-          <input
-            id="references"
-            name="references"
-            type="text"
-            value={formData.references}
-            onChange={handleTextChange}
-            placeholder="References available on request"
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
-      <button
-        type="button"
-        onClick={goToPreviousStep}
-        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
-      >
-        ← Back
-      </button>
-
-      <button
-        type="submit"
-        className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm font-extrabold text-blue-700 transition hover:bg-blue-100"
-      >
-        Preview my CV details
-      </button>
-
-      <button
-        type="button"
-        onClick={handleGenerateCV}
-        disabled={isGenerating}
-        className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 disabled:shadow-none"
-      >
-        {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
-      </button>
-    </div>
-  </>
-)}
-{generateMessage && (
-  <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
-    {generateMessage}
-  </div>
-)}
-{generatedCV && (
-  <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h2 className="text-lg font-extrabold text-blue-950">
-          Your aviation CV draft is ready
-        </h2>
-
-        <p className="mt-1 text-sm leading-6 text-blue-900">
-          Review the live preview, download your Word document, then check the
-          final version with the Aviation CV Checker.
-        </p>
-      </div>
-
-      <button
-        type="button"
-        onClick={handleDownloadWord}
-        disabled={isDownloading}
-        className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-      >
-        {isDownloading ? "Preparing..." : "Download Word"}
-      </button>
-    </div>
-
-    {downloadMessage && (
-      <p className="mt-4 text-sm font-semibold text-green-800">
-        {downloadMessage}
-      </p>
-    )}
-
-    <Link
-      href="/cv-checker"
-      className="mt-4 inline-flex rounded-xl bg-blue-600 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-blue-700"
-    >
-      Check this CV with Aviation CV Checker
-    </Link>
-  </div>
-)}            
-          </form>
-
-         <aside className="xl:sticky xl:top-6 xl:self-start">
-  <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <aside className="min-w-0 xl:sticky xl:top-[92px] xl:self-start">
+  <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
     <div className="flex items-start justify-between gap-4">
       <div>
         <h2 className="text-xl font-extrabold text-slate-950">
-          Live Preview
+          Live CV Preview
         </h2>
 
         <p className="mt-1 flex items-center gap-2 text-sm text-slate-500">
           <span className="h-2 w-2 rounded-full bg-emerald-500" />
-          Your CV updates as you type
+          Updates as you type
         </p>
       </div>
 
@@ -2299,152 +2338,223 @@ if (data.usage) {
         <span className="inline-flex rounded-xl bg-white px-4 py-2 text-blue-700 shadow-sm">
           Preview
         </span>
+        <span className="inline-flex px-4 py-2 text-slate-500">
+          ATS Score
+        </span>
       </div>
     </div>
 
-    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
-      <div className="flex items-start justify-between gap-6 border-b border-slate-200 pb-5">
-        <div>
-          <h3 className="text-3xl font-extrabold tracking-wide text-slate-950">
-            {formData.fullName || "YOUR NAME"}
-          </h3>
+    <div className="mt-5 rounded-3xl bg-slate-100 p-4">
+      <div className="mx-auto aspect-[210/297] w-full max-w-[430px] overflow-hidden bg-white px-6 py-7 shadow-2xl shadow-slate-300/70 ring-1 ring-slate-200">
+        <div className="flex items-start justify-between gap-5 border-b border-slate-200 pb-3">
+          <div>
+            <h3 className="text-xl font-extrabold uppercase tracking-wide text-slate-950">
+              {formData.fullName || "YOUR NAME"}
+            </h3>
 
-         <p className="mt-2 text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
-  Aviation CV Builder
-</p>
-        </div>
-
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-3xl">
-          ✈️
-        </div>
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
-        {formData.email && <span>✉ {formData.email}</span>}
-        {formData.phone && <span>☎ {formData.phone}</span>}
-        {formData.location && <span>📍 {formData.location}</span>}
-        {formData.linkedinUrl && <span>in {formData.linkedinUrl}</span>}
-        {!formData.email &&
-          !formData.phone &&
-          !formData.location &&
-          !formData.linkedinUrl && (
-            <span>Contact details will appear here</span>
-          )}
-      </div>
-
-      <section className="mt-6">
-        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
-          Professional Summary
-        </h4>
-
-        <p className="mt-4 text-sm leading-7 text-slate-700">
-          {formData.profile ||
-            "Your professional profile will appear here. Add a short summary of your aviation background, strengths and career goal."}
-        </p>
-      </section>
-
-      <section className="mt-7">
-        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
-          Key Skills
-        </h4>
-
-        {skillsPreview ? (
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
-            {skillsPreview
-              .split(",")
-              .map((skill) => skill.trim())
-              .filter(Boolean)
-              .slice(0, 10)
-              .map((skill) => (
-                <p key={skill} className="flex gap-2 text-sm text-slate-700">
-                  <span className="font-extrabold text-blue-600">✓</span>
-                  <span>{skill}</span>
-                </p>
-              ))}
+            <p className="mt-1.5 text-[11px] font-extrabold uppercase tracking-[0.25em] text-blue-700">
+              Aviation Professional
+            </p>
           </div>
-        ) : (
-          <p className="mt-4 text-sm leading-7 text-slate-600">
-            Selected aviation skills will appear here.
+
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-xl">
+            ✈️
+          </div>
+        </div>
+
+        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 border-b border-slate-200 pb-3 text-[9px] font-medium text-slate-600">
+          {formData.email && <span>✉ {formData.email}</span>}
+          {formData.phone && <span>☎ {formData.phone}</span>}
+          {formData.location && <span>📍 {formData.location}</span>}
+          {formData.linkedinUrl && <span>in {formData.linkedinUrl}</span>}
+          {!formData.email &&
+            !formData.phone &&
+            !formData.location &&
+            !formData.linkedinUrl && (
+              <span>Contact details will appear here</span>
+            )}
+        </div>
+
+        <section className="mt-4">
+          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+            Professional Summary
+          </h4>
+
+          <p className="mt-2 text-[10px] leading-4 text-slate-700">
+            {formData.profile ||
+              "Your professional profile will appear here. Add a short summary of your aviation background, strengths and career goal."}
           </p>
+        </section>
+
+        <section className="mt-4">
+          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+            Key Skills
+          </h4>
+
+          {skillsPreview ? (
+            <div className="mt-2 grid gap-x-5 gap-y-1 sm:grid-cols-2">
+              {skillsPreview
+                .split(",")
+                .map((skill) => skill.trim())
+                .filter(Boolean)
+                .slice(0, 10)
+                .map((skill) => (
+                  <p key={skill} className="flex gap-1.5 text-[10px] text-slate-700">
+                    <span className="font-extrabold text-blue-600">✓</span>
+                    <span>{skill}</span>
+                  </p>
+                ))}
+            </div>
+          ) : (
+            <p className="mt-2 text-[10px] leading-4 text-slate-600">
+              Selected aviation skills will appear here.
+            </p>
+          )}
+        </section>
+
+        <section className="mt-4">
+          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+            Professional Experience
+          </h4>
+
+          <div className="mt-2.5 space-y-3">
+            {formData.workExperiences.slice(0, 3).map((experience) => (
+              <div key={experience.id}>
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-[10px] font-extrabold text-slate-950">
+                    {experience.jobTitle || "Job title"}
+                    {experience.companyName
+                      ? ` | ${experience.companyName}`
+                      : ""}
+                  </p>
+
+                  <p className="shrink-0 text-[9px] font-bold text-slate-600">
+                    {getExperienceDates(experience)}
+                  </p>
+                </div>
+
+                <p className="mt-0.5 text-[9px] font-semibold text-slate-500">
+                  {experience.location || "Location"}
+                </p>
+
+                {experience.responsibilities ? (
+                  <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-[9.5px] leading-4 text-slate-700">
+                    {experience.responsibilities
+                      .split("\n")
+                      .map((item) => item.trim())
+                      .filter(Boolean)
+                      .slice(0, 5)
+                      .map((item) => (
+                        <li key={item}>{item.replace(/^[•\-+]\s*/, "")}</li>
+                      ))}
+                  </ul>
+                ) : (
+                  <p className="mt-1.5 text-[9.5px] leading-4 text-slate-700">
+                    Main responsibilities will appear here.
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-4">
+          <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+            Education & Training
+          </h4>
+
+          <div className="mt-2.5 space-y-2">
+            {formData.educationItems.slice(0, 2).map((item) => (
+              <div key={item.id}>
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-[10px] font-extrabold text-slate-950">
+                    {item.qualificationName || "Qualification"}
+                    {item.institutionName
+                      ? ` | ${item.institutionName}`
+                      : ""}
+                  </p>
+
+                  <p className="shrink-0 text-[9px] font-bold text-slate-600">
+                    {item.completionMonth && item.completionYear
+                      ? `${item.completionMonth} ${item.completionYear}`
+                      : ""}
+                  </p>
+                </div>
+
+                <p className="mt-0.5 text-[9px] font-semibold text-slate-500">
+                  {item.location || "Location"}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {(licencesPreview || certificationsPreview || systemsPreview) && (
+            <div className="mt-2 space-y-0.5 text-[9.5px] leading-4 text-slate-700">
+              {licencesPreview && <p>{licencesPreview}</p>}
+              {certificationsPreview && <p>{certificationsPreview}</p>}
+              {systemsPreview && <p>{systemsPreview}</p>}
+            </div>
+          )}
+        </section>
+
+        {(formData.languages ||
+          formData.rightToWork ||
+          formData.drivingLicence ||
+          formData.availability ||
+          formData.additionalInfo ||
+          formData.references) && (
+          <section className="mt-4">
+            <h4 className="border-b-2 border-blue-600 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-950">
+              Additional Information
+            </h4>
+
+            <div className="mt-2 space-y-0.5 text-[9.5px] leading-4 text-slate-700">
+              {formData.languages && <p>{formData.languages}</p>}
+              {formData.rightToWork && (
+                <p>
+                  Right to work: {formData.rightToWork}
+                  {formData.rightToWorkUntil
+                    ? ` ${formData.rightToWorkUntil}`
+                    : ""}
+                </p>
+              )}
+              {formData.drivingLicence && (
+                <p>Driving licence: {formData.drivingLicence}</p>
+              )}
+              {formData.availability && (
+                <p>
+                  Availability: {formData.availability}
+                  {formData.availableFrom ? ` ${formData.availableFrom}` : ""}
+                </p>
+              )}
+              {formData.additionalInfo && <p>{formData.additionalInfo}</p>}
+              {formData.references && <p>{formData.references}</p>}
+            </div>
+          </section>
         )}
-      </section>
-
-      <section className="mt-7">
-        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
-          Work Experience
-        </h4>
-
-        <div className="mt-4 space-y-4">
-          {formData.workExperiences.slice(0, 2).map((experience) => (
-            <div key={experience.id}>
-              <p className="text-sm font-extrabold text-slate-950">
-                {experience.jobTitle || "Job title"}
-                {experience.companyName ? ` | ${experience.companyName}` : ""}
-              </p>
-
-              <p className="mt-1 text-xs font-semibold text-slate-500">
-                {(experience.location || "Location") +
-                  " | " +
-                  getExperienceDates(experience)}
-              </p>
-
-             {experience.responsibilities ? (
-  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-slate-700">
-    {experience.responsibilities
-      .split("\n")
-      .map((item) => item.trim())
-      .filter(Boolean)
-      .slice(0, 4)
-      .map((item) => (
-        <li key={item}>{item.replace(/^[•\-+]\s*/, "")}</li>
-      ))}
-  </ul>
-) : (
-  <p className="mt-2 text-sm leading-6 text-slate-700">
-    Main responsibilities will appear here.
-  </p>
-)}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-7">
-        <h4 className="border-b-2 border-blue-600 pb-2 text-sm font-extrabold uppercase tracking-wide text-slate-950">
-          Education & Training
-        </h4>
-
-        <div className="mt-4 space-y-3">
-          {formData.educationItems.slice(0, 2).map((item) => (
-            <div key={item.id}>
-              <p className="text-sm font-extrabold text-slate-950">
-                {item.qualificationName || "Qualification"}
-                {item.institutionName ? ` | ${item.institutionName}` : ""}
-              </p>
-
-              <p className="mt-1 text-xs font-semibold text-slate-500">
-                {item.location || "Location"}
-                {item.completionMonth && item.completionYear
-                  ? ` | ${item.completionMonth} ${item.completionYear}`
-                  : ""}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-
-    <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-blue-950">
-      <p className="font-extrabold">ATS-friendly reminder</p>
-      <p className="mt-1">
-        Keep your CV clear and focused. Use aviation keywords from the job
-        advert, but only include details that are true and relevant.
-      </p>
+      </div>
     </div>
   </div>
 </aside>
-        </div>
-      </section>
+          </div>
+
+          <div className="mx-auto mb-6 w-full max-w-[1500px] px-5">
+            <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-blue-950">
+              <p className="font-extrabold">Privacy note</p>
+              <p className="mt-1">
+                Only include details that are useful for your CV. Avoid
+                unnecessary sensitive information such as passport numbers,
+                National Insurance numbers, full home address, date of birth,
+                health information or financial details. Read our{" "}
+                <Link href="/privacy" className="font-bold underline">
+                  Privacy Policy
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
