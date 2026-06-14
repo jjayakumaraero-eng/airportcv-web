@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import {
   Document,
@@ -928,14 +929,15 @@ if (data.usage) {
       <div className="grid min-h-screen lg:grid-cols-[210px_1fr]">
         <aside className="hidden bg-blue-950 px-5 py-6 text-white lg:flex lg:flex-col">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-2xl">
-              ✈️
-            </div>
+            <Image
+  src="/airportcv-logo-light.png"
+  alt="AirportCV logo"
+  width={180}
+  height={58}
+  className="h-auto w-28"
+/>
             <div>
-              <p className="text-lg font-extrabold">AirportCV</p>
-              <p className="text-xs font-semibold text-blue-200">
-                Aviation careers
-              </p>
+             
             </div>
           </div>
 
@@ -996,9 +998,13 @@ if (data.usage) {
           <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 px-5 py-4 backdrop-blur">
             <div className="mx-auto flex max-w-[1500px] flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-2xl ring-1 ring-blue-100">
-                  ✈️
-                </div>
+               <Image
+  src="/airportcv-logo-light.png"
+  alt="AirportCV logo"
+  width={160}
+  height={52}
+  className="h-auto w-32"
+/>
                 <div>
                   <p className="text-xl font-extrabold text-slate-950">
                     Aviation CV Builder
@@ -2357,9 +2363,13 @@ if (data.usage) {
             </p>
           </div>
 
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-xl">
-            ✈️
-          </div>
+          <Image
+  src="/airportcv-logo-light.png"
+  alt="AirportCV logo"
+  width={160}
+  height={52}
+  className="h-auto w-32"
+/>
         </div>
 
         <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 border-b border-slate-200 pb-3 text-[9px] font-medium text-slate-600">
