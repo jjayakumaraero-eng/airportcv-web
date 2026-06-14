@@ -795,99 +795,116 @@ export default function Home() {
     </div>
   </div>
 </section>
-      <section className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-                Pricing
-              </p>
+     <section className="bg-slate-50 px-6 py-20">
+  <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-4xl text-center">
+      <p className="mx-auto inline-flex rounded-full bg-blue-50 px-5 py-2 text-sm font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+        ✦ Pricing
+      </p>
 
-              <h2 className="mt-4 text-4xl font-extrabold text-slate-950">
-                Start free. Upgrade when you need more.
-              </h2>
+      <h2 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
+        Start free. Upgrade when you need more.
+      </h2>
 
-              <p className="mt-5 text-lg leading-8 text-slate-600">
-                AirportCV is designed to stay simple: free users can try the
-                tools, and Premium will unlock higher monthly usage and extra
-                application support.
-              </p>
+      <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+        AirportCV is free to start. Premium is planned for users who need more
+        monthly AI usage and full application support.
+      </p>
+    </div>
 
-              <a
-                href="/pricing"
-                className="mt-8 inline-flex rounded-xl bg-blue-700 px-6 py-3 font-bold text-white hover:bg-blue-800"
-              >
-                View full pricing
-              </a>
-            </div>
+    <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2">
+      <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+        <p className="text-sm font-extrabold uppercase tracking-wide text-slate-500">
+          Free
+        </p>
 
-            <div className="grid gap-5 md:grid-cols-2">
-              <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
-                <p className="text-sm font-bold uppercase tracking-wide text-slate-500">
-                  Free
-                </p>
-
-                <div className="mt-4 flex items-end gap-1">
-                  <span className="text-5xl font-extrabold text-slate-950">
-                    £0
-                  </span>
-                  <span className="pb-2 text-slate-500">/month</span>
-                </div>
-
-                <ul className="mt-6 space-y-3 text-sm text-slate-700">
-                  {pricingFeatures.map((feature) => (
-                    <li key={feature} className="flex gap-3">
-                      <span className="font-bold text-blue-700">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <a
-                  href="/sign-up"
-                  className="mt-8 inline-flex w-full justify-center rounded-xl bg-slate-950 px-5 py-3 font-bold text-white hover:bg-slate-800"
-                >
-                  Start free
-                </a>
-              </div>
-
-              <div className="rounded-3xl border border-blue-200 bg-blue-50 p-7 shadow-sm">
-                <span className="inline-flex rounded-full bg-blue-700 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
-                  Coming soon
-                </span>
-
-                <p className="mt-5 text-sm font-bold uppercase tracking-wide text-blue-700">
-                  Premium
-                </p>
-
-                <div className="mt-4 flex items-end gap-1">
-                  <span className="text-5xl font-extrabold text-slate-950">
-                    £6.99
-                  </span>
-                  <span className="pb-2 text-slate-500">/month</span>
-                </div>
-
-                <ul className="mt-6 space-y-3 text-sm text-slate-700">
-                  {premiumFeatures.map((feature) => (
-                    <li key={feature} className="flex gap-3">
-                      <span className="font-bold text-blue-700">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <a
-                  href="/dashboard"
-                  className="mt-8 inline-flex w-full justify-center rounded-xl bg-blue-700 px-5 py-3 font-bold text-white hover:bg-blue-800"
-                >
-                  Go to dashboard
-                </a>
-              </div>
-            </div>
-          </div>
+        <div className="mt-4 flex items-end gap-1">
+          <span className="text-5xl font-extrabold text-slate-950">£0</span>
+          <span className="pb-2 text-slate-500">/month</span>
         </div>
-      </section>
 
+        <p className="mt-4 text-slate-600">
+          For trying AirportCV and using the core aviation career tools.
+        </p>
+
+        <ul className="mt-7 space-y-4 text-sm text-slate-700">
+          {[
+            "5 AI uses per month",
+            "Access to protected career tools",
+            "CV Builder access",
+            "CV Checker access",
+            "Career Assessment access",
+            "No saved CV storage by default",
+          ].map((item) => (
+            <li key={item} className="flex gap-3">
+              <span className="font-extrabold text-blue-700">✓</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href="/sign-up"
+          className="mt-8 inline-flex w-full justify-center rounded-2xl bg-slate-950 px-5 py-4 font-extrabold text-white transition hover:bg-slate-800"
+        >
+          Start free
+        </a>
+      </div>
+
+      <div className="relative rounded-[2rem] border border-blue-200 bg-blue-50 p-8 shadow-sm">
+        <span className="inline-flex rounded-full bg-blue-700 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-white">
+          Coming soon
+        </span>
+
+        <p className="mt-5 text-sm font-extrabold uppercase tracking-wide text-blue-700">
+          Premium
+        </p>
+
+        <div className="mt-4 flex items-end gap-1">
+          <span className="text-5xl font-extrabold text-slate-950">£6.99</span>
+          <span className="pb-2 text-slate-500">/month</span>
+        </div>
+
+        <p className="mt-4 text-slate-600">
+          For aviation job seekers who want higher usage and full application
+          support.
+        </p>
+
+        <ul className="mt-7 space-y-4 text-sm text-slate-700">
+          {[
+            "100 AI uses per month",
+            "All aviation career tools",
+            "Premium report access",
+            "CV Builder with Word download",
+            "CV Checker",
+            "Cover Letter Generator",
+            "Interview Preparation",
+          ].map((item) => (
+            <li key={item} className="flex gap-3">
+              <span className="font-extrabold text-blue-700">✓</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href="/pricing"
+          className="mt-8 inline-flex w-full justify-center rounded-2xl bg-blue-600 px-5 py-4 font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+        >
+          View Premium details
+        </a>
+      </div>
+    </div>
+
+    <div className="mx-auto mt-8 max-w-5xl rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+      <p className="text-sm leading-6 text-slate-600">
+        Premium payments are not active yet. Selected users may use a temporary
+        Premium access code from the dashboard while Stripe payments are being
+        prepared.
+      </p>
+    </div>
+  </div>
+</section>
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-8 text-white shadow-2xl md:p-10">
