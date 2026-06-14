@@ -309,65 +309,61 @@ export default function Home() {
 </div>
 </div>
 </section>
-      <section id="tools" className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-              AirportCV Tools
-            </p>
+      <section id="tools" className="bg-white px-6 py-20">
+  <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-3xl text-center">
+      <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
+        AirportCV Tools
+      </p>
 
-            <h2 className="mt-4 text-4xl font-extrabold text-slate-950 md:text-5xl">
-              Everything you need for aviation applications
-            </h2>
+      <h2 className="mt-4 text-4xl font-extrabold text-slate-950 md:text-5xl">
+        One platform for your aviation application journey
+      </h2>
 
-            <p className="mt-5 text-lg text-slate-600">
-              Use AirportCV as a simple journey: find the right direction, build
-              your CV, check your application, write your cover letter and
-              prepare for interview.
-            </p>
+      <p className="mt-5 text-lg leading-8 text-slate-600">
+        Build your CV, check your application, create cover letters and prepare
+        for interviews with tools designed around airport, airline and aviation
+        roles.
+      </p>
+    </div>
+
+    <div className="mt-14 grid gap-5 lg:grid-cols-5">
+      {tools.map((tool) => (
+        <a
+          key={tool.title}
+          href={tool.href}
+          className={`group rounded-3xl border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${
+            tool.featured
+              ? "border-blue-200 bg-blue-50 lg:col-span-2"
+              : "border-slate-200 bg-white"
+          }`}
+        >
+          <div
+            className={`flex h-12 w-12 items-center justify-center rounded-2xl ${tool.accent} text-xl text-white shadow-lg`}
+          >
+            {tool.icon}
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {tools.map((tool) => (
-              <a
-                key={tool.title}
-                href={tool.href}
-                className={`group flex min-h-[310px] flex-col rounded-[2rem] border p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${tool.ring}`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-2xl ${tool.accent} text-xl text-white shadow-lg`}
-                  >
-                    {tool.icon}
-                  </div>
+          <p className="mt-5 text-xs font-bold uppercase tracking-wide text-blue-600">
+            {tool.eyebrow}
+          </p>
 
-                  {tool.featured ? (
-                    <span className="rounded-full bg-blue-700 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
-                      Recommended
-                    </span>
-                  ) : (
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-slate-500">
-                      {tool.eyebrow}
-                    </span>
-                  )}
-                </div>
+          <h3 className="mt-2 text-2xl font-extrabold leading-tight text-slate-950">
+            {tool.title}
+          </h3>
 
-                <h3 className="mt-6 text-2xl font-extrabold leading-tight text-slate-950">
-                  {tool.title}
-                </h3>
+          <p className="mt-4 text-sm leading-6 text-slate-600">
+            {tool.description}
+          </p>
 
-                <p className="mt-4 text-sm leading-6 text-slate-600">
-                  {tool.description}
-                </p>
-
-                <p className="mt-auto pt-8 text-sm font-extrabold text-blue-700 group-hover:text-blue-900">
-                  {tool.cta} →
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+          <p className="mt-6 text-sm font-extrabold text-blue-700 group-hover:text-blue-900">
+            {tool.cta} →
+          </p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
 
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-7xl">
