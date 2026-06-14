@@ -499,13 +499,7 @@ const careerPaths: Record<string, string[]> = {
   Career Assessment
 </a>
 
-<a href="/cv-builder" className="transition hover:text-blue-400">
-  CV Builder
-</a>
 
-<a href="/cv-checker" className="transition hover:text-blue-400">
-  CV Checker
-</a>
 
   <a href="/about" className="transition hover:text-blue-400">
     About Us
@@ -517,10 +511,16 @@ const careerPaths: Record<string, string[]> = {
     Success Stories
   </a>
 
+<a
+  href="/pricing"
+  className="transition hover:text-blue-400">
+  Pricing
+</a>
   <a href="/blog" className="transition hover:text-blue-400">
     Blog
   </a>
 </div>
+
 
       <a
         href="/career-coach"
