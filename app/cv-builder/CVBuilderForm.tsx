@@ -770,41 +770,91 @@ if (data.usage) {
     formData.otherCertifications
   );
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-16">
-      <section className="mx-auto max-w-6xl">
-        <div className="mb-10">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-blue-700">
-            AirportCV Tool
-          </p>
+    <main className="min-h-screen bg-slate-50 px-6 py-10">
+  <section className="mx-auto max-w-7xl">
+    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div>
+        <p className="inline-flex rounded-full bg-blue-50 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+          ✦ CV Builder
+        </p>
 
-          <h1 className="mb-6 text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
-            Aviation CV Builder
-          </h1>
+        <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-slate-950 md:text-5xl">
+          Build Your Aviation CV
+        </h1>
 
-          <p className="max-w-3xl text-lg text-slate-700">
-  Build a professional aviation CV with guided sections, role-specific
-  keywords and a clean ATS-friendly structure. Add only the details that
-  strengthen your CV for your target role.
-</p>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+          Create a professional, ATS-friendly CV designed for airport, airline
+          and aviation roles. Add your details once, then generate a clear
+          UK-style CV draft.
+        </p>
+
+        <div className="mt-7 flex flex-wrap gap-4 text-sm font-semibold text-slate-600">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
+            <span className="text-blue-600">✓</span>
+            Aviation-focused wording
+          </span>
+
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
+            <span className="text-blue-600">✓</span>
+            ATS-friendly structure
+          </span>
+
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
+            <span className="text-blue-600">✓</span>
+            Word download
+          </span>
         </div>
-<div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950">
-  <p className="font-semibold">Privacy note</p>
-  <p className="mt-2">
-    Your CV details may contain personal information. AirportCV uses the
-    information you provide only to generate your aviation CV draft. Only include
-    details that are useful for your CV. Avoid unnecessary sensitive information
-    such as passport numbers, National Insurance numbers, full home address,
-    date of birth, health information or financial details.
-  </p>
-  <p className="mt-2">
-    Read our{" "}
-    <Link href="/privacy" className="font-semibold underline">
-      Privacy Policy
-    </Link>
-    .
-  </p>
-</div>
-        <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+      </div>
+
+      <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-slate-500">
+              AI usage
+            </p>
+            <p className="mt-2 text-3xl font-extrabold text-slate-950">
+              Free plan
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-bold text-blue-700 ring-1 ring-blue-100">
+            5 uses/month
+          </div>
+        </div>
+
+        <div className="mt-5 h-2 overflow-hidden rounded-full bg-slate-100">
+          <div className="h-full w-1/5 rounded-full bg-blue-600" />
+        </div>
+
+        <div className="mt-5 flex flex-col gap-3 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+          <p>Usage is counted when you generate a CV.</p>
+
+          <Link
+            href="/pricing"
+            className="font-extrabold text-blue-700 hover:underline"
+          >
+            View Premium →
+          </Link>
+        </div>
+      </div>
+    </div>
+
+    <div className="mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-blue-950">
+      <p className="font-extrabold">Privacy note</p>
+
+      <p className="mt-1">
+        Only include details that are useful for your CV. Avoid unnecessary
+        sensitive information such as passport numbers, National Insurance
+        numbers, full home address, date of birth, health information or
+        financial details. Read our{" "}
+        <Link href="/privacy" className="font-bold underline">
+          Privacy Policy
+        </Link>
+        .
+      </p>
+    </div>
+
+    <div className="mt-8 grid gap-8 lg:grid-cols-[2fr_1fr]">
           <form
             onSubmit={handleSubmit}
             className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200"
