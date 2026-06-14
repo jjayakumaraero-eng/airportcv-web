@@ -358,6 +358,12 @@ const [profileSuggestions, setProfileSuggestions] = useState<string[]>([]);
 const [isGeneratingProfileSuggestions, setIsGeneratingProfileSuggestions] =
   useState(false);
 const [profileSuggestionMessage, setProfileSuggestionMessage] = useState("");
+const [responsibilitySuggestionsByExperience, setResponsibilitySuggestionsByExperience] =
+  useState<Record<string, string[]>>({});
+const [isGeneratingResponsibilitiesFor, setIsGeneratingResponsibilitiesFor] =
+  useState<string | null>(null);
+const [responsibilitySuggestionMessageByExperience, setResponsibilitySuggestionMessageByExperience] =
+  useState<Record<string, string>>({});
 
 const builderSteps = [
   "Contact",
@@ -777,6 +783,90 @@ async function handleGenerateProfileSuggestions() {
     setIsGeneratingProfileSuggestions(false);
   }
 }  
+async function handleGenerateResponsibilitySuggestions(
+  experience: WorkExperience
+) {
+  setIsGeneratingResponsibilitiesFor(experience.id);
+  setResponsibilitySuggestionMessageByExperience((currentMessages) => ({
+    ...currentMessages,
+    [experience.id]: "",
+  }));
+  setResponsibilitySuggestionsByExperience((currentSuggestions) => ({
+    ...currentSuggestions,
+    [experience.id]: [],
+  }));
+
+  try {
+    const response = await fetch("/api/cv-suggestions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        suggestionType: "responsibilities",
+        formData,
+        context: {
+          jobTitle: experience.jobTitle,
+          companyName: experience.companyName,
+          responsibilities: experience.responsibilities,
+        },
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "Could not generate responsibility suggestions."
+      );
+    }
+
+    setResponsibilitySuggestionsByExperience((currentSuggestions) => ({
+      ...currentSuggestions,
+      [experience.id]: data.suggestions || [],
+    }));
+
+    setResponsibilitySuggestionMessageByExperience((currentMessages) => ({
+      ...currentMessages,
+      [experience.id]: data.usage
+        ? `Generated suggestions. You have ${data.usage.remaining} of ${data.usage.limit} AI uses remaining this month.`
+        : "Generated suggestions.",
+    }));
+  } catch (error) {
+    setResponsibilitySuggestionMessageByExperience((currentMessages) => ({
+      ...currentMessages,
+      [experience.id]:
+        error instanceof Error
+          ? error.message
+          : "Could not generate responsibility suggestions right now.",
+    }));
+  } finally {
+    setIsGeneratingResponsibilitiesFor(null);
+  }
+}
+
+function addResponsibilitySuggestionToExperience(
+  experienceId: string,
+  suggestion: string
+) {
+  setFormData((currentData) => ({
+    ...currentData,
+    workExperiences: currentData.workExperiences.map((experience) => {
+      if (experience.id !== experienceId) {
+        return experience;
+      }
+
+      const currentResponsibilities = experience.responsibilities.trim();
+
+      return {
+        ...experience,
+        responsibilities: currentResponsibilities
+          ? `${currentResponsibilities}\n${suggestion}`
+          : suggestion,
+      };
+    }),
+  }));
+}
 async function handleGenerateCV() {
   setPreviewStarted(true);
   setGenerateMessage("");
@@ -1527,23 +1617,80 @@ if (data.usage) {
 
             <div className="mt-5 space-y-5">
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-800">
-                  Main responsibilities
-                </label>
-                <textarea
-                  rows={5}
-                  value={experience.responsibilities}
-                  onChange={(event) =>
-                    updateWorkExperience(
-                      experience.id,
-                      "responsibilities",
-                      event.target.value
-                    )
-                  }
-                  placeholder="Add your main duties, such as passenger support, safety checks, documentation, operations, dispatch, customer service or technical tasks."
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
+  <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <label className="block text-sm font-medium text-slate-800">
+      Main responsibilities
+    </label>
+
+    <button
+      type="button"
+      onClick={() => handleGenerateResponsibilitySuggestions(experience)}
+      disabled={
+        isGeneratingResponsibilitiesFor === experience.id ||
+        !experience.jobTitle.trim()
+      }
+      className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+    >
+      {isGeneratingResponsibilitiesFor === experience.id
+        ? "Suggesting..."
+        : "Suggest responsibilities"}
+    </button>
+  </div>
+
+  {!experience.jobTitle.trim() && (
+    <p className="mb-2 text-xs text-slate-500">
+      Add a job title first to get better AI suggestions.
+    </p>
+  )}
+
+  <textarea
+    rows={5}
+    value={experience.responsibilities}
+    onChange={(event) =>
+      updateWorkExperience(
+        experience.id,
+        "responsibilities",
+        event.target.value
+      )
+    }
+    placeholder="Add your main duties, such as passenger support, safety checks, documentation, operations, dispatch, customer service or technical tasks."
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+  />
+
+  {responsibilitySuggestionMessageByExperience[experience.id] && (
+    <p className="mt-3 text-sm font-medium text-blue-950">
+      {responsibilitySuggestionMessageByExperience[experience.id]}
+    </p>
+  )}
+
+  {(responsibilitySuggestionsByExperience[experience.id] || []).length > 0 && (
+    <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-4">
+      <p className="text-sm font-extrabold text-blue-950">
+        Choose responsibilities to add
+      </p>
+
+      <div className="mt-3 grid gap-2">
+        {responsibilitySuggestionsByExperience[experience.id].map(
+          (suggestion, suggestionIndex) => (
+            <button
+              key={`${suggestion}-${suggestionIndex}`}
+              type="button"
+              onClick={() =>
+                addResponsibilitySuggestionToExperience(
+                  experience.id,
+                  suggestion
+                )
+              }
+              className="rounded-xl border border-blue-100 bg-white px-4 py-3 text-left text-sm leading-6 text-slate-700 transition hover:border-blue-300 hover:bg-blue-50"
+            >
+              + {suggestion}
+            </button>
+          )
+        )}
+      </div>
+    </div>
+  )}
+</div>
 
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-800">
@@ -2095,183 +2242,43 @@ if (data.usage) {
   </div>
 )}
 {generatedCV && (
-  <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-  <h2 className="text-2xl font-semibold text-slate-900">
-    Generated aviation CV draft
-  </h2>
+  <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 className="text-lg font-extrabold text-blue-950">
+          Your aviation CV draft is ready
+        </h2>
 
-  <button
-    type="button"
-    onClick={handleDownloadWord}
-    disabled={isDownloading}
-    className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-  >
-    {isDownloading ? "Preparing Word file..." : "Download Word"}
-  </button>
-</div>
-
-   <p className="mt-2 text-sm text-slate-600">
-  Review this draft carefully before using it. Download it as a Word document,
-  edit it if needed, then check the final version with the Aviation CV Checker.
-</p>
-
-{downloadMessage && (
-  <div className="mt-4 rounded-xl bg-green-50 p-3 text-sm font-medium text-green-800">
-    {downloadMessage}
-  </div>
-)}
-<div className="mt-5 rounded-xl border border-blue-100 bg-blue-50 p-4">
-  <p className="text-sm text-blue-950">
-    Next step: once you have reviewed or edited your Word CV, check it against
-    your target aviation role.
-  </p>
-
-  <Link
-    href="/cv-checker"
-    className="mt-3 inline-flex rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-  >
-    Check this CV with Aviation CV Checker
-  </Link>
-</div>
-
-    <div className="mt-6 space-y-6 text-sm text-slate-800">
-      <section>
-        <h3 className="text-lg font-bold uppercase tracking-wide text-slate-900">
-          {generatedCV.cvTitle}
-        </h3>
-      </section>
-
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          Professional Profile
-        </h3>
-        <p className="mt-2 whitespace-pre-line">
-          {generatedCV.professionalProfile}
+        <p className="mt-1 text-sm leading-6 text-blue-900">
+          Review the live preview, download your Word document, then check the
+          final version with the Aviation CV Checker.
         </p>
-      </section>
+      </div>
 
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          Key Skills
-        </h3>
-        <ul className="mt-2 list-disc space-y-1 pl-5">
-          {generatedCV.keySkills?.map((skill: string) => (
-            <li key={skill}>{skill}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          Work Experience
-        </h3>
-        <div className="mt-2 space-y-5">
-          {generatedCV.workExperience?.map(
-            (
-              experience: {
-                jobTitle: string;
-                companyName: string;
-                location: string;
-                dates: string;
-                bullets: string[];
-              },
-              index: number
-            ) => (
-              <div key={`${experience.jobTitle}-${index}`}>
-                <p className="font-semibold text-slate-900">
-                  {experience.jobTitle}
-                  {experience.companyName ? ` | ${experience.companyName}` : ""}
-                </p>
-                <p>
-                  {experience.location} | {experience.dates}
-                </p>
-                <ul className="mt-2 list-disc space-y-1 pl-5">
-                  {experience.bullets?.map((bullet: string) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-              </div>
-            )
-          )}
-        </div>
-      </section>
-
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          Education
-        </h3>
-        <div className="mt-2 space-y-4">
-          {generatedCV.education?.map(
-            (
-              item: {
-                qualification: string;
-                institution: string;
-                location: string;
-                date: string;
-                details: string;
-              },
-              index: number
-            ) => (
-              <div key={`${item.qualification}-${index}`}>
-                <p className="font-semibold text-slate-900">
-                  {item.qualification}
-                  {item.institution ? ` | ${item.institution}` : ""}
-                </p>
-                <p>
-                  {item.location} | {item.date}
-                </p>
-                {item.details && <p className="mt-1">{item.details}</p>}
-              </div>
-            )
-          )}
-        </div>
-      </section>
-
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          Licences and Training
-        </h3>
-        <ul className="mt-2 list-disc space-y-1 pl-5">
-          {generatedCV.licencesAndTraining?.map((item: string) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          Systems and Tools
-        </h3>
-        <ul className="mt-2 list-disc space-y-1 pl-5">
-          {generatedCV.systemsAndTools?.map((item: string) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          Additional Information
-        </h3>
-        <ul className="mt-2 list-disc space-y-1 pl-5">
-          {generatedCV.additionalInformation?.map((item: string) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h3 className="font-bold uppercase tracking-wide text-slate-900">
-          References
-        </h3>
-        <p className="mt-2">{generatedCV.references}</p>
-      </section>
+      <button
+        type="button"
+        onClick={handleDownloadWord}
+        disabled={isDownloading}
+        className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+      >
+        {isDownloading ? "Preparing..." : "Download Word"}
+      </button>
     </div>
-  </div>
-)}
 
-            
+    {downloadMessage && (
+      <p className="mt-4 text-sm font-semibold text-green-800">
+        {downloadMessage}
+      </p>
+    )}
+
+    <Link
+      href="/cv-checker"
+      className="mt-4 inline-flex rounded-xl bg-blue-600 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-blue-700"
+    >
+      Check this CV with Aviation CV Checker
+    </Link>
+  </div>
+)}            
           </form>
 
          <aside className="xl:sticky xl:top-6 xl:self-start">
@@ -2381,10 +2388,22 @@ if (data.usage) {
                   getExperienceDates(experience)}
               </p>
 
-              <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-700">
-                {experience.responsibilities ||
-                  "Main responsibilities will appear here."}
-              </p>
+             {experience.responsibilities ? (
+  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-slate-700">
+    {experience.responsibilities
+      .split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .slice(0, 4)
+      .map((item) => (
+        <li key={item}>{item.replace(/^[•\-+]\s*/, "")}</li>
+      ))}
+  </ul>
+) : (
+  <p className="mt-2 text-sm leading-6 text-slate-700">
+    Main responsibilities will appear here.
+  </p>
+)}
             </div>
           ))}
         </div>
