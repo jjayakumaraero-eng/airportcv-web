@@ -195,7 +195,7 @@ export async function POST(request: Request) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
     });
 
     const prompt = buildPrompt(body);
@@ -218,14 +218,16 @@ export async function POST(request: Request) {
       usage,
     });
   } catch (error) {
-    console.error("CV suggestions error:", error);
+  console.error("CV suggestions error:", error);
 
-    return NextResponse.json(
-      {
-        error:
-          "We could not generate suggestions right now. Please try again shortly.",
-      },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    {
+      error:
+        error instanceof Error
+          ? error.message
+          : "We could not generate suggestions right now. Please try again shortly.",
+    },
+    { status: 500 }
+  );
+}
 }
