@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import AuthButtons from "@/components/AuthButtons";
 import { useState } from "react";
 import {
   Document,
@@ -528,6 +529,7 @@ const careerPaths: Record<string, string[]> = {
         Get Started Free
       </a>
     </div>
+    <AuthButtons />
   </nav>
       <section className="relative overflow-hidden bg-[#030814]">
   <div
