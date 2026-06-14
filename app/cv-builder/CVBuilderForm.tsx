@@ -347,14 +347,32 @@ function getExperienceDates(experience: WorkExperience) {
 
 export default function CVBuilderForm() {
  const [formData, setFormData] = useState<FormData>(initialFormData);
-const [previewStarted, setPreviewStarted] = useState(false);
+const [currentStep, setCurrentStep] = useState(1);
+ const [previewStarted, setPreviewStarted] = useState(false);
 const [generateMessage, setGenerateMessage] = useState("");
 const [isGenerating, setIsGenerating] = useState(false);
 const [generatedCV, setGeneratedCV] = useState<any>(null);
 const [downloadMessage, setDownloadMessage] = useState("");
 const [isDownloading, setIsDownloading] = useState(false);
 
-  function handleTextChange(
+const builderSteps = [
+  "Contact",
+  "Profile",
+  "Skills",
+  "Experience",
+  "Education",
+  "Final details",
+  "Review",
+];
+
+function goToNextStep() {
+  setCurrentStep((step) => Math.min(step + 1, builderSteps.length));
+}
+
+function goToPreviousStep() {
+  setCurrentStep((step) => Math.max(step - 1, 1));
+}  
+function handleTextChange(
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) {
     const { name, value } = event.target;
@@ -865,971 +883,1111 @@ if (data.usage) {
     </p>
 
     <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-      {[
-        "Contact",
-        "Profile",
-        "Skills",
-        "Experience",
-        "Education",
-        "Final details",
-      ].map((step, index) => (
-        <div
-          key={step}
-          className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-xs font-bold text-slate-600 ring-1 ring-slate-200"
-        >
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-xs font-extrabold text-blue-700">
-            {index + 1}
-          </span>
-          {step}
-        </div>
-      ))}
+    {builderSteps.map((step, index) => (
+  <div
+    key={step}
+    className={`flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold ring-1 transition ${
+      currentStep === index + 1
+        ? "bg-blue-600 text-white ring-blue-600"
+        : "bg-white text-slate-600 ring-slate-200"
+    }`}
+  >
+    <span
+  className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-extrabold ${
+    currentStep === index + 1
+      ? "bg-white text-blue-700"
+      : "bg-blue-50 text-blue-700"
+  }`}
+>
+  {index + 1}
+</span>
+    {step}
+  </div>
+))}
     </div>
   </div>
-            <div>
-              <h2 className="text-2xl font-semibold text-slate-900">
-  CV focus
-</h2>
-              
-              <p className="mt-2 text-sm text-slate-600">
-                Add the contact details you want shown at the top of your CV.
-              </p>
-            </div>
-            
 
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
-              <div>
-               
-                <label
-                  htmlFor="fullName"
-                  className="mb-2 block text-sm font-medium text-slate-800"
+{currentStep === 1 && (
+  <>
+    <div>
+      <h2 className="text-2xl font-semibold text-slate-900">
+        Contact details
+      </h2>
+
+      <p className="mt-2 text-sm text-slate-600">
+        Add the contact details you want shown at the top of your CV.
+      </p>
+    </div>
+
+    <div className="mt-6 grid gap-5 md:grid-cols-2">
+      <div>
+        <label
+          htmlFor="fullName"
+          className="mb-2 block text-sm font-medium text-slate-800"
+        >
+          Full name
+        </label>
+        <input
+          id="fullName"
+          name="fullName"
+          type="text"
+          value={formData.fullName}
+          onChange={handleTextChange}
+          placeholder="e.g. John Smith"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="location"
+          className="mb-2 block text-sm font-medium text-slate-800"
+        >
+          Location
+        </label>
+        <input
+          id="location"
+          name="location"
+          type="text"
+          value={formData.location}
+          onChange={handleTextChange}
+          placeholder="e.g. London, UK"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="email"
+          className="mb-2 block text-sm font-medium text-slate-800"
+        >
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleTextChange}
+          placeholder="you@example.com"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="phone"
+          className="mb-2 block text-sm font-medium text-slate-800"
+        >
+          Phone
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          value={formData.phone}
+          onChange={handleTextChange}
+          placeholder="+44 7000 000000"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="linkedinUrl"
+          className="mb-2 block text-sm font-medium text-slate-800"
+        >
+          LinkedIn URL
+        </label>
+        <input
+          id="linkedinUrl"
+          name="linkedinUrl"
+          type="url"
+          value={formData.linkedinUrl}
+          onChange={handleTextChange}
+          placeholder="https://www.linkedin.com/in/your-name"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="websiteUrl"
+          className="mb-2 block text-sm font-medium text-slate-800"
+        >
+          Portfolio or personal website
+        </label>
+        <input
+          id="websiteUrl"
+          name="websiteUrl"
+          type="url"
+          value={formData.websiteUrl}
+          onChange={handleTextChange}
+          placeholder="https://yourwebsite.com"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+    </div>
+
+    <div className="mt-8 flex justify-end border-t border-slate-200 pt-6">
+      <button
+        type="button"
+        onClick={goToNextStep}
+        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Save & Next →
+      </button>
+    </div>
+  </>
+)}
+
+{currentStep === 2 && (
+  <>
+    <div>
+      <h2 className="text-2xl font-semibold text-slate-900">CV focus</h2>
+
+      <p className="mt-2 text-sm text-slate-600">
+        Add your career stage and, if you have one, paste a job advert or
+        keywords so your CV can be tailored around the right language.
+      </p>
+    </div>
+
+    <div className="mt-6 grid gap-5 md:grid-cols-2">
+      <div>
+        <label
+          htmlFor="careerStage"
+          className="mb-2 block text-sm font-medium text-slate-800"
+        >
+          Career stage
+        </label>
+        <select
+          id="careerStage"
+          name="careerStage"
+          value={formData.careerStage}
+          onChange={handleTextChange}
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        >
+          <option value="" disabled>
+            Select career stage
+          </option>
+          {careerStages.map((stage) => (
+            <option key={stage} value={stage}>
+              {stage}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <label
+        htmlFor="jobDescription"
+        className="mb-2 block text-sm font-medium text-slate-800"
+      >
+        Optional job advert or keywords
+      </label>
+      <textarea
+        id="jobDescription"
+        name="jobDescription"
+        rows={5}
+        value={formData.jobDescription}
+        onChange={handleTextChange}
+        placeholder="Paste key requirements from the job advert, such as passenger service, safety, compliance, dispatch, aircraft maintenance or customer service."
+        className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+      <button
+        type="button"
+        onClick={goToPreviousStep}
+        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+      >
+        ← Back
+      </button>
+
+      <button
+        type="button"
+        onClick={goToNextStep}
+        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Save & Next →
+      </button>
+    </div>
+  </>
+)}
+
+{currentStep === 3 && (
+  <>
+    <div>
+      <h2 className="text-2xl font-semibold text-slate-900">
+        Professional profile
+      </h2>
+
+      <p className="mt-2 text-sm text-slate-600">
+        A short opening summary for the top of the CV.
+      </p>
+
+      <textarea
+        id="profile"
+        name="profile"
+        rows={5}
+        value={formData.profile}
+        onChange={handleTextChange}
+        placeholder="Write a short summary of your aviation background, strengths and career goal."
+        className="mt-6 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+      <button
+        type="button"
+        onClick={goToPreviousStep}
+        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+      >
+        ← Back
+      </button>
+
+      <button
+        type="button"
+        onClick={goToNextStep}
+        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Save & Next →
+      </button>
+    </div>
+  </>
+)}
+
+{currentStep === 4 && (
+  <>
+    <div>
+      <h2 className="text-2xl font-semibold text-slate-900">
+        Suggested aviation skills
+      </h2>
+
+      <p className="mt-2 text-sm text-slate-600">
+        Choose any that match your background, or add your own. This is for CV
+        wording, not a job application checklist.
+      </p>
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        {aviationSkills.map((skill) => {
+          const selected = formData.selectedSkills.includes(skill);
+
+          return (
+            <button
+              key={skill}
+              type="button"
+              onClick={() => toggleSelectedValue("selectedSkills", skill)}
+              className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                selected
+                  ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                  : "border-slate-200 bg-slate-50 text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+              }`}
+            >
+              {selected ? "✓ " : ""}
+              {skill}
+            </button>
+          );
+        })}
+      </div>
+
+      <textarea
+        id="otherSkills"
+        name="otherSkills"
+        rows={3}
+        value={formData.otherSkills}
+        onChange={handleTextChange}
+        placeholder="Add any other skills you want included."
+        className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+
+    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+      <button
+        type="button"
+        onClick={goToPreviousStep}
+        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+      >
+        ← Back
+      </button>
+
+      <button
+        type="button"
+        onClick={goToNextStep}
+        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Save & Next →
+      </button>
+    </div>
+  </>
+)}
+
+{currentStep === 5 && (
+  <>
+    <div>
+      <h2 className="text-2xl font-semibold text-slate-900">
+        Work experience
+      </h2>
+
+      <p className="mt-2 text-sm text-slate-600">
+        Add your most recent or most relevant role first. Use month and year
+        dates for a professional CV format.
+      </p>
+
+      <div className="mt-6 space-y-6">
+        {formData.workExperiences.map((experience, index) => (
+          <div
+            key={experience.id}
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+          >
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <h3 className="font-semibold text-slate-900">
+                Experience {index + 1}
+              </h3>
+
+              {formData.workExperiences.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeWorkExperience(experience.id)}
+                  className="text-sm font-semibold text-red-600 hover:text-red-700"
                 >
-                  Full name
+                  Remove
+                </button>
+              )}
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-800">
+                  Job title
                 </label>
                 <input
-                  id="fullName"
-                  name="fullName"
                   type="text"
-                  value={formData.fullName}
-                  onChange={handleTextChange}
-                  placeholder="e.g. John Smith"
+                  value={experience.jobTitle}
+                  onChange={(event) =>
+                    updateWorkExperience(
+                      experience.id,
+                      "jobTitle",
+                      event.target.value
+                    )
+                  }
+                  placeholder="e.g. Passenger Service Agent"
                   className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="location"
-                  className="mb-2 block text-sm font-medium text-slate-800"
-                >
+                <label className="mb-2 block text-sm font-medium text-slate-800">
+                  Company name
+                </label>
+                <input
+                  type="text"
+                  value={experience.companyName}
+                  onChange={(event) =>
+                    updateWorkExperience(
+                      experience.id,
+                      "companyName",
+                      event.target.value
+                    )
+                  }
+                  placeholder="e.g. ABC Ground Handling"
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-800">
                   Location
                 </label>
                 <input
-                  id="location"
-                  name="location"
                   type="text"
-                  value={formData.location}
-                  onChange={handleTextChange}
-                  placeholder="e.g. London, UK"
+                  value={experience.location}
+                  onChange={(event) =>
+                    updateWorkExperience(
+                      experience.id,
+                      "location",
+                      event.target.value
+                    )
+                  }
+                  placeholder="e.g. Heathrow Airport, London"
                   className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="email"
-                  className="mb-2 block text-sm font-medium text-slate-800"
-                >
-                  Email
+                <label className="mb-2 block text-sm font-medium text-slate-800">
+                  Start date
                 </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleTextChange}
-                  placeholder="you@example.com"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="mb-2 block text-sm font-medium text-slate-800"
-                >
-                  Phone
-                </label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleTextChange}
-                  placeholder="+44 7000 000000"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="linkedinUrl"
-                  className="mb-2 block text-sm font-medium text-slate-800"
-                >
-                  LinkedIn URL
-                </label>
-                <input
-                  id="linkedinUrl"
-                  name="linkedinUrl"
-                  type="url"
-                  value={formData.linkedinUrl}
-                  onChange={handleTextChange}
-                  placeholder="https://www.linkedin.com/in/your-name"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="websiteUrl"
-                  className="mb-2 block text-sm font-medium text-slate-800"
-                >
-                  Portfolio or personal website
-                </label>
-                <input
-                  id="websiteUrl"
-                  name="websiteUrl"
-                  type="url"
-                  value={formData.websiteUrl}
-                  onChange={handleTextChange}
-                  placeholder="https://yourwebsite.com"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-            </div>
-
-            <div className="mt-10 border-t border-slate-200 pt-8">
-              <h2 className="text-2xl font-semibold text-slate-900">
-                CV focus
-              </h2>
-             <p className="mt-2 text-sm text-slate-600">
-  Add your career stage and, if you have one, paste a job advert or keywords so
-your CV can be tailored around the right language.
-</p>
-              <div className="mt-6 grid gap-5 md:grid-cols-2">
-                
-
-                <div>
-                  <label
-                    htmlFor="careerStage"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Career stage
-                  </label>
+                <div className="grid grid-cols-2 gap-3">
                   <select
-                    id="careerStage"
-                    name="careerStage"
-                    value={formData.careerStage}
-                    onChange={handleTextChange}
+                    value={experience.startMonth}
+                    onChange={(event) =>
+                      updateWorkExperience(
+                        experience.id,
+                        "startMonth",
+                        event.target.value
+                      )
+                    }
                     className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                   >
-                    <option value="" disabled>
-                      Select career stage
-                    </option>
-                    {careerStages.map((stage) => (
-                      <option key={stage} value={stage}>
-                        {stage}
+                    <option value="">Month</option>
+                    {monthOptions.map((month) => (
+                      <option key={month} value={month}>
+                        {month}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select
+                    value={experience.startYear}
+                    onChange={(event) =>
+                      updateWorkExperience(
+                        experience.id,
+                        "startYear",
+                        event.target.value
+                      )
+                    }
+                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  >
+                    <option value="">Year</option>
+                    {yearOptions.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
 
-              <div className="mt-6">
-                <label
-                  htmlFor="jobDescription"
-                  className="mb-2 block text-sm font-medium text-slate-800"
-                >
-                  Optional job advert or keywords
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-800">
+                  End date
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <select
+                    value={experience.endMonth}
+                    onChange={(event) =>
+                      updateWorkExperience(
+                        experience.id,
+                        "endMonth",
+                        event.target.value
+                      )
+                    }
+                    disabled={experience.currentlyWorking}
+                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
+                  >
+                    <option value="">Month</option>
+                    {monthOptions.map((month) => (
+                      <option key={month} value={month}>
+                        {month}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select
+                    value={experience.endYear}
+                    onChange={(event) =>
+                      updateWorkExperience(
+                        experience.id,
+                        "endYear",
+                        event.target.value
+                      )
+                    }
+                    disabled={experience.currentlyWorking}
+                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
+                  >
+                    <option value="">Year</option>
+                    {yearOptions.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <label className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm text-slate-700">
+                <input
+                  type="checkbox"
+                  checked={experience.currentlyWorking}
+                  onChange={(event) =>
+                    toggleWorkExperienceCurrentlyWorking(
+                      experience.id,
+                      event.target.checked
+                    )
+                  }
+                  className="h-4 w-4"
+                />
+                I currently work here
+              </label>
+            </div>
+
+            <div className="mt-5 space-y-5">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-800">
+                  Main responsibilities
                 </label>
                 <textarea
-                  id="jobDescription"
-                  name="jobDescription"
                   rows={5}
-                  value={formData.jobDescription}
-                  onChange={handleTextChange}
-                  placeholder="Paste key requirements from the job advert, such as passenger service, safety, compliance, dispatch, aircraft maintenance or customer service."
+                  value={experience.responsibilities}
+                  onChange={(event) =>
+                    updateWorkExperience(
+                      experience.id,
+                      "responsibilities",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Add your main duties, such as passenger support, safety checks, documentation, operations, dispatch, customer service or technical tasks."
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-800">
+                  Key achievements
+                </label>
+                <textarea
+                  rows={5}
+                  value={experience.achievements}
+                  onChange={(event) =>
+                    updateWorkExperience(
+                      experience.id,
+                      "achievements",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Add one achievement per line. Example: Handled 150+ passengers per shift while maintaining service standards."
                   className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
             </div>
+          </div>
+        ))}
+      </div>
 
-            <div className="mt-10 border-t border-slate-200 pt-8">
-              <h2 className="text-2xl font-semibold text-slate-900">
-                Professional profile
-              </h2>
-              <p className="mt-2 text-sm text-slate-600">
-                A short opening summary for the top of the CV.
-              </p>
+      <button
+        type="button"
+        onClick={addWorkExperience}
+        className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
+      >
+        + Add another experience
+      </button>
+    </div>
 
-              <textarea
-                id="profile"
-                name="profile"
-                rows={5}
-                value={formData.profile}
-                onChange={handleTextChange}
-                placeholder="Write a short summary of your aviation background, strengths and career goal."
-                className="mt-6 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
-            </div>
+    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+      <button
+        type="button"
+        onClick={goToPreviousStep}
+        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+      >
+        ← Back
+      </button>
 
-            <div className="mt-10 border-t border-slate-200 pt-8">
-              <h2 className="text-2xl font-semibold text-slate-900">
-                Suggested aviation skills
-              </h2>
-              <p className="mt-2 text-sm text-slate-600">
-                Choose any that match your background, or add your own. This is
-                for CV wording, not a job application checklist.
-              </p>
+      <button
+        type="button"
+        onClick={goToNextStep}
+        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Save & Next →
+      </button>
+    </div>
+  </>
+)}
 
-              <div className="mt-6 grid gap-3 md:grid-cols-2">
-                {aviationSkills.map((skill) => (
-                  <label
-                    key={skill}
-                    className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+{currentStep === 6 && (
+  <>
+    <div>
+      <h2 className="text-2xl font-semibold text-slate-900">
+        Education, licences and training
+      </h2>
+
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold text-slate-900">Education</h3>
+        <p className="mt-2 text-sm text-slate-600">
+          Add school, college, university or aviation training. Add your highest
+          or most relevant qualification first.
+        </p>
+
+        <div className="mt-5 space-y-6">
+          {formData.educationItems.map((item, index) => (
+            <div
+              key={item.id}
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+            >
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <h4 className="font-semibold text-slate-900">
+                  Education {index + 1}
+                </h4>
+
+                {formData.educationItems.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeEducationItem(item.id)}
+                    className="text-sm font-semibold text-red-600 hover:text-red-700"
                   >
-                    <input
-                      type="checkbox"
-                      checked={formData.selectedSkills.includes(skill)}
-                      onChange={() =>
-                        toggleSelectedValue("selectedSkills", skill)
-                      }
-                      className="h-4 w-4"
-                    />
-                    {skill}
-                  </label>
-                ))}
+                    Remove
+                  </button>
+                )}
               </div>
 
-              <textarea
-                id="otherSkills"
-                name="otherSkills"
-                rows={3}
-                value={formData.otherSkills}
-                onChange={handleTextChange}
-                placeholder="Add any other skills you want included."
-                className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
+              <div className="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-800">
+                    School, college or university
+                  </label>
+                  <input
+                    type="text"
+                    value={item.institutionName}
+                    onChange={(event) =>
+                      updateEducationItem(
+                        item.id,
+                        "institutionName",
+                        event.target.value
+                      )
+                    }
+                    placeholder="e.g. University of West London"
+                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-800">
+                    Award, degree or qualification
+                  </label>
+                  <input
+                    type="text"
+                    value={item.qualificationName}
+                    onChange={(event) =>
+                      updateEducationItem(
+                        item.id,
+                        "qualificationName",
+                        event.target.value
+                      )
+                    }
+                    placeholder="e.g. BSc Aviation Management"
+                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-800">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    value={item.location}
+                    onChange={(event) =>
+                      updateEducationItem(item.id, "location", event.target.value)
+                    }
+                    placeholder="e.g. London, UK"
+                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-800">
+                    Completion date
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <select
+                      value={item.completionMonth}
+                      onChange={(event) =>
+                        updateEducationItem(
+                          item.id,
+                          "completionMonth",
+                          event.target.value
+                        )
+                      }
+                      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    >
+                      <option value="">Month</option>
+                      {monthOptions.map((month) => (
+                        <option key={month} value={month}>
+                          {month}
+                        </option>
+                      ))}
+                    </select>
+
+                    <select
+                      value={item.completionYear}
+                      onChange={(event) =>
+                        updateEducationItem(
+                          item.id,
+                          "completionYear",
+                          event.target.value
+                        )
+                      }
+                      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    >
+                      <option value="">Year</option>
+                      {yearOptions.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <label className="mb-2 block text-sm font-medium text-slate-800">
+                  Details or relevant modules
+                </label>
+                <textarea
+                  rows={4}
+                  value={item.details}
+                  onChange={(event) =>
+                    updateEducationItem(item.id, "details", event.target.value)
+                  }
+                  placeholder="Add relevant modules, aviation projects, grades or achievements if useful."
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
             </div>
-
-           <div className="mt-10 border-t border-slate-200 pt-8">
-  <h2 className="text-2xl font-semibold text-slate-900">
-    Work experience
-  </h2>
-  <p className="mt-2 text-sm text-slate-600">
-    Add your most recent or most relevant role first. Use month and year dates
-    for a professional CV format.
-  </p>
-
-  <div className="mt-6 space-y-6">
-    {formData.workExperiences.map((experience, index) => (
-      <div
-        key={experience.id}
-        className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-      >
-        <div className="mb-5 flex items-center justify-between gap-4">
-          <h3 className="font-semibold text-slate-900">
-            Experience {index + 1}
-          </h3>
-
-          {formData.workExperiences.length > 1 && (
-            <button
-              type="button"
-              onClick={() => removeWorkExperience(experience.id)}
-              className="text-sm font-semibold text-red-600 hover:text-red-700"
-            >
-              Remove
-            </button>
-          )}
+          ))}
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Job title
-            </label>
-            <input
-              type="text"
-              value={experience.jobTitle}
-              onChange={(event) =>
-                updateWorkExperience(
-                  experience.id,
-                  "jobTitle",
-                  event.target.value
-                )
-              }
-              placeholder="e.g. Passenger Service Agent"
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
+        <button
+          type="button"
+          onClick={addEducationItem}
+          className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
+        >
+          + Add another education
+        </button>
+      </div>
+
+      <div className="mt-8 grid gap-6">
+        <div>
+          <p className="mb-3 text-sm font-medium text-slate-800">
+            Suggested aviation licences
+          </p>
+          <div className="grid gap-3 md:grid-cols-2">
+            {aviationLicences.map((licence) => (
+              <label
+                key={licence}
+                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+              >
+                <input
+                  type="checkbox"
+                  checked={formData.selectedLicences.includes(licence)}
+                  onChange={() =>
+                    toggleSelectedValue("selectedLicences", licence)
+                  }
+                  className="h-4 w-4"
+                />
+                {licence}
+              </label>
+            ))}
           </div>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Company name
-            </label>
-            <input
-              type="text"
-              value={experience.companyName}
-              onChange={(event) =>
-                updateWorkExperience(
-                  experience.id,
-                  "companyName",
-                  event.target.value
-                )
-              }
-              placeholder="e.g. ABC Ground Handling"
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Location
-            </label>
-            <input
-              type="text"
-              value={experience.location}
-              onChange={(event) =>
-                updateWorkExperience(
-                  experience.id,
-                  "location",
-                  event.target.value
-                )
-              }
-              placeholder="e.g. Heathrow Airport, London"
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div>
-  <label className="mb-2 block text-sm font-medium text-slate-800">
-    Start date
-  </label>
-  <div className="grid grid-cols-2 gap-3">
-    <select
-      value={experience.startMonth}
-      onChange={(event) =>
-        updateWorkExperience(
-          experience.id,
-          "startMonth",
-          event.target.value
-        )
-      }
-      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-    >
-      <option value="">Month</option>
-      {monthOptions.map((month) => (
-        <option key={month} value={month}>
-          {month}
-        </option>
-      ))}
-    </select>
-
-    <select
-      value={experience.startYear}
-      onChange={(event) =>
-        updateWorkExperience(
-          experience.id,
-          "startYear",
-          event.target.value
-        )
-      }
-      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-    >
-      <option value="">Year</option>
-      {yearOptions.map((year) => (
-        <option key={year} value={year}>
-          {year}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
-
-<div>
-  <label className="mb-2 block text-sm font-medium text-slate-800">
-    End date
-  </label>
-  <div className="grid grid-cols-2 gap-3">
-    <select
-      value={experience.endMonth}
-      onChange={(event) =>
-        updateWorkExperience(
-          experience.id,
-          "endMonth",
-          event.target.value
-        )
-      }
-      disabled={experience.currentlyWorking}
-      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
-    >
-      <option value="">Month</option>
-      {monthOptions.map((month) => (
-        <option key={month} value={month}>
-          {month}
-        </option>
-      ))}
-    </select>
-
-    <select
-      value={experience.endYear}
-      onChange={(event) =>
-        updateWorkExperience(
-          experience.id,
-          "endYear",
-          event.target.value
-        )
-      }
-      disabled={experience.currentlyWorking}
-      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100"
-    >
-      <option value="">Year</option>
-      {yearOptions.map((year) => (
-        <option key={year} value={year}>
-          {year}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
-
-          <label className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm text-slate-700">
-            <input
-              type="checkbox"
-              checked={experience.currentlyWorking}
-              onChange={(event) =>
-                toggleWorkExperienceCurrentlyWorking(
-                  experience.id,
-                  event.target.checked
-                )
-              }
-              className="h-4 w-4"
-            />
-            I currently work here
-          </label>
+          <textarea
+            id="otherLicences"
+            name="otherLicences"
+            rows={3}
+            value={formData.otherLicences}
+            onChange={handleTextChange}
+            placeholder="Add any other licences."
+            className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
         </div>
 
-        <div className="mt-5 space-y-5">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Main responsibilities
-            </label>
-            <textarea
-              rows={5}
-              value={experience.responsibilities}
-              onChange={(event) =>
-                updateWorkExperience(
-                  experience.id,
-                  "responsibilities",
-                  event.target.value
-                )
-              }
-              placeholder="Add your main duties, such as passenger support, safety checks, documentation, operations, dispatch, customer service or technical tasks."
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
+        <div>
+          <p className="mb-3 text-sm font-medium text-slate-800">
+            Suggested certificates and training
+          </p>
+          <div className="grid gap-3 md:grid-cols-2">
+            {aviationCertifications.map((certificate) => (
+              <label
+                key={certificate}
+                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+              >
+                <input
+                  type="checkbox"
+                  checked={formData.selectedCertifications.includes(
+                    certificate
+                  )}
+                  onChange={() =>
+                    toggleSelectedValue("selectedCertifications", certificate)
+                  }
+                  className="h-4 w-4"
+                />
+                {certificate}
+              </label>
+            ))}
           </div>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Key achievements
-            </label>
-            <textarea
-              rows={5}
-              value={experience.achievements}
-              onChange={(event) =>
-                updateWorkExperience(
-                  experience.id,
-                  "achievements",
-                  event.target.value
-                )
-              }
-              placeholder="Add one achievement per line. Example: Handled 150+ passengers per shift while maintaining service standards."
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
+          <textarea
+            id="otherCertifications"
+            name="otherCertifications"
+            rows={3}
+            value={formData.otherCertifications}
+            onChange={handleTextChange}
+            placeholder="Add any other certificates or training."
+            className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+        </div>
+
+        <div>
+          <p className="mb-3 text-sm font-medium text-slate-800">
+            Aviation systems and tools
+          </p>
+          <div className="grid gap-3 md:grid-cols-2">
+            {aviationSystems.map((system) => (
+              <label
+                key={system}
+                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+              >
+                <input
+                  type="checkbox"
+                  checked={formData.selectedSystems.includes(system)}
+                  onChange={() => toggleSelectedValue("selectedSystems", system)}
+                  className="h-4 w-4"
+                />
+                {system}
+              </label>
+            ))}
           </div>
+
+          <textarea
+            id="otherSystems"
+            name="otherSystems"
+            rows={3}
+            value={formData.otherSystems}
+            onChange={handleTextChange}
+            placeholder="Add any other systems, tools or software."
+            className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
         </div>
       </div>
-    ))}
-  </div>
+    </div>
 
-  <button
-    type="button"
-    onClick={addWorkExperience}
-    className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
-  >
-    + Add another experience
-  </button>
-</div>
-            <div className="mt-10 border-t border-slate-200 pt-8">
-              <h2 className="text-2xl font-semibold text-slate-900">
-                Education, licences and training
-              </h2>
-
-             <div className="mt-6">
-  <h3 className="text-lg font-semibold text-slate-900">Education</h3>
-  <p className="mt-2 text-sm text-slate-600">
-    Add school, college, university or aviation training. Add your highest or
-    most relevant qualification first.
-  </p>
-
-  <div className="mt-5 space-y-6">
-    {formData.educationItems.map((item, index) => (
-      <div
-        key={item.id}
-        className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+    <div className="mt-8 flex justify-between border-t border-slate-200 pt-6">
+      <button
+        type="button"
+        onClick={goToPreviousStep}
+        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
       >
-        <div className="mb-5 flex items-center justify-between gap-4">
-          <h4 className="font-semibold text-slate-900">
-            Education {index + 1}
-          </h4>
+        ← Back
+      </button>
 
-          {formData.educationItems.length > 1 && (
-            <button
-              type="button"
-              onClick={() => removeEducationItem(item.id)}
-              className="text-sm font-semibold text-red-600 hover:text-red-700"
+      <button
+        type="button"
+        onClick={goToNextStep}
+        className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+      >
+        Save & Next →
+      </button>
+    </div>
+  </>
+)}
+
+{currentStep === 7 && (
+  <>
+    <div>
+      <h2 className="text-2xl font-semibold text-slate-900">
+        Final details
+      </h2>
+
+      <p className="mt-2 text-sm text-slate-600">
+        Only include these if they strengthen the CV for your aviation role.
+      </p>
+
+      <div className="mt-6 grid gap-5 md:grid-cols-2">
+        <div>
+          <label
+            htmlFor="rightToWork"
+            className="mb-2 block text-sm font-medium text-slate-800"
+          >
+            Right to work
+          </label>
+          <select
+            id="rightToWork"
+            name="rightToWork"
+            value={formData.rightToWork}
+            onChange={handleTextChange}
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          >
+            <option value="">Choose an option</option>
+            {rightToWorkOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {formData.rightToWork === "Limited right to work until" && (
+          <div>
+            <label
+              htmlFor="rightToWorkUntil"
+              className="mb-2 block text-sm font-medium text-slate-800"
             >
-              Remove
-            </button>
-          )}
+              Right to work valid until
+            </label>
+            <input
+              id="rightToWorkUntil"
+              name="rightToWorkUntil"
+              type="date"
+              value={formData.rightToWorkUntil}
+              onChange={handleTextChange}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+        )}
+
+        <div>
+          <label
+            htmlFor="drivingLicence"
+            className="mb-2 block text-sm font-medium text-slate-800"
+          >
+            Driving licence
+          </label>
+          <select
+            id="drivingLicence"
+            name="drivingLicence"
+            value={formData.drivingLicence}
+            onChange={handleTextChange}
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          >
+            <option value="">Choose an option</option>
+            {drivingLicenceOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              School, college or university
-            </label>
-            <input
-              type="text"
-              value={item.institutionName}
-              onChange={(event) =>
-                updateEducationItem(
-                  item.id,
-                  "institutionName",
-                  event.target.value
-                )
-              }
-              placeholder="e.g. University of West London"
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Award, degree or qualification
-            </label>
-            <input
-              type="text"
-              value={item.qualificationName}
-              onChange={(event) =>
-                updateEducationItem(
-                  item.id,
-                  "qualificationName",
-                  event.target.value
-                )
-              }
-              placeholder="e.g. BSc Aviation Management"
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Location
-            </label>
-            <input
-              type="text"
-              value={item.location}
-              onChange={(event) =>
-                updateEducationItem(item.id, "location", event.target.value)
-              }
-              placeholder="e.g. London, UK"
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-800">
-              Completion date
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              <select
-                value={item.completionMonth}
-                onChange={(event) =>
-                  updateEducationItem(
-                    item.id,
-                    "completionMonth",
-                    event.target.value
-                  )
-                }
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              >
-                <option value="">Month</option>
-                {monthOptions.map((month) => (
-                  <option key={month} value={month}>
-                    {month}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={item.completionYear}
-                onChange={(event) =>
-                  updateEducationItem(
-                    item.id,
-                    "completionYear",
-                    event.target.value
-                  )
-                }
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              >
-                <option value="">Year</option>
-                {yearOptions.map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+        <div>
+          <label
+            htmlFor="availability"
+            className="mb-2 block text-sm font-medium text-slate-800"
+          >
+            Availability / notice period
+          </label>
+          <select
+            id="availability"
+            name="availability"
+            value={formData.availability}
+            onChange={handleTextChange}
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          >
+            <option value="">Choose an option</option>
+            {availabilityOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="mt-5">
-          <label className="mb-2 block text-sm font-medium text-slate-800">
-            Details or relevant modules
+        {formData.availability === "Available from a specific date" && (
+          <div>
+            <label
+              htmlFor="availableFrom"
+              className="mb-2 block text-sm font-medium text-slate-800"
+            >
+              Available from
+            </label>
+            <input
+              id="availableFrom"
+              name="availableFrom"
+              type="date"
+              value={formData.availableFrom}
+              onChange={handleTextChange}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6 space-y-5">
+        <div>
+          <label
+            htmlFor="languages"
+            className="mb-2 block text-sm font-medium text-slate-800"
+          >
+            Languages
           </label>
           <textarea
+            id="languages"
+            name="languages"
+            rows={3}
+            value={formData.languages}
+            onChange={handleTextChange}
+            placeholder="e.g. English fluent, Hindi fluent, Arabic conversational."
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="additionalInfo"
+            className="mb-2 block text-sm font-medium text-slate-800"
+          >
+            Additional professional information
+          </label>
+          <textarea
+            id="additionalInfo"
+            name="additionalInfo"
             rows={4}
-            value={item.details}
-            onChange={(event) =>
-              updateEducationItem(item.id, "details", event.target.value)
-            }
-            placeholder="Add relevant modules, aviation projects, grades or achievements if useful."
+            value={formData.additionalInfo}
+            onChange={handleTextChange}
+            placeholder="Add optional professional information such as airside experience, shift flexibility, relocation flexibility or airport ID experience."
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="references"
+            className="mb-2 block text-sm font-medium text-slate-800"
+          >
+            References
+          </label>
+          <input
+            id="references"
+            name="references"
+            type="text"
+            value={formData.references}
+            onChange={handleTextChange}
+            placeholder="References available on request"
             className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
         </div>
       </div>
-    ))}
-  </div>
+    </div>
 
-  <button
-    type="button"
-    onClick={addEducationItem}
-    className="mt-5 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
-  >
-    + Add another education
-  </button>
-</div>
-              <div className="mt-6">
-                <p className="mb-3 text-sm font-medium text-slate-800">
-                  Suggested aviation licences
-                </p>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {aviationLicences.map((licence) => (
-                    <label
-                      key={licence}
-                      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={formData.selectedLicences.includes(licence)}
-                        onChange={() =>
-                          toggleSelectedValue("selectedLicences", licence)
-                        }
-                        className="h-4 w-4"
-                      />
-                      {licence}
-                    </label>
-                  ))}
-                </div>
+    <div className="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
+      <button
+        type="button"
+        onClick={goToPreviousStep}
+        className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-slate-50"
+      >
+        ← Back
+      </button>
 
-                <textarea
-                  id="otherLicences"
-                  name="otherLicences"
-                  rows={3}
-                  value={formData.otherLicences}
-                  onChange={handleTextChange}
-                  placeholder="Add any other licences."
-                  className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
+      <button
+        type="submit"
+        className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm font-extrabold text-blue-700 transition hover:bg-blue-100"
+      >
+        Preview my CV details
+      </button>
 
-              <div className="mt-6">
-                <p className="mb-3 text-sm font-medium text-slate-800">
-                  Suggested certificates and training
-                </p>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {aviationCertifications.map((certificate) => (
-                    <label
-                      key={certificate}
-                      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={formData.selectedCertifications.includes(
-                          certificate
-                        )}
-                        onChange={() =>
-                          toggleSelectedValue(
-                            "selectedCertifications",
-                            certificate
-                          )
-                        }
-                        className="h-4 w-4"
-                      />
-                      {certificate}
-                    </label>
-                  ))}
-                </div>
-
-                <textarea
-                  id="otherCertifications"
-                  name="otherCertifications"
-                  rows={3}
-                  value={formData.otherCertifications}
-                  onChange={handleTextChange}
-                  placeholder="Add any other certificates or training."
-                  className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              <div className="mt-6">
-                <p className="mb-3 text-sm font-medium text-slate-800">
-                  Aviation systems and tools
-                </p>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {aviationSystems.map((system) => (
-                    <label
-                      key={system}
-                      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={formData.selectedSystems.includes(system)}
-                        onChange={() =>
-                          toggleSelectedValue("selectedSystems", system)
-                        }
-                        className="h-4 w-4"
-                      />
-                      {system}
-                    </label>
-                  ))}
-                </div>
-
-                <textarea
-                  id="otherSystems"
-                  name="otherSystems"
-                  rows={3}
-                  value={formData.otherSystems}
-                  onChange={handleTextChange}
-                  placeholder="Add any other systems, tools or software."
-                  className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-            </div>
-
-            <div className="mt-10 border-t border-slate-200 pt-8">
-              <h2 className="text-2xl font-semibold text-slate-900">
-                Useful aviation CV details
-              </h2>
-              <p className="mt-2 text-sm text-slate-600">
-                Only include these if they strengthen the CV for the target
-                role.
-              </p>
-
-              <div className="mt-6 grid gap-5 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="rightToWork"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Right to work
-                  </label>
-                  <select
-                    id="rightToWork"
-                    name="rightToWork"
-                    value={formData.rightToWork}
-                    onChange={handleTextChange}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  >
-                    <option value="">Choose an option</option>
-                    {rightToWorkOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {formData.rightToWork === "Limited right to work until" && (
-                  <div>
-                    <label
-                      htmlFor="rightToWorkUntil"
-                      className="mb-2 block text-sm font-medium text-slate-800"
-                    >
-                      Right to work valid until
-                    </label>
-                    <input
-                      id="rightToWorkUntil"
-                      name="rightToWorkUntil"
-                      type="date"
-                      value={formData.rightToWorkUntil}
-                      onChange={handleTextChange}
-                      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    />
-                  </div>
-                )}
-
-                <div>
-                  <label
-                    htmlFor="drivingLicence"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Driving licence
-                  </label>
-                  <select
-                    id="drivingLicence"
-                    name="drivingLicence"
-                    value={formData.drivingLicence}
-                    onChange={handleTextChange}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  >
-                    <option value="">Choose an option</option>
-                    {drivingLicenceOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="availability"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Availability / notice period
-                  </label>
-                  <select
-                    id="availability"
-                    name="availability"
-                    value={formData.availability}
-                    onChange={handleTextChange}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  >
-                    <option value="">Choose an option</option>
-                    {availabilityOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {formData.availability === "Available from a specific date" && (
-                  <div>
-                    <label
-                      htmlFor="availableFrom"
-                      className="mb-2 block text-sm font-medium text-slate-800"
-                    >
-                      Available from
-                    </label>
-                    <input
-                      id="availableFrom"
-                      name="availableFrom"
-                      type="date"
-                      value={formData.availableFrom}
-                      onChange={handleTextChange}
-                      className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-6 space-y-5">
-                <div>
-                  <label
-                    htmlFor="languages"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Languages
-                  </label>
-                  <textarea
-                    id="languages"
-                    name="languages"
-                    rows={3}
-                    value={formData.languages}
-                    onChange={handleTextChange}
-                    placeholder="e.g. English fluent, Hindi fluent, Arabic conversational."
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="additionalInfo"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Additional professional information
-                  </label>
-                  <textarea
-                    id="additionalInfo"
-                    name="additionalInfo"
-                    rows={4}
-                    value={formData.additionalInfo}
-                    onChange={handleTextChange}
-                    placeholder="Add optional professional information such as airside experience, shift flexibility, relocation flexibility or airport ID experience."
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="references"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    References
-                  </label>
-                  <input
-                    id="references"
-                    name="references"
-                    type="text"
-                    value={formData.references}
-                    onChange={handleTextChange}
-                    placeholder="References available on request"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-              </div>
-            </div>
-
-          <div className="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
-  <button
-    type="submit"
-    className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm font-extrabold text-blue-700 transition hover:bg-blue-100"
-  >
-    Preview my CV details
-  </button>
-
-  <button
-    type="button"
-    onClick={handleGenerateCV}
-    disabled={isGenerating}
-    className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 disabled:shadow-none"
-  >
-    {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
-  </button>
-</div>
-
+      <button
+        type="button"
+        onClick={handleGenerateCV}
+        disabled={isGenerating}
+        className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 disabled:shadow-none"
+      >
+        {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
+      </button>
+    </div>
+  </>
+)}
 {generateMessage && (
   <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
     {generateMessage}
