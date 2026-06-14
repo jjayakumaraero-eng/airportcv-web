@@ -855,14 +855,40 @@ if (data.usage) {
     </div>
 
    <div className="mt-8 grid gap-8 xl:grid-cols-[1fr_0.95fr]">
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200"
-          >
+         <form
+  onSubmit={handleSubmit}
+  className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm"
+>
+  <div className="mb-8 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <p className="text-sm font-extrabold text-slate-950">
+      Complete your CV step by step
+    </p>
+
+    <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      {[
+        "Contact",
+        "Profile",
+        "Skills",
+        "Experience",
+        "Education",
+        "Final details",
+      ].map((step, index) => (
+        <div
+          key={step}
+          className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-xs font-bold text-slate-600 ring-1 ring-slate-200"
+        >
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-xs font-extrabold text-blue-700">
+            {index + 1}
+          </span>
+          {step}
+        </div>
+      ))}
+    </div>
+  </div>
             <div>
               <h2 className="text-2xl font-semibold text-slate-900">
-                CV heading
-              </h2>
+  CV focus
+</h2>
               
               <p className="mt-2 text-sm text-slate-600">
                 Add the contact details you want shown at the top of your CV.
@@ -983,37 +1009,14 @@ if (data.usage) {
 
             <div className="mt-10 border-t border-slate-200 pt-8">
               <h2 className="text-2xl font-semibold text-slate-900">
-                Target role
+                CV focus
               </h2>
              <p className="mt-2 text-sm text-slate-600">
-  Choose the aviation role you want to target. You can also paste a job advert
-  so the CV can later be tailored around the right keywords.
+  Add your career stage and, if you have one, paste a job advert or keywords so
+your CV can be tailored around the right language.
 </p>
               <div className="mt-6 grid gap-5 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="targetRole"
-                    className="mb-2 block text-sm font-medium text-slate-800"
-                  >
-                    Target aviation role
-                  </label>
-                  <select
-                    id="targetRole"
-                    name="targetRole"
-                    value={formData.targetRole}
-                    onChange={handleTextChange}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  >
-                    <option value="" disabled>
-                      Select a role
-                    </option>
-                    {aviationRoles.map((role) => (
-                      <option key={role} value={role}>
-                        {role}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                
 
                 <div>
                   <label
@@ -1809,22 +1812,22 @@ if (data.usage) {
               </div>
             </div>
 
-           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
   <button
     type="submit"
-    className="rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-semibold text-blue-700 hover:bg-blue-100"
+    className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm font-extrabold text-blue-700 transition hover:bg-blue-100"
   >
     Preview my CV details
   </button>
 
- <button
-  type="button"
-  onClick={handleGenerateCV}
-  disabled={isGenerating}
-  className="rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-blue-300"
->
-  {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
-</button>
+  <button
+    type="button"
+    onClick={handleGenerateCV}
+    disabled={isGenerating}
+    className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 disabled:shadow-none"
+  >
+    {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
+  </button>
 </div>
 
 {generateMessage && (
@@ -2009,9 +2012,7 @@ if (data.usage) {
   </div>
 )}
 
-            <p className="mt-4 text-sm text-slate-500">
-              This preview is local only. AI CV generation will be added later.
-            </p>
+            
           </form>
 
          <aside className="xl:sticky xl:top-6 xl:self-start">
@@ -2042,9 +2043,9 @@ if (data.usage) {
             {formData.fullName || "YOUR NAME"}
           </h3>
 
-          <p className="mt-2 text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
-            {formData.targetRole || "Target aviation role"}
-          </p>
+         <p className="mt-2 text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
+  Aviation CV Builder
+</p>
         </div>
 
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-3xl">
