@@ -905,244 +905,241 @@ export default function Home() {
     </div>
   </div>
 </section>
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-8 text-white shadow-2xl md:p-10">
-            <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-              <div>
-                <p className="text-5xl">✈️</p>
+      
 
-                <h2 className="mt-4 text-3xl font-extrabold">
-                  Ready to build your aviation CV?
-                </h2>
+     <section className="bg-white px-6 py-20">
+  <div className="mx-auto max-w-7xl">
+    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p className="inline-flex rounded-full bg-blue-50 px-5 py-2 text-sm font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+          ✦ Career Advice
+        </p>
 
-                <p className="mt-3 max-w-2xl text-slate-200">
-                  Start with the CV Builder, then check your CV, create a cover
-                  letter and prepare for interview from one account.
-                </p>
-              </div>
+        <h2 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
+          Aviation career guides to help you apply smarter
+        </h2>
 
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="/cv-builder"
-                  className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
-                >
-                  Build My Aviation CV →
-                </a>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+          Learn about aviation roles, CV tips, application preparation and how
+          to stand out when applying for airport and airline jobs.
+        </p>
+      </div>
 
-                <a
-                  href="/career-coach"
-                  className="inline-flex items-center justify-center rounded-xl border border-white/30 px-8 py-4 font-bold text-white transition hover:bg-white/10"
-                >
-                  Take Career Assessment
-                </a>
-              </div>
-            </div>
+      <a
+        href="/blog"
+        className="inline-flex rounded-2xl border-2 border-blue-600 bg-white px-6 py-3 font-extrabold text-blue-700 transition hover:bg-blue-50"
+      >
+        View all guides →
+      </a>
+    </div>
+
+    <div className="mt-12 overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-50 shadow-sm lg:grid lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="relative min-h-[280px]">
+        <Image
+          src="/blog/passenger-service-agent-guide.jpeg"
+          alt="Airport passenger service agent career guide"
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      <div className="p-8 lg:p-10">
+        <p className="text-sm font-extrabold uppercase tracking-wide text-blue-700">
+          Featured guide
+        </p>
+
+        <h3 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950">
+          How to Become an Airport Passenger Service Agent in the UK
+        </h3>
+
+        <p className="mt-5 leading-8 text-slate-600">
+          Discover what passenger service agents do, useful skills, shift
+          patterns, career progression and how to make your CV stronger when
+          applying for airport customer service roles.
+        </p>
+
+        <div className="mt-6 flex flex-wrap gap-3 text-sm font-bold text-slate-600">
+          <span className="rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
+            Passenger service
+          </span>
+          <span className="rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
+            Airport careers
+          </span>
+          <span className="rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
+            CV tips
+          </span>
+        </div>
+
+        <a
+          href="/blog/passenger-service-agent-guide"
+          className="mt-8 inline-flex rounded-2xl bg-blue-600 px-6 py-3 font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+        >
+          Read Guide →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <section className="bg-slate-50 px-6 py-14">
+  <div className="mx-auto max-w-4xl">
+    <div className="mb-6">
+      <p className="inline-flex rounded-full bg-blue-50 px-4 py-1.5 text-xs font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+        ✦ FAQ
+      </p>
+
+      <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-950 md:text-3xl">
+        Questions before you start?
+      </h2>
+    </div>
+
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      {[
+        {
+          question: "Is AirportCV only for airport jobs?",
+          answer:
+            "No. AirportCV supports airport, airline and wider aviation roles including cabin crew, ground handling, engineering, cargo, operations, security and flight operations.",
+        },
+        {
+          question: "Do I need to sign in?",
+          answer:
+            "Yes. Sign-in protects the AI tools, manages fair monthly usage and prepares the platform for Premium access.",
+        },
+        {
+          question: "Does AirportCV save my CV?",
+          answer:
+            "No, not by default. AirportCV is currently designed to process your information for the tool you use without saving uploaded CVs to your account.",
+        },
+        {
+          question: "Is Premium active now?",
+          answer:
+            "Premium payments are not active yet. Selected users can use a temporary Premium access code while Stripe payments are being prepared.",
+        },
+        {
+          question:
+            "Can I use AirportCV for cabin crew, engineering or ground handling?",
+          answer:
+            "Yes. AirportCV is designed for many aviation career paths, including cabin crew, aircraft engineering, ramp, baggage, passenger service, operations and security roles.",
+        },
+      ].map((item) => (
+        <details
+          key={item.question}
+          className="group border-b border-slate-200 last:border-b-0"
+        >
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-bold text-slate-900 marker:content-none">
+            <span>{item.question}</span>
+            <span className="shrink-0 text-base text-blue-600 transition group-open:rotate-180">
+              ▾
+            </span>
+          </summary>
+
+          <div className="px-5 pb-4">
+            <p className="text-sm leading-6 text-slate-600">{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+      <footer className="border-t border-slate-200 bg-white px-6 py-10">
+  <div className="mx-auto max-w-7xl">
+    <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <div className="flex items-center gap-3">
+         <Image
+  src="/airportcv-logo-light.png"
+  alt="AirportCV logo"
+  width={200}
+  height={80}
+  className="h-auto w-36"
+/>
+
+          <div>
+          
           </div>
         </div>
-      </section>
 
-      <section className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-                Career advice
-              </p>
+        <p className="mt-4 max-w-sm text-sm leading-6 text-slate-600">
+          Build aviation CVs, check applications, create cover letters and
+          prepare for airport and airline interviews.
+        </p>
 
-              <h2 className="mt-4 text-4xl font-extrabold text-slate-950">
-                Latest aviation career guide
-              </h2>
-            </div>
+        <p className="mt-4 text-xs text-slate-500">
+          Designed for aviation job seekers.
+        </p>
+      </div>
 
-            <a
-              href="/blog"
-              className="font-bold text-blue-700 hover:text-blue-800"
-            >
-              View all guides →
-            </a>
-          </div>
+      <div>
+        <h3 className="text-sm font-extrabold uppercase tracking-wide text-slate-950">
+          Tools
+        </h3>
 
-          <div className="mt-10 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm lg:grid lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="relative min-h-[280px]">
-              <Image
-                src="/blog/passenger-service-agent-guide.jpeg"
-                alt="Airport passenger service agent career guide"
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            <div className="p-8 lg:p-10">
-              <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
-                Passenger service agent guide
-              </p>
-
-              <h3 className="mt-3 text-3xl font-extrabold text-slate-950">
-                How to Become an Airport Passenger Service Agent in the UK
-              </h3>
-
-              <p className="mt-4 leading-7 text-slate-600">
-                Discover salary expectations, shift patterns, useful skills,
-                career progression and how to stand out when applying for
-                airport passenger service roles.
-              </p>
-
-              <a
-                href="/blog/passenger-service-agent-guide"
-                className="mt-6 inline-flex rounded-xl bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700"
-              >
-                Read Guide →
-              </a>
-            </div>
-          </div>
+        <div className="mt-4 space-y-3 text-sm">
+          <a href="/cv-builder" className="block text-slate-600 hover:text-blue-700">
+            CV Builder
+          </a>
+          <a href="/cv-checker" className="block text-slate-600 hover:text-blue-700">
+            CV Checker
+          </a>
+          <a href="/cover-letter" className="block text-slate-600 hover:text-blue-700">
+            Cover Letter
+          </a>
+          <a href="/interview-prep" className="block text-slate-600 hover:text-blue-700">
+            Interview Prep
+          </a>
         </div>
-      </section>
+      </div>
 
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-              FAQ
-            </p>
+      <div>
+        <h3 className="text-sm font-extrabold uppercase tracking-wide text-slate-950">
+          Company
+        </h3>
 
-            <h2 className="mt-4 text-4xl font-extrabold text-slate-950">
-              Questions before you start?
-            </h2>
-          </div>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {faqs.map((item) => (
-              <div
-                key={item.question}
-                className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
-              >
-                <h3 className="text-lg font-extrabold text-slate-950">
-                  {item.question}
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  {item.answer}
-                </p>
-              </div>
-            ))}
-          </div>
+        <div className="mt-4 space-y-3 text-sm">
+          <a href="/pricing" className="block text-slate-600 hover:text-blue-700">
+            Pricing
+          </a>
+          <a href="/blog" className="block text-slate-600 hover:text-blue-700">
+            Career Advice
+          </a>
+          <a href="/dashboard" className="block text-slate-600 hover:text-blue-700">
+            Dashboard
+          </a>
+          <a href="/career-coach" className="block text-slate-600 hover:text-blue-700">
+            Career Assessment
+          </a>
         </div>
-      </section>
+      </div>
 
-      <footer className="bg-[#030814] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="grid gap-12 md:grid-cols-4">
-            <div>
-              <a href="/" className="inline-block">
-                <Image
-                  src="/airportcv-logo-cropped.png"
-                  alt="AirportCV"
-                  width={220}
-                  height={60}
-                  className="h-auto w-[170px] sm:w-[220px]"
-                />
-              </a>
+      <div>
+        <h3 className="text-sm font-extrabold uppercase tracking-wide text-slate-950">
+          Legal
+        </h3>
 
-              <p className="mt-5 text-sm leading-7 text-slate-400">
-                Helping people build successful airport, airline and aviation
-                careers through AI-powered career tools.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-white">Tools</h3>
-
-              <ul className="mt-4 space-y-3 text-sm text-slate-400">
-                <li>
-                  <a href="/cv-builder" className="hover:text-white">
-                    CV Builder
-                  </a>
-                </li>
-                <li>
-                  <a href="/cv-checker" className="hover:text-white">
-                    CV Checker
-                  </a>
-                </li>
-                <li>
-                  <a href="/career-coach" className="hover:text-white">
-                    Career Assessment
-                  </a>
-                </li>
-                <li>
-                  <a href="/cover-letter" className="hover:text-white">
-                    Cover Letter Generator
-                  </a>
-                </li>
-                <li>
-                  <a href="/interview-prep" className="hover:text-white">
-                    Interview Preparation
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-white">Company</h3>
-
-              <ul className="mt-4 space-y-3 text-sm text-slate-400">
-                <li>
-                  <a href="/pricing" className="hover:text-white">
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a href="/about" className="hover:text-white">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a href="/success-stories" className="hover:text-white">
-                    Success Stories
-                  </a>
-                </li>
-                <li>
-                  <a href="/blog" className="hover:text-white">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact" className="hover:text-white">
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-white">Legal</h3>
-
-              <ul className="mt-4 space-y-3 text-sm text-slate-400">
-                <li>
-                  <a href="/privacy" className="hover:text-white">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/terms" className="hover:text-white">
-                    Terms of Use
-                  </a>
-                </li>
-              </ul>
-
-              <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs leading-6 text-slate-400">
-                AirportCV does not save uploaded CVs to accounts by default.
-                Review all AI-generated content before using it in job
-                applications.
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12 border-t border-slate-800 pt-8 text-center text-sm text-slate-500">
-            © 2026 AirportCV. All rights reserved.
-          </div>
+        <div className="mt-4 space-y-3 text-sm">
+          <a href="/privacy" className="block text-slate-600 hover:text-blue-700">
+            Privacy Policy
+          </a>
+          <a href="/terms" className="block text-slate-600 hover:text-blue-700">
+            Terms of Use
+          </a>
+          <a href="/cookies" className="block text-slate-600 hover:text-blue-700">
+            Cookie Notice
+          </a>
         </div>
-      </footer>
+      </div>
+    </div>
+
+    <div className="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+      <p>© {new Date().getFullYear()} AirportCV. All rights reserved.</p>
+
+      <p>
+        AirportCV is an independent aviation career tool and is not affiliated
+        with any airline or airport.
+      </p>
+    </div>
+  </div>
+</footer>
     </main>
   );
 }
