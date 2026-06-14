@@ -577,38 +577,88 @@ export default function Home() {
   </div>
 </section>
 
-      <section className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-600">
-              Aviation roles
-            </p>
+      <section className="relative overflow-hidden bg-white px-6 py-20">
+  <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-blue-50/70 to-transparent" />
 
-            <h2 className="mt-4 text-4xl font-extrabold text-slate-950">
-              Built for real aviation career paths
-            </h2>
+  <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+    <div>
+      <p className="inline-flex rounded-full bg-blue-50 px-5 py-2 text-sm font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+        Aviation Roles
+      </p>
 
-            <p className="mt-5 text-lg text-slate-600">
-              Whether you are applying for your first airport job or moving into
-              a more specialised aviation role, AirportCV helps you present your
-              experience clearly.
-            </p>
+      <h2 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
+        Built for real aviation career paths
+      </h2>
+
+      <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+        AirportCV helps professionals across airport, airline and aviation jobs
+        present their experience clearly and apply with more confidence.
+      </p>
+
+      <div className="mt-8 space-y-5">
+        {[
+          {
+            icon: "📋",
+            title: "Role-specific CV guidance",
+            text: "Tailored examples and layouts for your aviation role.",
+          },
+          {
+            icon: "🔎",
+            title: "Aviation keywords recruiters expect",
+            text: "Optimised wording that helps your application stand out.",
+          },
+          {
+            icon: "👥",
+            title: "Support across airport, airline and engineering roles",
+            text: "From passenger services to operations, ground handling and technical careers.",
+          },
+        ].map((item) => (
+          <div key={item.title} className="flex gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-2xl ring-1 ring-blue-100">
+              {item.icon}
+            </div>
+
+            <div>
+              <h3 className="text-lg font-extrabold text-slate-950">
+                {item.title}
+              </h3>
+
+              <p className="mt-1 text-base leading-7 text-slate-600">
+                {item.text}
+              </p>
+            </div>
           </div>
+        ))}
+      </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-3">
-            {roleGroups.map((role) => (
-              <a
-                key={role}
-                href="/cv-builder"
-                className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-800"
-              >
-                {role}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+        <a
+          href="/cv-builder"
+          className="inline-flex justify-center rounded-2xl bg-blue-600 px-7 py-4 font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+        >
+          Build My Aviation CV
+        </a>
 
+        <a
+          href="/career-coach"
+          className="inline-flex justify-center rounded-2xl border-2 border-blue-600 bg-white px-7 py-4 font-extrabold text-blue-700 transition hover:bg-blue-50"
+        >
+          Explore Roles
+        </a>
+      </div>
+    </div>
+
+    <div className="relative">
+      <Image
+        src="/aviation-roles-grid.png"
+        alt="AirportCV aviation career roles including cabin crew, passenger service, ramp, baggage, security, dispatch, load control, engineering, cargo, airport operations, pilot and ground handling"
+        width={980}
+        height={650}
+        className="h-auto w-full"
+      />
+    </div>
+  </div>
+</section>
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
