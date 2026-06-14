@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import jsPDF from "jspdf";
 import Image from "next/image";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import {
@@ -349,6 +350,7 @@ function getExperienceDates(experience: WorkExperience) {
 export default function CVBuilderForm() {
  const [formData, setFormData] = useState<FormData>(initialFormData);
 const [currentStep, setCurrentStep] = useState(1);
+const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 const [selectedTemplate, setSelectedTemplate] = useState<
   "classic" | "modern" | "compact"
 >("modern"); 
@@ -581,21 +583,7 @@ function removeEducationItem(id: string) {
       }),
     ];
 
-    if (isModern) {
-      children.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: "Created with AirportCV",
-              size: smallSize,
-              color: "64748B",
-            }),
-          ],
-          alignment: AlignmentType.CENTER,
-          spacing: { after: 220 },
-        })
-      );
-    }
+   
 
     if (generatedCV.professionalProfile) {
       children.push(
@@ -776,6 +764,235 @@ function removeEducationItem(id: string) {
     setIsDownloading(false);
   }
 }
+
+async function handleDownloadPdf() {
+  if (!generatedCV) return;
+
+  setIsDownloadingPdf(true);
+  setDownloadMessage("");
+
+  try {
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
+      format: "a4",
+    });
+
+    const isClassic = selectedTemplate === "classic";
+    const isModern = selectedTemplate === "modern";
+    const isCompact = selectedTemplate === "compact";
+
+    const accent = isModern ? [37, 99, 235] : isClassic ? [17, 24, 39] : [71, 85, 105];
+    const bodySize = isCompact ? 9 : 10;
+    const headingSize = isCompact ? 10 : 11;
+    const titleSize = isCompact ? 16 : 18;
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const marginX = isCompact ? 42 : 48;
+    const maxWidth = pageWidth - marginX * 2;
+    let y = isCompact ? 42 : 48;
+
+    const addPageIfNeeded = (extra = 40) => {
+      if (y + extra > 790) {
+        pdf.addPage();
+        y = isCompact ? 42 : 48;
+      }
+    };
+
+    const addSectionHeading = (title: string) => {
+      addPageIfNeeded(40);
+      y += isCompact ? 12 : 16;
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(headingSize);
+      pdf.setTextColor(accent[0], accent[1], accent[2]);
+      pdf.text(title, marginX, y);
+      y += 6;
+      pdf.setDrawColor(accent[0], accent[1], accent[2]);
+      pdf.line(marginX, y, pageWidth - marginX, y);
+      y += isCompact ? 12 : 16;
+    };
+
+    const addParagraph = (text: string) => {
+      if (!text) return;
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(bodySize);
+      pdf.setTextColor(51, 65, 85);
+
+      const lines = pdf.splitTextToSize(text, maxWidth);
+      lines.forEach((line: string) => {
+        addPageIfNeeded(18);
+        pdf.text(line, marginX, y);
+        y += isCompact ? 11 : 13;
+      });
+
+      y += isCompact ? 4 : 7;
+    };
+
+    const addBullet = (text: string) => {
+      if (!text) return;
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(bodySize);
+      pdf.setTextColor(51, 65, 85);
+
+      const lines = pdf.splitTextToSize(text.replace(/^[•\-+]\s*/, ""), maxWidth - 16);
+
+      lines.forEach((line: string, index: number) => {
+        addPageIfNeeded(18);
+        if (index === 0) {
+          pdf.text("•", marginX, y);
+        }
+        pdf.text(line, marginX + 16, y);
+        y += isCompact ? 11 : 13;
+      });
+
+      y += isCompact ? 2 : 4;
+    };
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(titleSize);
+    pdf.setTextColor(isClassic ? 17 : accent[0], isClassic ? 24 : accent[1], isClassic ? 39 : accent[2]);
+
+    const title = generatedCV.cvTitle || "Aviation CV";
+    const titleLines = pdf.splitTextToSize(title, maxWidth);
+    titleLines.forEach((line: string) => {
+      pdf.text(line, pageWidth / 2, y, { align: "center" });
+      y += isCompact ? 18 : 21;
+    });
+
+    y += 10;
+
+    if (generatedCV.professionalProfile) {
+      addSectionHeading("PROFESSIONAL PROFILE");
+      addParagraph(generatedCV.professionalProfile);
+    }
+
+    if (generatedCV.keySkills?.length) {
+      addSectionHeading("KEY SKILLS");
+      generatedCV.keySkills.forEach((skill: string) => addBullet(skill));
+    }
+
+    if (generatedCV.workExperience?.length) {
+      addSectionHeading("WORK EXPERIENCE");
+
+      generatedCV.workExperience.forEach(
+        (experience: {
+          jobTitle: string;
+          companyName: string;
+          location: string;
+          dates: string;
+          bullets: string[];
+        }) => {
+          addPageIfNeeded(40);
+
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(bodySize);
+          pdf.setTextColor(17, 24, 39);
+          pdf.text(
+            `${experience.jobTitle || ""}${
+              experience.companyName ? ` | ${experience.companyName}` : ""
+            }`,
+            marginX,
+            y
+          );
+          y += isCompact ? 12 : 14;
+
+          if (experience.location || experience.dates) {
+            pdf.setFont("helvetica", "italic");
+            pdf.setFontSize(isCompact ? 8 : 9);
+            pdf.setTextColor(100, 116, 139);
+            pdf.text(
+              `${experience.location || ""}${
+                experience.dates ? ` | ${experience.dates}` : ""
+              }`,
+              marginX,
+              y
+            );
+            y += isCompact ? 12 : 15;
+          }
+
+          (experience.bullets || []).forEach((bullet: string) => addBullet(bullet));
+          y += isCompact ? 4 : 8;
+        }
+      );
+    }
+
+    if (generatedCV.education?.length) {
+      addSectionHeading("EDUCATION");
+
+      generatedCV.education.forEach(
+        (item: {
+          qualification: string;
+          institution: string;
+          location: string;
+          date: string;
+          details: string;
+        }) => {
+          addPageIfNeeded(40);
+
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(bodySize);
+          pdf.setTextColor(17, 24, 39);
+          pdf.text(
+            `${item.qualification || ""}${item.institution ? ` | ${item.institution}` : ""}`,
+            marginX,
+            y
+          );
+          y += isCompact ? 12 : 14;
+
+          if (item.location || item.date) {
+            pdf.setFont("helvetica", "italic");
+            pdf.setFontSize(isCompact ? 8 : 9);
+            pdf.setTextColor(100, 116, 139);
+            pdf.text(
+              `${item.location || ""}${item.date ? ` | ${item.date}` : ""}`,
+              marginX,
+              y
+            );
+            y += isCompact ? 12 : 15;
+          }
+
+          if (item.details) {
+            addParagraph(item.details);
+          }
+
+          y += isCompact ? 4 : 8;
+        }
+      );
+    }
+
+    if (generatedCV.licencesAndTraining?.length) {
+      addSectionHeading("LICENCES AND TRAINING");
+      generatedCV.licencesAndTraining.forEach((item: string) => addBullet(item));
+    }
+
+    if (generatedCV.systemsAndTools?.length) {
+      addSectionHeading("SYSTEMS AND TOOLS");
+      generatedCV.systemsAndTools.forEach((item: string) => addBullet(item));
+    }
+
+    if (generatedCV.additionalInformation?.length) {
+      addSectionHeading("ADDITIONAL INFORMATION");
+      generatedCV.additionalInformation.forEach((item: string) => addBullet(item));
+    }
+
+    if (generatedCV.references) {
+      addSectionHeading("REFERENCES");
+      addParagraph(generatedCV.references);
+    }
+
+    pdf.save(
+      `${formData.fullName || "aviation-cv"}-airportcv-${selectedTemplate}.pdf`
+    );
+
+    setDownloadMessage("PDF downloaded.");
+  } catch (error) {
+    console.error("PDF download error:", error);
+    setDownloadMessage("Could not download the PDF. Please try again.");
+  } finally {
+    setIsDownloadingPdf(false);
+  }
+}
+
 async function handleGenerateProfileSuggestions() {
   setIsGeneratingProfileSuggestions(true);
   setProfileSuggestionMessage("");
@@ -1083,62 +1300,46 @@ const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
                 </span>
               </div>
 
-              <div className="flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={handleGenerateCV}
-                  disabled={isGenerating}
-                  className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
-                >
-                  {isGenerating ? "Generating..." : "Generate CV"}
-                </button>
+             <div className="flex flex-wrap items-center justify-end gap-3">
+  <button
+    type="button"
+    onClick={handleGenerateCV}
+    disabled={isGenerating}
+    className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+  >
+    {isGenerating ? "Generating..." : "Generate CV"}
+  </button>
 
-                <button
-                  type="button"
-                  onClick={handleDownloadWord}
-                  disabled={!generatedCV || isDownloading}
-                  className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-800 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-400"
-                >
-                  {isDownloading ? "Preparing..." : "Download Word"}
-                </button>
+  <button
+    type="button"
+    onClick={handleDownloadWord}
+    disabled={!generatedCV || isDownloading}
+    className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+  >
+    {isDownloading ? "Preparing..." : "Download Word"}
+  </button>
 
-                <Link
-                  href="/cv-checker"
-                  className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-slate-900/15 transition hover:bg-slate-800"
-                >
-                  Check with CV Checker →
-                </Link>
-              </div>
-            </div>
+  <button
+    type="button"
+    onClick={handleDownloadPdf}
+    disabled={!generatedCV || isDownloadingPdf}
+    className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-blue-700 shadow-sm ring-2 ring-blue-600 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 disabled:ring-slate-200"
+  >
+    {isDownloadingPdf ? "Preparing PDF..." : "Download PDF"}
+  </button>
+
+  <Link
+    href="/cv-checker"
+    className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-slate-800"
+  >
+    Check with CV Checker →
+  </Link>
+</div>
+             </div>
           </header>
 
-          <div className="mx-auto grid w-full max-w-[1500px] gap-6 px-5 py-6 xl:grid-cols-[minmax(520px,690px)_1fr]">
-            <form
-              onSubmit={handleSubmit}
-              className="min-w-0 space-y-5"
-            >
-              <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm lg:hidden">
-                <p className="text-sm font-extrabold text-slate-950">
-                  Step {currentStep} of {builderSteps.length}
-                </p>
-                <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-                  {builderSteps.map((step, index) => (
-                    <button
-                      key={step}
-                      type="button"
-                      onClick={() => setCurrentStep(index + 1)}
-                      className={`shrink-0 rounded-full px-4 py-2 text-xs font-extrabold ${
-                        currentStep === index + 1
-                          ? "bg-blue-600 text-white"
-                          : "bg-slate-100 text-slate-600"
-                      }`}
-                    >
-                      {index + 1}. {step}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
+          <div className="mx-auto grid w-full max-w-[1500px] gap-6 px-5 py-6 xl:grid-cols-[minmax(0,1fr)_520px]">
+            <form onSubmit={handleSubmit} className="min-w-0">
               <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
                 {currentStep === 1 && (
                   <>
@@ -2415,7 +2616,7 @@ const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
 
       <p className="mt-2 text-sm text-slate-600">
         Review the live preview, generate your AI CV draft and download it as
-        Word.
+        Word or PDF.
       </p>
     </div>
 
@@ -2456,41 +2657,74 @@ const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
         >
           {isDownloading ? "Preparing..." : "Download Word"}
         </button>
+
+        <button
+          type="button"
+          onClick={handleDownloadPdf}
+          disabled={!generatedCV || isDownloadingPdf}
+          className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950 ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+        >
+          {isDownloadingPdf ? "Preparing PDF..." : "Download PDF"}
+        </button>
       </div>
     </div>
-                    {generateMessage && (
-                      <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
-                        {generateMessage}
-                      </div>
-                    )}
 
-                    {generatedCV && (
-                      <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
-                        <h2 className="text-lg font-extrabold text-emerald-950">
-                          Your aviation CV draft is ready
-                        </h2>
-                        <p className="mt-1 text-sm leading-6 text-emerald-900">
-                          Download your Word CV, edit it if needed, then check the final version with the Aviation CV Checker.
-                        </p>
+    {generateMessage && (
+      <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+        {generateMessage}
+      </div>
+    )}
 
-                        {downloadMessage && (
-                          <p className="mt-3 text-sm font-semibold text-green-800">
-                            {downloadMessage}
-                          </p>
-                        )}
+    {generatedCV && (
+      <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
+        <h2 className="text-lg font-extrabold text-emerald-950">
+          Your aviation CV draft is ready
+        </h2>
 
-                        <Link
-                          href="/cv-checker"
-                          className="mt-4 inline-flex rounded-xl bg-blue-600 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-blue-700"
-                        >
-                          Check this CV with Aviation CV Checker
-                        </Link>
-                      </div>
-                    )}
-                  </>
-                )}
+        <p className="mt-1 text-sm leading-6 text-emerald-900">
+          Download your Word or PDF CV, edit it if needed, then check the final
+          version with the Aviation CV Checker.
+        </p>
+
+        {downloadMessage && (
+          <p className="mt-3 text-sm font-semibold text-emerald-800">
+            {downloadMessage}
+          </p>
+        )}
+
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            onClick={handleDownloadWord}
+            disabled={!generatedCV || isDownloading}
+            className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+          >
+            {isDownloading ? "Preparing..." : "Download Word"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleDownloadPdf}
+            disabled={!generatedCV || isDownloadingPdf}
+            className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950 ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          >
+            {isDownloadingPdf ? "Preparing PDF..." : "Download PDF"}
+          </button>
+
+          <Link
+            href="/cv-checker"
+            className="inline-flex rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-emerald-900 ring-1 ring-emerald-200 transition hover:bg-emerald-100"
+          >
+            Check this CV with Aviation CV Checker →
+          </Link>
+        </div>
+      </div>
+    )}
+  </>
+)}
               </div>
             </form>
+
 
             <aside className="min-w-0 xl:sticky xl:top-[92px] xl:self-start">
   <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
