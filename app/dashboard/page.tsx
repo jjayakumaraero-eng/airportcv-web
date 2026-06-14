@@ -1,4 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
+import RedeemPremiumCodeForm from "@/components/RedeemPremiumCodeForm";
+import { getCurrentUserPlan } from "@/lib/usage";
 import Link from "next/link";
 
 const quickActions = [
@@ -72,7 +74,7 @@ export default async function DashboardPage() {
       </main>
     );
   }
-
+const accountPlan = await getCurrentUserPlan();
   const email = user.emailAddresses[0]?.emailAddress || "your account";
   const displayName =
     user.firstName || user.fullName || email.split("@")[0] || "there";
@@ -107,15 +109,22 @@ export default async function DashboardPage() {
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm font-semibold text-slate-500">Current plan</p>
-            <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
-              Free
-            </h2>
-            <p className="mt-2 text-sm text-slate-600">
-              Premium plans will unlock higher usage limits and saved workspace
-              features later.
-            </p>
-          </div>
+  <p className="text-sm font-semibold text-slate-500">Current plan</p>
+  <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
+    {accountPlan.plan === "premium" ? "Premium" : "Free"}
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">
+    Premium plans will unlock higher usage limits and saved workspace
+    features later.
+  </p>
+
+  <Link
+    href="/pricing"
+    className="mt-4 inline-flex rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+  >
+    View Premium
+  </Link>
+</div>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm font-semibold text-slate-500">
@@ -141,7 +150,11 @@ export default async function DashboardPage() {
             </p>
           </div>
         </div>
-
+ {accountPlan.plan !== "premium" ? (
+          <div className="mt-8">
+            <RedeemPremiumCodeForm />
+          </div>
+        ) : null}
         <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
