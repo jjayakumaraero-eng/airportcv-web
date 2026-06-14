@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { checkAndIncrementUsage } from "@/Lib/usage";
+import { checkAndIncrementUsage } from "@/lib/usage";
 
 function extractJson(text: string) {
   const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
