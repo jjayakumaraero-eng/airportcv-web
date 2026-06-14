@@ -11,6 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^7.5.2",
     "@google/generative-ai": "^0.24.1",
+    "@upstash/redis": "^1.38.0",
     "docx": "^9.7.1",
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",

@@ -735,10 +735,21 @@ const link = window.document.createElement("a");
     }
 
     setGeneratedCV(data.cv);
+
+if (data.usage) {
+  setGenerateMessage(
+    `CV generated successfully. You have ${data.usage.remaining} of ${data.usage.limit} free AI uses remaining this month.`
+  );
+} else {
+  setGenerateMessage("CV generated successfully.");
+}
   } catch (error) {
     console.error("Generate CV error:", error);
+
     setGenerateMessage(
-      "We could not generate your CV right now. Please check your details and try again shortly."
+      error instanceof Error
+        ? error.message
+        : "We could not generate your CV right now. Please check your details and try again shortly."
     );
   } finally {
     setIsGenerating(false);

@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
+import { checkAndIncrementUsage } from "@/Lib/usage";
 
 function extractJson(text: string) {
   const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
@@ -16,6 +17,18 @@ function extractJson(text: string) {
 export async function POST(request: Request) {
   try {
     const formData = await request.json();
+
+    const usage = await checkAndIncrementUsage("cv-builder");
+
+    if (!usage.allowed) {
+      return NextResponse.json(
+        {
+          error: usage.message,
+          usage,
+        },
+        { status: usage.status }
+      );
+    }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
@@ -81,14 +94,16 @@ ${JSON.stringify(formData, null, 2)}
     const text = result.response.text();
     const cv = extractJson(text);
 
-    return NextResponse.json({ cv });
-  } catch (error) {
-    console.error("CV builder error:", error);
+    return NextResponse.json({ cv, usage });
+    } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unknown CV builder error";
+
+    console.error("CV builder error:", message);
 
     return NextResponse.json(
       {
-        error:
-          "We could not generate your CV right now. Please check your details and try again shortly.",
+        error: message,
       },
       { status: 500 }
     );
