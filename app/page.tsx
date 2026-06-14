@@ -249,7 +249,7 @@ export default function Home() {
 
   <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/20" />
 
-  <div className="relative mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:py-12">
+  <div className="relative mx-auto grid max-w-7xl gap-6 px-6 py-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:py-12">
     <div className="max-w-2xl">
       <p className="mb-5 inline-flex rounded-full bg-blue-50 px-4 py-2 text-sm font-bold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
         ✦ AI-powered aviation CV maker
@@ -297,14 +297,14 @@ export default function Home() {
 </div>
 </div>
 
-<div className="relative hidden lg:block">
+<div className="relative mt-8 lg:mt-0">
   <Image
     src="/airportcv-hero-visual.png"
     alt="AirportCV aviation CV builder preview"
     width={760}
     height={570}
     priority
-    className="ml-auto h-auto w-full max-w-[700px]"
+    className="mx-auto h-auto w-full max-w-[520px] lg:ml-auto lg:max-w-[700px]"
   />
 </div>
 </div>
