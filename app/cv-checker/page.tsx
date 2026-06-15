@@ -1,6 +1,7 @@
 "use client";
-import Link from "next/link";
+
 import Image from "next/image";
+import Link from "next/link";
 import PremiumAssessmentReport from "@/components/PremiumAssessmentReport";
 import { toPng } from "html-to-image";
 import { useState } from "react";
@@ -34,6 +35,7 @@ const roles = [
   "Airport Duty Manager",
   "Other Airport / Airline Role",
 ];
+
 type Job = {
   jobTitle: string;
   company: string;
@@ -61,14 +63,15 @@ type Report = {
   keywords: string[];
 
   bestMatches?: { role: string; match: number }[];
-premiumPreview?: {
-  missingKeywordCount: number;
-  missingSkillCount: number;
-  atsIssueCount: number;
-  additionalRoleCount: number;
-  recruiterConcernCount: number;
-};
-premiumReport?: any;
+  premiumPreview?: {
+    missingKeywordCount: number;
+    missingSkillCount: number;
+    atsIssueCount: number;
+    additionalRoleCount: number;
+    recruiterConcernCount: number;
+  };
+  premiumReport?: any;
+
   jobMatch?: {
     score: number;
     missingKeywords: string[];
@@ -91,7 +94,135 @@ premiumReport?: any;
   };
 };
 
-export default function Home() {
+const roleInsights: Record<
+  string,
+  {
+    salary: string;
+    shiftPattern: string;
+    keySkills: string[];
+    notes: string;
+  }
+> = {
+  "Passenger Service Agent": {
+    salary: "£24k - £35k",
+    shiftPattern: "Early, late, weekend and rotating shifts",
+    keySkills: [
+      "Customer service",
+      "Communication",
+      "Check-in",
+      "Boarding",
+      "Problem solving",
+    ],
+    notes:
+      "Best suited to candidates with customer-facing experience in airports, retail, hospitality or travel.",
+  },
+  "Ramp Agent": {
+    salary: "£25k - £38k",
+    shiftPattern: "Shift work including nights, weekends and outdoor work",
+    keySkills: [
+      "Safety awareness",
+      "Manual handling",
+      "Teamwork",
+      "Time management",
+      "Aircraft turnaround",
+    ],
+    notes:
+      "Best suited to candidates comfortable with physical work, safety procedures and time-critical operations.",
+  },
+  "Baggage Handler": {
+    salary: "£24k - £34k",
+    shiftPattern: "Early, late, night and weekend shifts",
+    keySkills: [
+      "Manual handling",
+      "Loading",
+      "Unloading",
+      "Teamwork",
+      "Reliability",
+    ],
+    notes:
+      "Best suited to candidates with warehouse, logistics, delivery or physical work experience.",
+  },
+  "Airport Security Officer": {
+    salary: "£28k - £45k",
+    shiftPattern: "Rotating shifts including weekends and bank holidays",
+    keySkills: [
+      "Observation",
+      "Procedure following",
+      "Communication",
+      "Conflict handling",
+      "Safety awareness",
+    ],
+    notes:
+      "Best suited to candidates who are calm, professional, observant and comfortable following strict procedures.",
+  },
+  "Flight Dispatcher": {
+    salary: "£35k - £60k+",
+    shiftPattern: "Operational shifts, often including weekends and unsociable hours",
+    keySkills: [
+      "Flight coordination",
+      "Decision making",
+      "Communication",
+      "Time management",
+      "Operational control",
+    ],
+    notes:
+      "Best suited to candidates with aviation operations, ground handling or flight turnaround experience.",
+  },
+  "Load Controller": {
+    salary: "£32k - £55k+",
+    shiftPattern: "Operational shift work linked to flight schedules",
+    keySkills: [
+      "Weight and balance",
+      "Accuracy",
+      "Aircraft loading",
+      "Communication",
+      "Safety compliance",
+    ],
+    notes:
+      "Best suited to candidates with ramp, dispatch, load planning or aircraft turnaround experience.",
+  },
+};
+
+const careerPaths: Record<string, string[]> = {
+  "Passenger Service Agent": [
+    "Senior Passenger Service Agent",
+    "Passenger Service Supervisor",
+    "Duty Manager",
+    "Airport Operations Manager",
+  ],
+  "Ramp Agent": [
+    "Lead Ramp Agent",
+    "Load Controller",
+    "Operations Controller",
+    "Duty Manager",
+  ],
+  "Baggage Handler": [
+    "Lead Baggage Agent",
+    "Ramp Supervisor",
+    "Operations Controller",
+    "Duty Manager",
+  ],
+  "Airport Security Officer": [
+    "Senior Security Officer",
+    "Security Supervisor",
+    "Security Manager",
+    "Airport Security Manager",
+  ],
+  "Flight Dispatcher": [
+    "Senior Flight Dispatcher",
+    "Operations Controller",
+    "Operations Manager",
+    "Airport Operations Manager",
+  ],
+  "Load Controller": [
+    "Senior Load Controller",
+    "Operations Controller",
+    "Duty Manager",
+    "Airport Operations Manager",
+  ],
+};
+
+export default function CvCheckerPage() {
   const [role, setRole] = useState(roles[0]);
   const [customRole, setCustomRole] = useState("");
   const [cvText, setCvText] = useState("");
@@ -107,6 +238,7 @@ export default function Home() {
   const [report, setReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const [interviewPack, setInterviewPack] = useState<InterviewPack | null>(null);
   const [interviewLoading, setInterviewLoading] = useState(false);
   const [interviewError, setInterviewError] = useState("");
@@ -114,6 +246,12 @@ export default function Home() {
   const [coverLetter, setCoverLetter] = useState<CoverLetterResult | null>(null);
   const [coverLetterLoading, setCoverLetterLoading] = useState(false);
   const [coverLetterError, setCoverLetterError] = useState("");
+
+  const selectedRole =
+    role === "Other Airport / Airline Role" ? customRole || role : role;
+
+  const selectedRoleInsight = roleInsights[selectedRole];
+  const selectedCareerPath = careerPaths[selectedRole];
 
   async function generateCoverLetter() {
     if (!report) return;
@@ -128,7 +266,7 @@ export default function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        role,
+        role: selectedRole,
         fullName,
         cvText,
         profile: report.fullCv?.profile || report.profile,
@@ -161,7 +299,7 @@ export default function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        role,
+        role: selectedRole,
         cvText,
         profile: report.fullCv?.profile || report.profile,
         skills: report.fullCv?.skills || report.skills,
@@ -182,12 +320,12 @@ export default function Home() {
 
   async function checkCv() {
     setLoading(true);
-setReport(null);
-setError("");
-setShowPremiumReport(false);
+    setReport(null);
+    setError("");
+    setShowPremiumReport(false);
 
     const formData = new FormData();
-    formData.append("role", role === "Other" ? customRole : role);
+    formData.append("role", selectedRole);
     formData.append("cvText", cvText);
     formData.append("jobDescription", jobDescription);
     if (file) formData.append("file", file);
@@ -212,95 +350,7 @@ setShowPremiumReport(false);
   function getContactLine() {
     return [email, phone, location].filter(Boolean).join(" | ");
   }
-  const roleInsights: Record<
-  string,
-  {
-    salary: string;
-    shiftPattern: string;
-    keySkills: string[];
-    notes: string;
-  }
-> = {
-  "Passenger Service Agent": {
-    salary: "£24k - £35k",
-    shiftPattern: "Early, late, weekend and rotating shifts",
-    keySkills: ["Customer service", "Communication", "Check-in", "Boarding", "Problem solving"],
-    notes: "Best suited to candidates with customer-facing experience in airports, retail, hospitality or travel.",
-  },
-  "Ramp Agent": {
-    salary: "£25k - £38k",
-    shiftPattern: "Shift work including nights, weekends and outdoor work",
-    keySkills: ["Safety awareness", "Manual handling", "Teamwork", "Time management", "Aircraft turnaround"],
-    notes: "Best suited to candidates comfortable with physical work, safety procedures and time-critical operations.",
-  },
-  "Baggage Handler": {
-    salary: "£24k - £34k",
-    shiftPattern: "Early, late, night and weekend shifts",
-    keySkills: ["Manual handling", "Loading", "Unloading", "Teamwork", "Reliability"],
-    notes: "Best suited to candidates with warehouse, logistics, delivery or physical work experience.",
-  },
-  "Airport Security Officer": {
-    salary: "£28k - £45k",
-    shiftPattern: "Rotating shifts including weekends and bank holidays",
-    keySkills: ["Observation", "Procedure following", "Communication", "Conflict handling", "Safety awareness"],
-    notes: "Best suited to candidates who are calm, professional, observant and comfortable following strict procedures.",
-  },
-  "Flight Dispatcher": {
-    salary: "£35k - £60k+",
-    shiftPattern: "Operational shifts, often including weekends and unsociable hours",
-    keySkills: ["Flight coordination", "Decision making", "Communication", "Time management", "Operational control"],
-    notes: "Best suited to candidates with aviation operations, ground handling or flight turnaround experience.",
-  },
-  "Load Controller": {
-    salary: "£32k - £55k+",
-    shiftPattern: "Operational shift work linked to flight schedules",
-    keySkills: ["Weight and balance", "Accuracy", "Aircraft loading", "Communication", "Safety compliance"],
-    notes: "Best suited to candidates with ramp, dispatch, load planning or aircraft turnaround experience.",
-  },
-};
-const careerPaths: Record<string, string[]> = {
-  "Passenger Service Agent": [
-    "Senior Passenger Service Agent",
-    "Passenger Service Supervisor",
-    "Duty Manager",
-    "Airport Operations Manager",
-  ],
 
-  "Ramp Agent": [
-    "Lead Ramp Agent",
-    "Load Controller",
-    "Operations Controller",
-    "Duty Manager",
-  ],
-
-  "Baggage Handler": [
-    "Lead Baggage Agent",
-    "Ramp Supervisor",
-    "Operations Controller",
-    "Duty Manager",
-  ],
-
-  "Airport Security Officer": [
-    "Senior Security Officer",
-    "Security Supervisor",
-    "Security Manager",
-    "Airport Security Manager",
-  ],
-
-  "Flight Dispatcher": [
-    "Senior Flight Dispatcher",
-    "Operations Controller",
-    "Operations Manager",
-    "Airport Operations Manager",
-  ],
-
-  "Load Controller": [
-    "Senior Load Controller",
-    "Operations Controller",
-    "Duty Manager",
-    "Airport Operations Manager",
-  ],
-};
   function getEmploymentItems() {
     if (!report) return [];
     return report.fullCv?.employmentHistory || [];
@@ -376,7 +426,9 @@ const careerPaths: Record<string, string[]> = {
               new Paragraph({
                 children: [
                   new TextRun({
-                    text: `${job.company || "Company"} | ${job.dates || "Dates"}`,
+                    text: `${job.company || "Company"} | ${
+                      job.dates || "Dates"
+                    }`,
                     italics: true,
                     size: 20,
                   }),
@@ -416,33 +468,33 @@ const careerPaths: Record<string, string[]> = {
 
     URL.revokeObjectURL(url);
   }
-async function downloadAssessmentReportPdf() {
-  try {
-    const element = document.getElementById("premium-report-pdf");
 
-    if (!element) {
-      alert("Report is not ready yet.");
-      return;
+  async function downloadAssessmentReportPdf() {
+    try {
+      const element = document.getElementById("premium-report-pdf");
+
+      if (!element) {
+        alert("Report is not ready yet.");
+        return;
+      }
+
+      const imgData = await toPng(element, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: "#ffffff",
+      });
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
+      pdf.save("airportcv-assessment-report.pdf");
+    } catch (error) {
+      console.error("PDF DOWNLOAD ERROR:", error);
+      alert(
+        `PDF ERROR: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
-
-    const imgData = await toPng(element, {
-      cacheBust: true,
-      pixelRatio: 2,
-      backgroundColor: "#ffffff",
-    });
-
-    const pdf = new jsPDF("p", "mm", "a4");
-    pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
-    pdf.save("airportcv-assessment-report.pdf");
-  } catch (error) {
-    console.error("PDF DOWNLOAD ERROR:", error);
-    alert(
-      `PDF ERROR: ${
-        error instanceof Error ? error.message : String(error)
-      }`
-    );
   }
-}
+
   function downloadPdfCv() {
     if (!report) return;
 
@@ -520,566 +572,772 @@ async function downloadAssessmentReportPdf() {
 
     pdf.save("airportcv-professional-cv.pdf");
   }
-return (
-  <main className="min-h-screen bg-slate-50 text-slate-900">
-      
 
-      
-      <section id="checker" className="mx-auto max-w-7xl px-6 pb-24">
-        <div className="rounded-[2rem] bg-slate-950 p-2 shadow-2xl">
-          <div className="grid gap-2 lg:grid-cols-2">
-            <div className="rounded-[1.7rem] bg-white p-6 lg:p-8">
-              <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
-                Free CV Check
-              </p>
-              <h2 className="mt-2 text-3xl font-bold">Get Your Free Airport Career Assessment</h2>
-              <p className="mt-3 text-slate-600">
-                Upload your CV and receive a free airport readiness score, top improvement areas and best-fit role match.
-              </p>
+  return (
+    <main className="min-h-screen bg-[#f6f9fc] text-slate-950">
+      <header className="border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/airportcv-logo-light.png"
+              alt="AirportCV"
+              width={180}
+              height={52}
+              className="h-auto w-36"
+              priority
+            />
+          </Link>
 
-              
+          <nav className="hidden items-center gap-6 text-sm font-bold text-slate-600 md:flex">
+            <Link href="/cv-builder" className="hover:text-blue-700">
+              CV Builder
+            </Link>
+            <Link href="/cover-letter" className="hover:text-blue-700">
+              Cover Letter
+            </Link>
+            <Link href="/interview-prep" className="hover:text-blue-700">
+              Interview Prep
+            </Link>
+            <Link href="/pricing" className="hover:text-blue-700">
+              Pricing
+            </Link>
+          </nav>
 
-              <label className="mt-6 block text-sm font-semibold">Target role</label>
-              <select value={role} onChange={(e) => setRole(e.target.value)} className="mt-2 w-full rounded-xl border px-4 py-3">
-                {roles.map((r) => <option key={r}>{r}</option>)}
-              </select>
-              {role === "Other Airport / Airline Role" && (
-  <input
-    value={customRole}
-    onChange={(e) => setCustomRole(e.target.value)}
-    placeholder="Type your target airport role"
-    className="mt-3 w-full rounded-xl border px-4 py-3"
-  />
-)}
+          <Link
+            href="/dashboard"
+            className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+          >
+            Open tools
+          </Link>
+        </div>
+      </header>
 
-              <label className="mt-6 block text-sm font-semibold">Upload CV</label>
-              <input type="file" accept=".pdf,.docx" onChange={(e) => setFile(e.target.files?.[0] || null)} className="mt-2 w-full rounded-xl border border-dashed bg-slate-50 px-4 py-4" />
+      <section className="relative overflow-hidden border-b border-slate-200 bg-gradient-to-br from-white via-blue-50 to-slate-100 px-6 py-20">
+        <div className="absolute left-1/2 top-0 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
 
-              <label className="mt-6 block text-sm font-semibold">Or paste your CV</label>
-              <textarea value={cvText} onChange={(e) => setCvText(e.target.value)} placeholder="Paste your CV text here..." className="mt-2 h-52 w-full rounded-xl border px-4 py-3" />
-
-<label className="mt-6 block text-sm font-semibold">
-  Job Description (Optional)
-</label>
-
-<textarea
-  value={jobDescription}
-  onChange={(e) => setJobDescription(e.target.value)}
-  placeholder="Paste the airport job description here..."
-  className="mt-2 h-40 w-full rounded-xl border px-4 py-3"
-/>
-<div className="rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950">
-  <p className="font-semibold">Privacy note</p>
-  <p className="mt-2">
-    Your CV may contain personal information. AirportCV uses the CV content you
-    provide only to generate your result. Do not include unnecessary sensitive
-    information such as passport numbers, National Insurance numbers, full home
-    address, date of birth, health information or financial details.
-  </p>
-  <p className="mt-2">
-    Read our{" "}
-    <Link href="/privacy" className="font-semibold underline">
-      Privacy Policy
-    </Link>
-    .
-  </p>
-</div>
-
-              <button onClick={checkCv} disabled={loading} className="mt-6 w-full rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white hover:bg-blue-500 disabled:bg-slate-400">
-                {loading ? "Checking your CV..." : "Check My Airport CV"}
-              </button>
-            </div>
-
-            <div className="rounded-[1.7rem] bg-white p-6 lg:p-8">
-              <h2 className="text-2xl font-bold">AirportCV Report</h2>
-
-              {error ? (
-                <div className="mt-4 rounded-xl bg-red-50 p-4 text-red-700">{error}</div>
-              ) : !report ? (
-                <div className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-                  <p className="text-lg font-semibold">Your Report Will Appear Here</p>
-                  <p className="mt-2 text-slate-600">
-                    You’ll see your score, best role matches and improved CV draft.
-                  </p>
-                </div>
-              ) : (
-                <div className="mt-6 space-y-6">
-                  <div className="rounded-3xl bg-blue-50 p-6">
-                    <p className="text-sm font-semibold text-blue-700">Airport Readiness Score</p>
-                    <p className="mt-2 text-5xl font-bold">{report.score}/100</p>
-                    <p className="mt-3 text-slate-700">{report.summary}</p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-bold">Priority fixes</h3>
-                    <ul className="mt-6 mb-8 space-y-3 text-sm text-slate-700">
-                      {(report.fixes || []).map((fix) => <li key={fix}>{fix}</li>)}
-                    </ul>
-                  </div>
-
-                  {report.jobMatch && (
-  <div className="mb-6 rounded-2xl border bg-white p-5">
-    <h3 className="font-bold">Job Description Match</h3>
-
-    <div className="mt-4">
-      <div className="flex items-center justify-between">
-        <span className="font-medium">Match Score</span>
-        <span className="font-bold text-green-700">
-          {report.jobMatch.score}%
-        </span>
-      </div>
-
-      <div className="mt-2 h-2 rounded-full bg-slate-200">
-        <div
-          className="h-2 rounded-full bg-green-600"
-          style={{ width: `${report.jobMatch.score}%` }}
-        />
-      </div>
-    </div>
-
-    <div className="mt-5">
-      <h4 className="font-semibold">Missing Keywords</h4>
-      <ul className="mt-2 list-disc pl-5 text-slate-700">
-        {report.jobMatch.missingKeywords?.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </div>
-
-    <div className="mt-5">
-      <h4 className="font-semibold">Missing Skills</h4>
-      <ul className="mt-2 list-disc pl-5 text-slate-700">
-        {report.jobMatch.missingSkills?.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </div>
-
-    <div className="mt-5">
-      <h4 className="font-semibold">Recommended Improvements</h4>
-      <ul className="mt-2 list-disc pl-5 text-slate-700">
-        {report.jobMatch.recommendations?.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </div>
-  </div>
-)}
-
-{report.bestMatches && (
-  <div className="space-y-6">
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <p className="text-sm font-bold uppercase tracking-wide text-blue-600">
-        Top Career Match
-      </p>
-
-      <div className="mt-4 flex flex-col gap-4 rounded-2xl bg-blue-50 p-5 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-2xl font-extrabold text-slate-950">
-            {report.bestMatches[0]?.role}
+        <div className="relative mx-auto max-w-5xl text-center">
+          <p className="text-sm font-extrabold uppercase tracking-[0.24em] text-blue-700">
+            Free Aviation CV Checker
           </p>
 
-          <p className="mt-1 text-sm text-slate-600">
-            Your strongest airport role match based on this CV.
+          <h1 className="mt-5 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
+            Check your CV for airport and airline roles
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+            Upload or paste your CV to get an airport readiness score, priority
+            fixes, role matches and a stronger aviation CV draft.
           </p>
-        </div>
-
-        <div className="w-fit rounded-2xl bg-blue-600 px-5 py-3 text-xl font-extrabold text-white">
-          {report.bestMatches[0]?.match}%
-        </div>
-      </div>
-    </div>
-
-    <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl">
-      <div className="bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-8 text-white">
-        <p className="inline-flex rounded-full bg-blue-500/20 px-4 py-2 text-xs font-bold uppercase tracking-wide text-blue-100">
-          Premium Analysis Available
-        </p>
-
-        <h3 className="mt-4 text-3xl font-extrabold">
-          Unlock Your Full Airport Career Report
-        </h3>
-
-        <p className="mt-3 max-w-2xl leading-7 text-slate-200">
-          Your free assessment gives your score, top match and one priority fix.
-          The full report reveals the detailed recruiter-style analysis behind your result.
-        </p>
-      </div>
-
-      <div className="grid gap-4 p-6 md:grid-cols-2">
-        {[
-          {
-            title: `${report.premiumPreview?.missingKeywordCount || 12} Missing Keywords`,
-            desc: "Airport-specific keywords found missing or weak in your CV.",
-          },
-          {
-            title: `${report.premiumPreview?.missingSkillCount || 5} Missing Skills`,
-            desc: "Skills recruiters may expect but your CV does not clearly prove.",
-          },
-          {
-            title: `${report.premiumPreview?.atsIssueCount || 4} ATS Issues`,
-            desc: "Formatting and keyword issues that may reduce visibility.",
-          },
-          {
-            title: `${report.premiumPreview?.additionalRoleCount || 6} Additional Career Matches`,
-            desc: "Other airport roles your CV may be suitable for.",
-          },
-        ].map((item) => (
-          <div
-            key={item.title}
-            className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h4 className="text-xl font-extrabold text-slate-950">
-                  {item.title}
-                </h4>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  {item.desc}
-                </p>
-              </div>
-
-              <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
-                Locked
-              </span>
-            </div>
-          </div>
-        ))}
-
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h4 className="text-xl font-extrabold text-slate-950">
-                Salary Potential
-              </h4>
-
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                Estimated earning range based on role match and career progression.
-              </p>
-            </div>
-
-            <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
-              Locked
-            </span>
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h4 className="text-xl font-extrabold text-slate-950">
-                Recruiter Feedback
-              </h4>
-
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                Recruiter-style comments on what may reduce interview invitations.
-              </p>
-            </div>
-
-            <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
-              Locked
-            </span>
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:col-span-2">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h4 className="text-xl font-extrabold text-slate-950">
-                Career Roadmap
-              </h4>
-
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                A practical improvement plan showing what to fix before applying.
-              </p>
-            </div>
-
-            <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
-              Locked
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-slate-200 bg-blue-50 p-8 text-center">
-        <h3 className="text-2xl font-extrabold text-slate-950">
-          Full Report Coming Soon
-        </h3>
-
-        <p className="mx-auto mt-3 max-w-2xl text-slate-600">
-          We are preparing the full Airport Career Report feature. Early users will get
-          first access when premium reports launch.
-        </p>
-
-        <button
-  onClick={() => {
-  sessionStorage.setItem(
-    "airportcvPremiumReport",
-    JSON.stringify({
-      report,
-      fullName,
-      role: role === "Other" ? customRole : role,
-    })
-  );
-
-  window.location.href = "/premium-report";
-}}
-  className="mt-8 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
->
-  View Full Airport Career Report →
-</button>
-      </div>
-        </div>
-  </div>
-)}
-{showPremiumReport && report.premiumReport && (
-  <div className="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl">
-    <div className="bg-gradient-to-r from-[#030814] via-[#071d45] to-[#0b3b91] p-8 text-white">
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <Image
-            src="/airportcv-logo-cropped.png"
-            alt="AirportCV"
-            width={190}
-            height={55}
-            className="mb-6"
-          />
-
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-300">
-            Aviation Career Assessment Report
-          </p>
-
-          <h2 className="mt-3 text-3xl font-extrabold">
-            Premium Airport Career Report
-          </h2>
-
-          <p className="mt-3 max-w-2xl text-slate-200">
-            Candidate: {fullName || "Candidate"} • Target Role:{" "}
-            {role === "Other" ? customRole : role}
-          </p>
-        </div>
-
-        <div className="rounded-3xl bg-white/10 p-6 text-center backdrop-blur">
-          <p className="text-sm text-blue-100">Airport Readiness</p>
-          <p className="mt-2 text-5xl font-extrabold">{report.score}</p>
-          <p className="text-sm text-blue-100">out of 100</p>
-        </div>
-      </div>
-    </div>
-
-    <div className="grid gap-6 p-6 lg:grid-cols-2">
-      <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-        <h3 className="text-xl font-extrabold text-slate-950">
-          ATS Analysis
-        </h3>
-
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-sm font-semibold text-slate-600">
-            ATS Compatibility
-          </span>
-          <span className="rounded-xl bg-blue-600 px-4 py-2 font-bold text-white">
-            {report.premiumReport.atsAnalysis?.score || report.score}/100
-          </span>
-        </div>
-
-        <p className="mt-4 text-sm leading-6 text-slate-700">
-          {report.premiumReport.atsAnalysis?.summary ||
-            "Your CV has been assessed against airport recruitment expectations and ATS visibility factors."}
-        </p>
-      </div>
-
-      <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-        <h3 className="text-xl font-extrabold text-slate-950">
-          Airport Career Match
-        </h3>
-
-        <div className="mt-4 space-y-3">
-          {report.premiumReport.bestMatches?.slice(0, 4).map((match: any) => (
-            <div key={match.role}>
-              <div className="flex items-center justify-between text-sm font-semibold">
-                <span>{match.role}</span>
-                <span className="text-blue-700">{match.match}%</span>
-              </div>
-
-              <div className="mt-2 h-2 rounded-full bg-slate-200">
-                <div
-                  className="h-2 rounded-full bg-blue-600"
-                  style={{ width: `${match.match}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="rounded-3xl border border-slate-200 bg-white p-6">
-        <h3 className="text-xl font-extrabold text-slate-950">
-          Missing Airport Keywords
-        </h3>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {report.premiumReport.jobMatch?.missingKeywords
-            ?.slice(0, 6)
-            .map((item: string) => (
-              <span
-                key={item}
-                className="rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700"
-              >
-                {item}
-              </span>
-            ))}
-        </div>
-      </div>
-
-      <div className="rounded-3xl border border-slate-200 bg-white p-6">
-        <h3 className="text-xl font-extrabold text-slate-950">
-          Missing Skills
-        </h3>
-
-        <div className="mt-4 space-y-2">
-          {report.premiumReport.jobMatch?.missingSkills
-            ?.slice(0, 5)
-            .map((item: string) => (
-              <div
-                key={item}
-                className="rounded-xl bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700"
-              >
-                {item}
-              </div>
-            ))}
-        </div>
-      </div>
-
-      <div className="rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white lg:col-span-2">
-        <h3 className="text-xl font-extrabold">Recruiter Review</h3>
-
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          {report.premiumReport.recruiterFeedback
-            ?.slice(0, 3)
-            .map((item: string, index: number) => (
-              <div
-                key={item}
-                className="rounded-2xl bg-white/10 p-4 text-sm leading-6 text-slate-200"
-              >
-                <span className="mb-2 block font-bold text-blue-300">
-                  Insight {index + 1}
-                </span>
-                {item}
-              </div>
-            ))}
-        </div>
-      </div>
-
-      <div className="rounded-3xl border border-slate-200 bg-blue-50 p-6 lg:col-span-2">
-        <h3 className="text-xl font-extrabold text-slate-950">
-          Priority Action Plan
-        </h3>
-
-        <div className="mt-5 grid gap-3 md:grid-cols-3">
-          {report.premiumReport.careerRoadmap
-            ?.slice(0, 3)
-            .map((item: string, index: number) => (
-              <div key={item} className="rounded-2xl bg-white p-4">
-                <p className="text-sm font-bold text-blue-600">
-                  Step {index + 1}
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-700">
-                  {item}
-                </p>
-              </div>
-            ))}
-        </div>
-      </div>
-    </div>
-
-    <div className="border-t border-slate-200 bg-slate-50 p-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <h3 className="font-extrabold text-slate-950">
-          Recommended AirportCV Tools
-        </h3>
-
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          <a
-            href="/interview-prep"
-            className="rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50"
-          >
-            <div className="text-lg font-bold">Interview Preparation</div>
-            <p className="mt-2 text-sm text-slate-600">
-              Practice airport interview questions.
-            </p>
-          </a>
-
-          <a
-            href="/cover-letter"
-            className="rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50"
-          >
-            <div className="text-lg font-bold">Cover Letter Generator</div>
-            <p className="mt-2 text-sm text-slate-600">
-              Create tailored airport cover letters.
-            </p>
-          </a>
-
-          <a
-            href="/cv-checker"
-            className="rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50"
-          >
-            <div className="text-lg font-bold">Reassess My CV</div>
-            <p className="mt-2 text-sm text-slate-600">
-              Upload your improved CV and track progress.
-            </p>
-          </a>
-        </div>
-      </div>
-
-      <button
-  onClick={downloadAssessmentReportPdf}
-  className="mt-6 w-full rounded-xl bg-slate-950 px-8 py-4 font-bold text-white transition hover:bg-slate-800"
->
-  Download PDF Report
-</button>
-
-      <p className="mt-5 text-xs leading-5 text-slate-500">
-        Important Notice: This assessment is generated using AI-assisted analysis
-        of information provided by the candidate. AirportCV does not guarantee
-        interviews, employment offers, salary outcomes, security clearance approval
-        or recruitment decisions. This report is intended for career guidance
-        purposes only and should not be considered legal, immigration, employment
-        or financial advice.
-      </p>
-    </div>
-  </div>
-)}   
-{showPremiumReport && report.premiumReport && (
-  <div className="mt-12">
-    <PremiumAssessmentReport
-      report={report}
-      fullName={fullName}
-      role={role === "Other" ? customRole : role}
-    />
-  </div>
-)}
-<div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4">
-  <p className="text-sm text-blue-950">
-    Happy with your CV improvements? Create a tailored aviation cover letter for
-    the same role.
-  </p>
-
-  <Link
-    href="/cover-letter"
-    className="mt-3 inline-flex rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-  >
-    Generate my cover letter
-  </Link>
-</div>
-
-             </div>
-              )}
-            </div>
-          </div>
         </div>
       </section>
 
+      <section id="checker" className="px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 xl:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-blue-700">
+              CV details
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950">
+              Get your free airport career assessment
+            </h2>
+
+            <p className="mt-4 leading-7 text-slate-600">
+              Add your CV and target role. You can also paste a job description
+              to check how closely your CV matches a specific vacancy.
+            </p>
+
+            <div className="mt-8 grid gap-6">
+              <div>
+                <label className="block text-sm font-extrabold text-slate-800">
+                  Target role
+                </label>
+
+                <select
+                  value={role}
+                  onChange={(event) => setRole(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                >
+                  {roles.map((roleOption) => (
+                    <option key={roleOption}>{roleOption}</option>
+                  ))}
+                </select>
+
+                {role === "Other Airport / Airline Role" && (
+                  <input
+                    value={customRole}
+                    onChange={(event) => setCustomRole(event.target.value)}
+                    placeholder="Type your target airport role"
+                    className="mt-3 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                )}
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block text-sm font-extrabold text-slate-800">
+                    Full name (optional)
+                  </label>
+                  <input
+                    value={fullName}
+                    onChange={(event) => setFullName(event.target.value)}
+                    placeholder="Full name"
+                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-extrabold text-slate-800">
+                    Email (optional)
+                  </label>
+                  <input
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="Email"
+                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-extrabold text-slate-800">
+                    Phone (optional)
+                  </label>
+                  <input
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    placeholder="Phone"
+                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-extrabold text-slate-800">
+                    Location (optional)
+                  </label>
+                  <input
+                    value={location}
+                    onChange={(event) => setLocation(event.target.value)}
+                    placeholder="Location"
+                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-extrabold text-slate-800">
+                  Upload CV
+                </label>
+
+                <input
+                  type="file"
+                  accept=".pdf,.docx"
+                  onChange={(event) => setFile(event.target.files?.[0] || null)}
+                  className="mt-2 w-full rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm text-slate-700"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-extrabold text-slate-800">
+                  Or paste your CV
+                </label>
+
+                <textarea
+                  value={cvText}
+                  onChange={(event) => setCvText(event.target.value)}
+                  placeholder="Paste your CV text here..."
+                  className="mt-2 h-52 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-extrabold text-slate-800">
+                  Job description (optional)
+                </label>
+
+                <textarea
+                  value={jobDescription}
+                  onChange={(event) => setJobDescription(event.target.value)}
+                  placeholder="Paste the airport job description here..."
+                  className="mt-2 h-40 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="rounded-3xl border border-blue-100 bg-blue-50 p-5 text-sm text-blue-950">
+                <p className="font-extrabold">Privacy note</p>
+
+                <p className="mt-2 leading-6">
+                  Your CV may contain personal information. AirportCV uses the
+                  CV content you provide only to generate your result. Do not
+                  include unnecessary sensitive information such as passport
+                  numbers, National Insurance numbers, full home address, date
+                  of birth, health information or financial details.
+                </p>
+
+                <p className="mt-2">
+                  Read our{" "}
+                  <Link href="/privacy" className="font-extrabold underline">
+                    Privacy Policy
+                  </Link>
+                  .
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={checkCv}
+                disabled={loading}
+                className="rounded-2xl bg-blue-600 px-6 py-4 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+              >
+                {loading ? "Checking your CV..." : "Check my airport CV"}
+              </button>
+            </div>
+          </div>
+
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-blue-700">
+              AirportCV Report
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950">
+              Your aviation CV feedback
+            </h2>
+
+            {error ? (
+              <div className="mt-6 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-semibold text-red-700">
+                {error}
+              </div>
+            ) : !report ? (
+              <div className="mt-8 rounded-3xl border border-blue-100 bg-blue-50 p-6">
+                <p className="font-extrabold text-blue-950">
+                  Your report will appear here.
+                </p>
+
+                <p className="mt-2 leading-7 text-blue-900">
+                  You’ll see your score, best role matches, priority fixes and
+                  an improved CV draft once the check is complete.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-8 space-y-8">
+                <div className="rounded-3xl border border-blue-100 bg-blue-50 p-6">
+                  <p className="text-sm font-extrabold uppercase tracking-wide text-blue-700">
+                    Airport readiness score
+                  </p>
+
+                  <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <p className="text-6xl font-black text-slate-950">
+                        {report.score}
+                        <span className="text-2xl text-slate-500">/100</span>
+                      </p>
+
+                      <p className="mt-3 leading-7 text-slate-700">
+                        {report.summary}
+                      </p>
+                    </div>
+
+                    {report.bestMatches?.[0] && (
+                      <div className="rounded-2xl bg-white p-4 ring-1 ring-blue-100">
+                        <p className="text-xs font-extrabold uppercase tracking-wide text-blue-700">
+                          Top match
+                        </p>
+                        <p className="mt-1 text-lg font-black text-slate-950">
+                          {report.bestMatches[0].role}
+                        </p>
+                        <p className="text-sm font-bold text-slate-600">
+                          {report.bestMatches[0].match}% match
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                  <h3 className="text-xl font-black text-slate-950">
+                    Priority fixes
+                  </h3>
+
+                  <ul className="mt-4 list-disc space-y-2 pl-5 text-slate-700">
+                    {(report.fixes || []).map((fix) => (
+                      <li key={fix}>{fix}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {report.jobMatch && (
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 className="text-xl font-black text-slate-950">
+                      Job description match
+                    </h3>
+
+                    <div className="mt-5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-slate-700">
+                          Match score
+                        </span>
+                        <span className="font-black text-green-700">
+                          {report.jobMatch.score}%
+                        </span>
+                      </div>
+
+                      <div className="mt-2 h-3 rounded-full bg-slate-200">
+                        <div
+                          className="h-3 rounded-full bg-green-600"
+                          style={{ width: `${report.jobMatch.score}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mt-6 grid gap-5 md:grid-cols-3">
+                      <div>
+                        <h4 className="font-black text-slate-950">
+                          Missing keywords
+                        </h4>
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
+                          {report.jobMatch.missingKeywords?.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-black text-slate-950">
+                          Missing skills
+                        </h4>
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
+                          {report.jobMatch.missingSkills?.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-black text-slate-950">
+                          Recommended improvements
+                        </h4>
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
+                          {report.jobMatch.recommendations?.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {report.bestMatches && (
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 className="text-xl font-black text-slate-950">
+                      Best-fit aviation roles
+                    </h3>
+
+                    <div className="mt-5 space-y-3">
+                      {report.bestMatches.slice(0, 5).map((match) => (
+                        <div key={match.role}>
+                          <div className="flex items-center justify-between text-sm font-bold">
+                            <span>{match.role}</span>
+                            <span className="text-blue-700">
+                              {match.match}%
+                            </span>
+                          </div>
+
+                          <div className="mt-2 h-2 rounded-full bg-slate-200">
+                            <div
+                              className="h-2 rounded-full bg-blue-600"
+                              style={{ width: `${match.match}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {selectedRoleInsight && (
+                  <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                    <h3 className="text-xl font-black text-slate-950">
+                      Role context: {selectedRole}
+                    </h3>
+
+                    <div className="mt-5 grid gap-4 md:grid-cols-2">
+                      <div className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+                        <p className="text-xs font-extrabold uppercase tracking-wide text-blue-700">
+                          Salary guide
+                        </p>
+                        <p className="mt-2 text-lg font-black text-slate-950">
+                          {selectedRoleInsight.salary}
+                        </p>
+                      </div>
+
+                      <div className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+                        <p className="text-xs font-extrabold uppercase tracking-wide text-blue-700">
+                          Shift pattern
+                        </p>
+                        <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
+                          {selectedRoleInsight.shiftPattern}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {selectedRoleInsight.keySkills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="rounded-full bg-blue-50 px-4 py-2 text-sm font-bold text-blue-700 ring-1 ring-blue-100"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+
+                    <p className="mt-5 leading-7 text-slate-700">
+                      {selectedRoleInsight.notes}
+                    </p>
+                  </div>
+                )}
+
+                {selectedCareerPath && (
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 className="text-xl font-black text-slate-950">
+                      Possible career path
+                    </h3>
+
+                    <div className="mt-5 grid gap-3 md:grid-cols-4">
+                      {selectedCareerPath.map((step, index) => (
+                        <div
+                          key={step}
+                          className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center"
+                        >
+                          <p className="text-xs font-extrabold uppercase tracking-wide text-blue-700">
+                            Step {index + 1}
+                          </p>
+                          <p className="mt-2 text-sm font-black text-slate-950">
+                            {step}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <h3 className="text-xl font-black text-slate-950">
+                    Improved CV draft
+                  </h3>
+
+                  <div className="mt-5 space-y-5 rounded-2xl bg-slate-50 p-5">
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-wide text-slate-500">
+                        Professional profile
+                      </p>
+                      <p className="mt-2 leading-7 text-slate-700">
+                        {report.fullCv?.profile || report.profile}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-wide text-slate-500">
+                        Key skills
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {(report.fullCv?.skills || report.skills || []).map(
+                          (skill) => (
+                            <span
+                              key={skill}
+                              className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200"
+                            >
+                              {skill}
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                    <button
+                      type="button"
+                      onClick={downloadWordCv}
+                      className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+                    >
+                      Download Word CV
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={downloadPdfCv}
+                      className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800"
+                    >
+                      Download PDF CV
+                    </button>
+                  </div>
+                </div>
+
+                <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+                  <div className="bg-gradient-to-br from-slate-950 via-blue-950 to-blue-700 p-8 text-white">
+                    <p className="inline-flex rounded-full bg-blue-500/20 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-blue-100">
+                      Premium analysis available
+                    </p>
+
+                    <h3 className="mt-4 text-3xl font-black">
+                      Unlock your full airport career report
+                    </h3>
+
+                    <p className="mt-3 max-w-2xl leading-7 text-slate-200">
+                      Your free assessment gives your score, top match and
+                      priority fixes. The full report reveals a deeper
+                      recruiter-style analysis behind your result.
+                    </p>
+                  </div>
+
+                  <div className="grid gap-4 p-6 md:grid-cols-2">
+                    {[
+                      {
+                        title: `${
+                          report.premiumPreview?.missingKeywordCount || 12
+                        } Missing Keywords`,
+                        desc:
+                          "Airport-specific keywords found missing or weak in your CV.",
+                      },
+                      {
+                        title: `${
+                          report.premiumPreview?.missingSkillCount || 5
+                        } Missing Skills`,
+                        desc:
+                          "Skills recruiters may expect but your CV does not clearly prove.",
+                      },
+                      {
+                        title: `${
+                          report.premiumPreview?.atsIssueCount || 4
+                        } ATS Issues`,
+                        desc:
+                          "Formatting and keyword issues that may reduce visibility.",
+                      },
+                      {
+                        title: `${
+                          report.premiumPreview?.additionalRoleCount || 6
+                        } Additional Career Matches`,
+                        desc:
+                          "Other airport roles your CV may be suitable for.",
+                      },
+                      {
+                        title: "Salary Potential",
+                        desc:
+                          "Estimated earning range based on role match and progression.",
+                      },
+                      {
+                        title: "Recruiter Feedback",
+                        desc:
+                          "Recruiter-style comments on what may reduce interview invitations.",
+                      },
+                    ].map((item) => (
+                      <div
+                        key={item.title}
+                        className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <h4 className="text-xl font-black text-slate-950">
+                              {item.title}
+                            </h4>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-600">
+                              {item.desc}
+                            </p>
+                          </div>
+
+                          <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">
+                            Locked
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="border-t border-slate-200 bg-blue-50 p-8 text-center">
+                    <h3 className="text-2xl font-black text-slate-950">
+                      Full report coming soon
+                    </h3>
+
+                    <p className="mx-auto mt-3 max-w-2xl leading-7 text-slate-600">
+                      We are preparing the full Airport Career Report feature.
+                      Early users will get first access when premium reports
+                      launch.
+                    </p>
+
+                    <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          sessionStorage.setItem(
+                            "airportcvPremiumReport",
+                            JSON.stringify({
+                              report,
+                              fullName,
+                              role: selectedRole,
+                            })
+                          );
+
+                          window.location.href = "/premium-report";
+                        }}
+                        className="rounded-2xl bg-blue-600 px-8 py-4 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+                      >
+                        View full airport career report
+                      </button>
+
+                      {report.premiumReport && (
+                        <button
+                          type="button"
+                          onClick={() => setShowPremiumReport(true)}
+                          className="rounded-2xl bg-white px-8 py-4 text-sm font-extrabold text-blue-700 ring-1 ring-blue-100 transition hover:bg-blue-50"
+                        >
+                          Preview report on page
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 className="text-xl font-black text-slate-950">
+                      Generate a cover letter
+                    </h3>
+
+                    <p className="mt-3 leading-7 text-slate-600">
+                      Create a tailored aviation cover letter based on this CV
+                      assessment and role.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={generateCoverLetter}
+                      disabled={coverLetterLoading}
+                      className="mt-5 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+                    >
+                      {coverLetterLoading
+                        ? "Generating..."
+                        : "Generate cover letter"}
+                    </button>
+
+                    {coverLetterError && (
+                      <div className="mt-4 rounded-2xl bg-red-50 p-4 text-sm font-semibold text-red-700">
+                        {coverLetterError}
+                      </div>
+                    )}
+
+                    {coverLetter && (
+                      <div className="mt-5 rounded-2xl bg-slate-50 p-5">
+                        <p className="whitespace-pre-line text-sm leading-7 text-slate-700">
+                          {coverLetter.coverLetter}
+                        </p>
+                      </div>
+                    )}
+
+                    <Link
+                      href="/cover-letter"
+                      className="mt-5 inline-flex rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-blue-700 ring-1 ring-blue-100 transition hover:bg-blue-50"
+                    >
+                      Open cover letter tool
+                    </Link>
+                  </div>
+
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 className="text-xl font-black text-slate-950">
+                      Prepare for interview
+                    </h3>
+
+                    <p className="mt-3 leading-7 text-slate-600">
+                      Generate role-specific interview questions and suggested
+                      answer points for your target aviation role.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={generateInterviewPack}
+                      disabled={interviewLoading}
+                      className="mt-5 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+                    >
+                      {interviewLoading
+                        ? "Preparing..."
+                        : "Generate interview pack"}
+                    </button>
+
+                    {interviewError && (
+                      <div className="mt-4 rounded-2xl bg-red-50 p-4 text-sm font-semibold text-red-700">
+                        {interviewError}
+                      </div>
+                    )}
+
+                    {interviewPack && (
+                      <div className="mt-5 space-y-5 rounded-2xl bg-slate-50 p-5">
+                        <div>
+                          <h4 className="font-black text-slate-950">
+                            Example questions
+                          </h4>
+                          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700">
+                            {interviewPack.questions
+                              ?.slice(0, 3)
+                              .map((item) => (
+                                <li key={item.question}>{item.question}</li>
+                              ))}
+                          </ul>
+                        </div>
+
+                        <div>
+                          <h4 className="font-black text-slate-950">
+                            What to mention
+                          </h4>
+                          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700">
+                            {interviewPack.whatToMention
+                              ?.slice(0, 4)
+                              .map((item) => (
+                                <li key={item}>{item}</li>
+                              ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    <Link
+                      href="/interview-prep"
+                      className="mt-5 inline-flex rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-blue-700 ring-1 ring-blue-100 transition hover:bg-blue-50"
+                    >
+                      Open interview prep tool
+                    </Link>
+                  </div>
+                </div>
+
+                {showPremiumReport && report.premiumReport && (
+                  <div className="mt-12">
+                    <PremiumAssessmentReport
+                      report={report}
+                      fullName={fullName}
+                      role={selectedRole}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={downloadAssessmentReportPdf}
+                      className="mt-6 w-full rounded-2xl bg-slate-950 px-8 py-4 text-sm font-extrabold text-white transition hover:bg-slate-800"
+                    >
+                      Download PDF report
+                    </button>
+                  </div>
+                )}
+
+                <p className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-xs leading-5 text-slate-500">
+                  Important notice: This assessment is generated using
+                  AI-assisted analysis of information provided by the candidate.
+                  AirportCV does not guarantee interviews, employment offers,
+                  salary outcomes, security clearance approval or recruitment
+                  decisions. This report is intended for career guidance only.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
