@@ -934,14 +934,16 @@ export default function Home() {
     </div>
 
     <div className="mt-12 overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-50 shadow-sm lg:grid lg:grid-cols-[0.95fr_1.05fr]">
-      <div className="relative min-h-[280px]">
-        <Image
-          src="/blog/passenger-service-agent-guide.jpeg"
-          alt="Airport passenger service agent career guide"
-          fill
-          className="object-cover"
-        />
-      </div>
+     <div className="flex items-center justify-center bg-slate-950 p-4 lg:min-h-[430px]">
+  <Image
+    src="/blog/passenger-service-agent-guide.png"
+    alt="Airport passenger service agent career guide"
+    width={2000}
+    height={1000}
+    className="h-auto w-full rounded-[1.5rem] object-contain"
+    priority
+  />
+</div>
 
       <div className="p-8 lg:p-10">
         <p className="text-sm font-extrabold uppercase tracking-wide text-blue-700">
