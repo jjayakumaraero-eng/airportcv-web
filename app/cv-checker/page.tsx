@@ -5,15 +5,7 @@ import Link from "next/link";
 import PremiumAssessmentReport from "@/components/PremiumAssessmentReport";
 import { toPng } from "html-to-image";
 import { useState } from "react";
-import {
-  Document,
-  Packer,
-  Paragraph,
-  HeadingLevel,
-  TextRun,
-  AlignmentType,
-  BorderStyle,
-} from "docx";
+
 import jsPDF from "jspdf";
 
 const roles = [
@@ -356,118 +348,7 @@ export default function CvCheckerPage() {
     return report.fullCv?.employmentHistory || [];
   }
 
-  async function downloadWordCv() {
-    if (!report) return;
-
-    const employmentItems = getEmploymentItems();
-
-    const doc = new Document({
-      sections: [
-        {
-          children: [
-            new Paragraph({
-              alignment: AlignmentType.CENTER,
-              children: [
-                new TextRun({
-                  text: fullName || "FULL NAME",
-                  bold: true,
-                  size: 32,
-                }),
-              ],
-            }),
-            new Paragraph({
-              alignment: AlignmentType.CENTER,
-              children: [
-                new TextRun({
-                  text: getContactLine() || "Email | Phone | Location",
-                  size: 20,
-                }),
-              ],
-            }),
-            new Paragraph({
-              border: {
-                bottom: {
-                  color: "999999",
-                  space: 1,
-                  style: BorderStyle.SINGLE,
-                  size: 6,
-                },
-              },
-            }),
-
-            new Paragraph({
-              text: "PROFESSIONAL PROFILE",
-              heading: HeadingLevel.HEADING_1,
-            }),
-            new Paragraph(report.fullCv?.profile || report.profile || ""),
-
-            new Paragraph({
-              text: "KEY SKILLS",
-              heading: HeadingLevel.HEADING_1,
-            }),
-            ...(report.fullCv?.skills || report.skills || []).map(
-              (skill) => new Paragraph({ text: skill, bullet: { level: 0 } })
-            ),
-
-            new Paragraph({
-              text: "EMPLOYMENT HISTORY",
-              heading: HeadingLevel.HEADING_1,
-            }),
-            ...employmentItems.flatMap((job) => [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: job.jobTitle || "Job Title",
-                    bold: true,
-                    size: 22,
-                  }),
-                ],
-              }),
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: `${job.company || "Company"} | ${
-                      job.dates || "Dates"
-                    }`,
-                    italics: true,
-                    size: 20,
-                  }),
-                ],
-              }),
-              ...(job.bullets || []).map(
-                (bullet) => new Paragraph({ text: bullet, bullet: { level: 0 } })
-              ),
-              new Paragraph({ text: "" }),
-            ]),
-
-            new Paragraph({
-              text: "ADDITIONAL INFORMATION",
-              heading: HeadingLevel.HEADING_1,
-            }),
-            ...(report.fullCv?.additionalInfo || []).map(
-              (item) => new Paragraph({ text: item, bullet: { level: 0 } })
-            ),
-
-            new Paragraph({
-              text: "REFERENCES",
-              heading: HeadingLevel.HEADING_1,
-            }),
-            new Paragraph("Available on request."),
-          ],
-        },
-      ],
-    });
-
-    const blob = await Packer.toBlob(doc);
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "airportcv-professional-cv.docx";
-    link.click();
-
-    URL.revokeObjectURL(url);
-  }
+  
 
   async function downloadAssessmentReportPdf() {
     try {
@@ -1020,58 +901,37 @@ export default function CvCheckerPage() {
                   </div>
                 )}
 
-                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-xl font-black text-slate-950">
-                    Improved CV draft
-                  </h3>
+               <div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
+  <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-blue-700">
+    Next step
+  </p>
 
-                  <div className="mt-5 space-y-5 rounded-2xl bg-slate-50 p-5">
-                    <div>
-                      <p className="text-sm font-black uppercase tracking-wide text-slate-500">
-                        Professional profile
-                      </p>
-                      <p className="mt-2 leading-7 text-slate-700">
-                        {report.fullCv?.profile || report.profile}
-                      </p>
-                    </div>
+  <h3 className="mt-3 text-2xl font-black tracking-tight text-slate-950">
+    Ready to build a stronger aviation CV?
+  </h3>
 
-                    <div>
-                      <p className="text-sm font-black uppercase tracking-wide text-slate-500">
-                        Key skills
-                      </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {(report.fullCv?.skills || report.skills || []).map(
-                          (skill) => (
-                            <span
-                              key={skill}
-                              className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200"
-                            >
-                              {skill}
-                            </span>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  </div>
+  <p className="mt-3 leading-7 text-slate-700">
+    Use your assessment results to create a cleaner, role-focused CV in the
+    AirportCV Builder. The builder is where users should create and download
+    their final Word or PDF CV.
+  </p>
 
-                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                    <button
-                      type="button"
-                      onClick={downloadWordCv}
-                      className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
-                    >
-                      Download Word CV
-                    </button>
+  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+    <Link
+      href="/cv-builder"
+      className="rounded-2xl bg-blue-600 px-6 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+    >
+      Open CV Builder
+    </Link>
 
-                    <button
-                      type="button"
-                      onClick={downloadPdfCv}
-                      className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800"
-                    >
-                      Download PDF CV
-                    </button>
-                  </div>
-                </div>
+    <Link
+      href="/cover-letter"
+      className="rounded-2xl bg-white px-6 py-3 text-center text-sm font-extrabold text-blue-700 ring-1 ring-blue-100 transition hover:bg-blue-50"
+    >
+      Generate cover letter
+    </Link>
+  </div>
+</div>
 
                 <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
                   <div className="bg-gradient-to-br from-slate-950 via-blue-950 to-blue-700 p-8 text-white">
