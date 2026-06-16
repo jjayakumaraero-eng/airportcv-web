@@ -3,21 +3,30 @@ import MarketingPageShell from "@/components/MarketingPageShell";
 
 const publishedArticles = [
   {
+    category: "CV Advice",
+    title: "Why a Simple ATS-Friendly CV Is Enough for Airport Jobs",
+    description:
+      "A practical guide on why a clear, honest aviation CV matters — but why interview preparation matters more than over-perfecting your CV design.",
+    href: "/blog/simple-ats-cv-airport-jobs",
+    featured: true,
+  },
+  {
     category: "Career Guide",
     title: "Passenger Service Agent Guide",
     description:
       "A practical guide for people interested in passenger service agent roles, including duties, skills and career tips.",
     href: "/blog/passenger-service-agent-guide",
+    featured: false,
   },
 ];
 
 const upcomingTopics = [
-  "Airport CV tips",
   "Cabin crew applications",
   "Airport interview preparation",
   "Ramp and ground handling careers",
   "Flight dispatch careers",
   "Aviation salary guides",
+  "Airport security careers",
 ];
 
 export default function BlogPage() {
@@ -46,18 +55,30 @@ export default function BlogPage() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2">
             {publishedArticles.map((article) => (
               <Link
                 key={article.title}
                 href={article.href}
-                className="group rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl"
+                className={`group rounded-[2rem] border p-8 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl ${
+                  article.featured
+                    ? "border-blue-100 bg-gradient-to-br from-blue-50 via-white to-slate-50"
+                    : "border-slate-200 bg-white"
+                }`}
               >
-                <span className="inline-flex rounded-full bg-blue-50 px-4 py-1.5 text-xs font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
-                  {article.category}
-                </span>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="inline-flex rounded-full bg-blue-50 px-4 py-1.5 text-xs font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+                    {article.category}
+                  </span>
 
-                <h3 className="mt-5 text-2xl font-black tracking-tight text-slate-950">
+                  {article.featured ? (
+                    <span className="inline-flex rounded-full bg-slate-950 px-4 py-1.5 text-xs font-extrabold uppercase tracking-wide text-white">
+                      New guide
+                    </span>
+                  ) : null}
+                </div>
+
+                <h3 className="mt-5 text-2xl font-black tracking-tight text-slate-950 md:text-3xl">
                   {article.title}
                 </h3>
 
@@ -124,6 +145,13 @@ export default function BlogPage() {
               className="rounded-2xl bg-blue-600 px-7 py-4 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
             >
               Build your CV
+            </Link>
+
+            <Link
+              href="/interview-prep"
+              className="rounded-2xl bg-white px-7 py-4 text-sm font-extrabold text-blue-700 ring-1 ring-blue-100 transition hover:bg-blue-50"
+            >
+              Practise interviews
             </Link>
 
             <Link
