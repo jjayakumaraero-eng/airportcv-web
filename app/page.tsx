@@ -3,9 +3,9 @@ import HomeBlogSlider from "@/components/HomeBlogSlider";
 import AuthButtons from "@/components/AuthButtons";
 
 export const metadata = {
-  title: "AirportCV | Aviation CV Builder, CV Checker & Career Tools",
+  title: "AirportCV | Build Aviation CVs & Prepare for Airport Interviews",
   description:
-    "Build a stronger aviation CV, check your application, generate cover letters and prepare for airport, airline, cabin crew, engineering and ground handling roles.",
+    "Create simple ATS-friendly aviation CVs, check role fit, write cover letters and prepare for airport, airline and ground operations interviews.",
 };
 
 const tools = [
@@ -36,11 +36,11 @@ const tools = [
   {
     eyebrow: "Direction",
     icon: "🧭",
-    title: "Career Assessment",
+    title: "Find My Best Airport Role",
     description:
-      "Find suitable aviation career paths based on your background, experience, education and goals.",
+      "Explore suitable airport and airline career paths based on your background, experience, education and goals.",
     href: "/career-coach",
-    cta: "Start assessment",
+    cta: "Find my role",
     featured: false,
     accent: "bg-purple-600",
     ring: "border-slate-200 bg-white",
@@ -74,18 +74,18 @@ const tools = [
 const journeySteps = [
   {
     number: "01",
-    title: "Choose your aviation goal",
-    text: "Start with a target role or use the career assessment to identify suitable aviation paths.",
+    title: "Choose your target role",
+    text: "Choose the airport, airline or aviation role you want to apply for."
   },
   {
     number: "02",
-    title: "Build or improve your CV",
-    text: "Create a new aviation CV or check your existing CV for structure, keywords and role fit.",
+    title: "Check and build your CV",
+    text: "Check your current CV, then create a simple ATS-friendly aviation CV."
   },
   {
     number: "03",
-    title: "Prepare your application",
-    text: "Generate a tailored cover letter and practise interview answers before you apply.",
+    title: "Practise the interview",
+    text: "Prepare role-specific answers so you can explain your skills clearly."
   },
 ];
 
@@ -509,7 +509,7 @@ export default function Home() {
           {
             number: "01",
             icon: "🧭",
-            title: "Choose your aviation goal",
+            title: "Choose your target role",
             text: "Pick a target role such as cabin crew, passenger service, ramp, operations, security, engineering or ground handling.",
             href: "/career-coach",
             cta: "Find my path",
@@ -517,7 +517,7 @@ export default function Home() {
           {
             number: "02",
             icon: "📄",
-            title: "Build or improve your CV",
+            title: "Check and build your CV",
             text: "Create a new UK-style aviation CV or check your existing CV for structure, keywords and role fit.",
             href: "/cv-builder",
             cta: "Build my CV",
