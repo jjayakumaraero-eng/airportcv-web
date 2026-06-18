@@ -119,11 +119,11 @@ export default function CoverLetterPage() {
           </p>
 
           <h1 className="mt-5 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
-            Generate a professional airport cover letter
+            Create a clear aviation cover letter
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-            Create a tailored aviation cover letter based on your CV, target
+            Create a role-focused aviation cover letter based on your CV, target
             role and job description.
           </p>
         </div>
@@ -142,7 +142,7 @@ export default function CoverLetterPage() {
 
             <p className="mt-4 leading-7 text-slate-600">
               Add your target role, CV and job description. The tool will draft
-              a role-focused cover letter you can review and edit.
+              a clear cover letter you can review, edit and personalise before applying.
             </p>
 
             <div className="mt-8 grid gap-6">
@@ -161,7 +161,7 @@ export default function CoverLetterPage() {
 
               <div>
                 <label className="block text-sm font-extrabold text-slate-800">
-                  Target role
+                  Choose target role
                 </label>
 
                 <select
@@ -219,7 +219,7 @@ export default function CoverLetterPage() {
                 <p className="mt-2 leading-6">
                   The details you provide may contain personal information from
                   your CV, job history or target role. AirportCV uses this
-                  information only to generate your aviation cover letter.
+                  information only to create your aviation cover letter.
                 </p>
 
                 <p className="mt-2 leading-6">
@@ -243,7 +243,7 @@ export default function CoverLetterPage() {
                 disabled={loading}
                 className="rounded-2xl bg-blue-600 px-6 py-4 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
               >
-                {loading ? "Generating..." : "Generate cover letter"}
+                {loading ? "Generating..." : "Create cover letter"}
               </button>
             </div>
 
@@ -260,7 +260,7 @@ export default function CoverLetterPage() {
             </p>
 
             <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950">
-              Your aviation cover letter
+              Your draft aviation cover letter
             </h2>
 
             {!coverLetter && (
@@ -270,7 +270,7 @@ export default function CoverLetterPage() {
                 </p>
 
                 <p className="mt-2 leading-7 text-blue-900">
-                  Add your details and generate a tailored cover letter for your
+                  Add your details and create a role-focused cover letter for your
                   selected aviation role.
                 </p>
               </div>
