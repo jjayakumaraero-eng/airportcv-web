@@ -48,7 +48,7 @@ export default function CvUpload({ onTextExtracted }: Props) {
 
       <input
         type="file"
-        accept=".txt,.docx"
+        accept=".pdf,.txt,.docx,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         onChange={handleFileChange}
         className="mt-2 block w-full rounded-xl border p-3"
       />
