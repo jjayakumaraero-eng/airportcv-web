@@ -215,7 +215,7 @@ const careerPaths: Record<string, string[]> = {
 };
 
 export default function CvCheckerPage() {
-  const [role, setRole] = useState(roles[0]);
+  const [role, setRole] = useState("");
   const [customRole, setCustomRole] = useState("");
   const [cvText, setCvText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -311,6 +311,11 @@ export default function CvCheckerPage() {
   }
 
   async function checkCv() {
+    if (!role.trim()) {
+      setError("Please choose the target role before checking your CV.");
+      return;
+    }
+
     setLoading(true);
     setReport(null);
     setError("");
@@ -539,6 +544,7 @@ export default function CvCheckerPage() {
                   onChange={(event) => setRole(event.target.value)}
                   className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 >
+                  <option value="">Choose role</option>
                   {roles.map((roleOption) => (
                     <option key={roleOption}>{roleOption}</option>
                   ))}
