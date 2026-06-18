@@ -181,46 +181,25 @@ export default function Home() {
       />
     </a>
 
-    <div className="hidden items-center gap-8 text-sm font-bold text-slate-700 lg:flex">
-      <a href="/" className="text-blue-700 transition hover:text-blue-800">
-        Home
+    <div className="hidden items-center gap-7 text-sm font-extrabold text-slate-700 lg:flex">
+      <a href="/cv-builder" className="transition hover:text-blue-700">
+        CV Builder
       </a>
 
-      <div className="group relative">
-        <button className="flex items-center gap-1 transition hover:text-blue-700">
-          Tools <span className="text-xs">▾</span>
-        </button>
-
-        <div className="invisible absolute left-0 top-full z-50 mt-4 w-80 rounded-2xl border border-slate-200 bg-white p-3 text-slate-900 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">
-          {tools.map((tool) => (
-            <a
-              key={tool.href}
-              href={tool.href}
-              className="block rounded-xl px-4 py-3 hover:bg-blue-50"
-            >
-              <span className="block font-bold">{tool.title}</span>
-              <span className="mt-1 block text-xs font-normal leading-5 text-slate-500">
-                {tool.description}
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <a href="/pricing" className="transition hover:text-blue-700">
-        Pricing
+      <a href="/cv-checker" className="transition hover:text-blue-700">
+        CV Checker
       </a>
 
-      <a href="/about" className="transition hover:text-blue-700">
-        About
-      </a>
-
-      <a href="/success-stories" className="transition hover:text-blue-700">
-        Success Stories
+      <a href="/interview-prep" className="transition hover:text-blue-700">
+        Interview Prep
       </a>
 
       <a href="/blog" className="transition hover:text-blue-700">
         Blog
+      </a>
+
+      <a href="/pricing" className="transition hover:text-blue-700">
+        Pricing
       </a>
     </div>
 
@@ -229,7 +208,7 @@ export default function Home() {
         href="/cv-builder"
         className="hidden rounded-xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 xl:inline-flex"
       >
-        Build My CV
+        Start Free
       </a>
 
       <AuthButtons />
@@ -250,64 +229,66 @@ export default function Home() {
 
   <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/20" />
 
-  <div className="relative mx-auto grid max-w-7xl gap-6 px-6 py-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:py-12">
+  <div className="relative mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:py-14">
     <div className="max-w-2xl">
-      <p className="mb-5 inline-flex rounded-full bg-blue-50 px-4 py-2 text-sm font-bold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
-        ✦ AI-powered aviation CV maker
+      <p className="mb-5 inline-flex rounded-full bg-blue-50 px-4 py-2 text-sm font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+        ✦ Built for airport and aviation job seekers
       </p>
 
-      <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 md:text-5xl xl:text-[56px]">
-        Build a job-ready{" "}
-        <span className="text-blue-600">aviation CV</span> in minutes
+      <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-slate-950 md:text-5xl xl:text-[58px]">
+        Build a clear aviation CV and prepare for{" "}
+        <span className="text-blue-600">airport interviews</span>
       </h1>
 
-     <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">
-  Create a UK-style aviation CV, check your application strength,
-  generate cover letters and prepare for interviews across airport,
-  airline, cabin crew, ground handling, operations and engineering roles.
-</p>
+      <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
+        AirportCV helps aviation job seekers create simple ATS-friendly CVs,
+        check role fit, write cover letters and practise interview answers for
+        airport, airline and ground operations roles.
+      </p>
 
-<div className="mt-5 flex flex-col gap-4 sm:flex-row">
-  <a
-    href="/cv-builder"
-    className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-8 py-4 text-lg font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
-  >
-    Build My Aviation CV →
-  </a>
+      <div className="mt-7 flex flex-col gap-4 sm:flex-row">
+        <a
+          href="/cv-builder"
+          className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-8 py-4 text-lg font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+        >
+          Build My CV →
+        </a>
 
-  <a
-    href="/cv-checker"
-    className="inline-flex items-center justify-center rounded-2xl border-2 border-slate-900 bg-white px-8 py-4 text-lg font-extrabold text-slate-950 transition hover:bg-slate-950 hover:text-white"
-  >
-    Check My CV
-  </a>
-</div>
+        <a
+          href="/cv-checker"
+          className="inline-flex items-center justify-center rounded-2xl border-2 border-slate-900 bg-white px-8 py-4 text-lg font-extrabold text-slate-950 transition hover:bg-slate-950 hover:text-white"
+        >
+          Check My CV
+        </a>
+      </div>
 
-<div className="mt-5 flex items-center gap-4 text-sm font-semibold text-slate-600">
-  {[
-    
-  ].map((item) => (
-    <div key={item} className="flex shrink-0 items-center gap-2">
-      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
-        ✓
-      </span>
-      {item}
+      <div className="mt-6 grid gap-3 text-sm font-bold text-slate-700 sm:grid-cols-3">
+        {[
+          "Simple CV templates",
+          "Role-fit feedback",
+          "Interview practice",
+        ].map((item) => (
+          <div key={item} className="flex items-center gap-2">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
+              ✓
+            </span>
+            {item}
+          </div>
+        ))}
+      </div>
     </div>
-  ))}
-</div>
-</div>
 
-<div className="relative mt-8 lg:mt-0">
-  <Image
-    src="/airportcv-hero-visual.png"
-    alt="AirportCV aviation CV builder preview"
-    width={760}
-    height={570}
-    priority
-    className="mx-auto h-auto w-full max-w-[520px] lg:ml-auto lg:max-w-[700px]"
-  />
-</div>
-</div>
+    <div className="relative mt-8 lg:mt-0">
+      <Image
+        src="/airportcv-hero-visual.png"
+        alt="AirportCV aviation CV builder preview"
+        width={760}
+        height={570}
+        priority
+        className="mx-auto h-auto w-full max-w-[520px] lg:ml-auto lg:max-w-[700px]"
+      />
+    </div>
+  </div>
 </section>
       <section id="tools" className="bg-white px-6 py-20">
   <div className="mx-auto max-w-7xl">
@@ -572,7 +553,7 @@ export default function Home() {
         href="/career-coach"
         className="inline-flex min-w-[260px] justify-center rounded-2xl border-2 border-blue-600 bg-white px-8 py-4 text-base font-extrabold text-slate-950 transition hover:bg-blue-50"
       >
-        Take Career Assessment
+        Find My Best Airport Role
       </a>
     </div>
   </div>
@@ -814,7 +795,7 @@ export default function Home() {
             Dashboard
           </a>
           <a href="/career-coach" className="block text-slate-600 hover:text-blue-700">
-            Career Assessment
+            Find My Best Airport Role
           </a>
         </div>
       </div>
