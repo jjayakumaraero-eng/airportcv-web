@@ -158,7 +158,7 @@ export default function InterviewPrepPage() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-            Generate role-specific interview questions, airport scenario
+            Practise role-specific interview questions, airport scenario
             questions and suggested answer guidance based on your CV and job
             description.
           </p>
@@ -177,14 +177,14 @@ export default function InterviewPrepPage() {
             </h2>
 
             <p className="mt-4 leading-7 text-slate-600">
-              Add your target role, CV and job description. AirportCV will
+              Choose your target role, add your CV or job description, and AirportCV will
               create likely questions, scenario questions and preparation points.
             </p>
 
             <div className="mt-8 grid gap-6">
               <div>
                 <label className="block text-sm font-extrabold text-slate-800">
-                  Target role
+                  Choose target role
                 </label>
 
                 <select
@@ -202,7 +202,7 @@ export default function InterviewPrepPage() {
                   <input
                     value={customRole}
                     onChange={(event) => setCustomRole(event.target.value)}
-                    placeholder="Type your target airport role"
+                    placeholder="Type your target aviation role"
                     className="mt-3 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                   />
                 )}
@@ -304,7 +304,7 @@ export default function InterviewPrepPage() {
               <div className="mt-8 space-y-8">
                 <section className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
                   <h3 className="text-2xl font-black tracking-tight text-slate-950">
-                    Likely interview questions
+                    Role-specific interview questions
                   </h3>
 
                   <div className="mt-5 space-y-3">
@@ -522,7 +522,7 @@ export default function InterviewPrepPage() {
                   </h3>
 
                   <p className="mt-3 leading-7 text-slate-700">
-                    Check your aviation CV and generate a stronger role-focused
+                    Check your aviation CV and prepare a stronger role-focused
                     version before your next application or interview.
                   </p>
 
