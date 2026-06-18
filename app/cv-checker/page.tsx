@@ -348,10 +348,6 @@ export default function CvCheckerPage() {
     return [email, phone, location].filter(Boolean).join(" | ");
   }
 
-  function getEmploymentItems() {
-    if (!report) return [];
-    return report.fullCv?.employmentHistory || [];
-  }
 
   
 
@@ -381,83 +377,6 @@ export default function CvCheckerPage() {
     }
   }
 
-  function downloadPdfCv() {
-    if (!report) return;
-
-    const employmentItems = getEmploymentItems();
-    const pdf = new jsPDF();
-    let y = 18;
-
-    function checkPageSpace(extra = 20) {
-      if (y + extra > 280) {
-        pdf.addPage();
-        y = 18;
-      }
-    }
-
-    function addHeading(text: string) {
-      checkPageSpace(15);
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(13);
-      pdf.text(text, 15, y);
-      y += 8;
-    }
-
-    function addText(text: string) {
-      checkPageSpace(20);
-      pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(10);
-      const lines = pdf.splitTextToSize(text, 180);
-      pdf.text(lines, 15, y);
-      y += lines.length * 6 + 4;
-    }
-
-    function addBullet(text: string) {
-      addText(`• ${text}`);
-    }
-
-    pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(18);
-    pdf.text(fullName || "FULL NAME", 15, y);
-    y += 9;
-
-    pdf.setFont("helvetica", "normal");
-    pdf.setFontSize(10);
-    pdf.text(getContactLine() || "Email | Phone | Location", 15, y);
-    y += 12;
-
-    addHeading("PROFESSIONAL PROFILE");
-    addText(report.fullCv?.profile || report.profile || "");
-
-    addHeading("KEY SKILLS");
-    (report.fullCv?.skills || report.skills || []).forEach(addBullet);
-
-    addHeading("EMPLOYMENT HISTORY");
-    employmentItems.forEach((job) => {
-      checkPageSpace(30);
-
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(11);
-      pdf.text(job.jobTitle || "Job Title", 15, y);
-      y += 6;
-
-      pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(10);
-      pdf.text(`${job.company || "Company"} | ${job.dates || "Dates"}`, 15, y);
-      y += 6;
-
-      (job.bullets || []).forEach(addBullet);
-      y += 3;
-    });
-
-    addHeading("ADDITIONAL INFORMATION");
-    (report.fullCv?.additionalInfo || []).forEach(addBullet);
-
-    addHeading("REFERENCES");
-    addText("Available on request.");
-
-    pdf.save("airportcv-professional-cv.pdf");
-  }
 
   return (
     <main className="min-h-screen bg-[#f6f9fc] text-slate-950">
@@ -696,12 +615,12 @@ export default function CvCheckerPage() {
             ) : !report ? (
               <div className="mt-8 rounded-3xl border border-blue-100 bg-blue-50 p-6">
                 <p className="font-extrabold text-blue-950">
-                  Your report will appear here.
+                  Your CV check report will appear here.
                 </p>
 
                 <p className="mt-2 leading-7 text-blue-900">
-                  You’ll see your score, best role matches, priority fixes and
-                  an improved CV draft once the check is complete.
+                  You’ll see your score, role-fit feedback, missing keywords,
+                  priority fixes and recommended next steps.
                 </p>
               </div>
             ) : (
