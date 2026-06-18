@@ -315,9 +315,9 @@ export default function Home() {
           label: "CV BUILDER",
           badge: "Most Popular",
           icon: "📄",
-          title: "Create a Professional Aviation CV",
+          title: "Create a Simple Aviation CV",
           description:
-            "Build a UK-style aviation CV in minutes with role-specific examples and expert guidance.",
+            "Build a clear UK-style aviation CV with simple structure and role-focused wording.",
           href: "/cv-builder",
           cta: "Build My CV",
           iconClass: "bg-blue-600",
@@ -329,7 +329,7 @@ export default function Home() {
           icon: "✅",
           title: "Check Your CV Strength",
           description:
-            "Get an ATS score, personalised feedback and tips to improve your application.",
+            "Check structure, keywords, missing details and role fit before you apply.",
           href: "/cv-checker",
           cta: "Check My CV",
           iconClass: "bg-emerald-600",
@@ -353,9 +353,9 @@ export default function Home() {
           icon: "🎙️",
           title: "Prepare for Interviews",
           description:
-            "Access role-specific Q&A, scenario questions and expert interview tips.",
+            "Practise role-specific questions, scenario answers and clearer interview examples.",
           href: "/interview-prep",
-          cta: "Start Practicing",
+          cta: "Start Practising",
           iconClass: "bg-blue-600",
           ctaClass: "text-blue-700",
           featured: false,
@@ -363,11 +363,11 @@ export default function Home() {
         {
           label: "RESOURCES",
           icon: "📋",
-          title: "Templates & Examples",
+          title: "Career Guides",
           description:
-            "Download CV examples, templates and aviation career resources.",
+            "Read practical aviation CV, interview and career guides.",
           href: "/blog",
-          cta: "Browse Resources",
+          cta: "Read Guides",
           iconClass: "bg-cyan-600",
           ctaClass: "text-cyan-700",
           featured: false,
@@ -439,7 +439,7 @@ export default function Home() {
           </span>
           <div>
             <p className="font-extrabold text-slate-950">ATS-friendly structure</p>
-            <p className="text-slate-500">Increase your interview chances</p>
+            <p className="text-slate-500">Support your application</p>
           </div>
         </div>
 
@@ -449,7 +449,7 @@ export default function Home() {
           </span>
           <div>
             <p className="font-extrabold text-slate-950">Aviation-specific wording</p>
-            <p className="text-slate-500">Stand out from other applicants</p>
+            <p className="text-slate-500">Present your experience clearly</p>
           </div>
         </div>
       </div>
@@ -506,10 +506,10 @@ export default function Home() {
           {
             number: "03",
             icon: "✍️",
-            title: "Prepare the full application",
-            text: "Generate a tailored cover letter and practise role-specific interview questions before you apply.",
-            href: "/cover-letter",
-            cta: "Create cover letter",
+            title: "Practise the interview",
+            text: "Practise role-specific interview questions and prepare clearer examples before you apply.",
+            href: "/interview-prep",
+            cta: "Practise interview",
           },
         ].map((step) => (
           <a
@@ -811,9 +811,6 @@ export default function Home() {
           </a>
           <a href="/terms" className="block text-slate-600 hover:text-blue-700">
             Terms of Use
-          </a>
-          <a href="/cookies" className="block text-slate-600 hover:text-blue-700">
-            Cookie Notice
           </a>
         </div>
       </div>
