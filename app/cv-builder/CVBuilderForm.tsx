@@ -1301,38 +1301,15 @@ const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
               </div>
 
              <div className="flex flex-wrap items-center justify-end gap-3">
-  <button
-    type="button"
-    onClick={handleGenerateCV}
-    disabled={isGenerating}
-    className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
-  >
-    {isGenerating ? "Generating..." : "Generate CV"}
-  </button>
-
-  <button
-    type="button"
-    onClick={handleDownloadWord}
-    disabled={!generatedCV || isDownloading}
-    className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
-  >
-    {isDownloading ? "Preparing..." : "Download Word"}
-  </button>
-
-  <button
-    type="button"
-    onClick={handleDownloadPdf}
-    disabled={!generatedCV || isDownloadingPdf}
-    className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-blue-700 shadow-sm ring-2 ring-blue-600 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 disabled:ring-slate-200"
-  >
-    {isDownloadingPdf ? "Preparing PDF..." : "Download PDF"}
-  </button>
+  <span className="rounded-full bg-blue-50 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-blue-700 ring-1 ring-blue-100">
+    Step-by-step builder
+  </span>
 
   <Link
     href="/cv-checker"
     className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-slate-800"
   >
-    Check with CV Checker →
+    Check existing CV →
   </Link>
 </div>
              </div>
@@ -2615,8 +2592,8 @@ const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
       </h1>
 
       <p className="mt-2 text-sm text-slate-600">
-        Review the live preview, generate your AI CV draft and download it as
-        Word or PDF.
+        Review the live preview, then generate your aviation CV draft. Download
+        options will appear once the CV is ready.
       </p>
     </div>
 
@@ -2627,8 +2604,7 @@ const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
 
       <p className="mt-2 text-sm leading-6 text-blue-900">
         AirportCV will use the details you entered and your selected template to
-        create a professional UK-style aviation CV draft. Review it before
-        applying.
+        create a clear UK-style aviation CV draft. Review it before applying.
       </p>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -2647,24 +2623,6 @@ const previewSectionSpacing = selectedTemplate === "compact" ? "mt-3" : "mt-4";
           className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
         >
           {isGenerating ? "Generating CV..." : "Generate my aviation CV"}
-        </button>
-
-        <button
-          type="button"
-          onClick={handleDownloadWord}
-          disabled={!generatedCV || isDownloading}
-          className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-        >
-          {isDownloading ? "Preparing..." : "Download Word"}
-        </button>
-
-        <button
-          type="button"
-          onClick={handleDownloadPdf}
-          disabled={!generatedCV || isDownloadingPdf}
-          className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950 ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
-        >
-          {isDownloadingPdf ? "Preparing PDF..." : "Download PDF"}
         </button>
       </div>
     </div>
