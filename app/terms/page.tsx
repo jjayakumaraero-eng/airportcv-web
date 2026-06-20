@@ -92,33 +92,43 @@ export default function TermsPage() {
                   ],
                 },
                 {
-                  title: "8. Service availability",
+                  title: "8. Payments, subscriptions, cancellations and refunds",
+                  body: [
+                    "AirportCV Premium may be offered with a free introductory period. Unless you cancel before the free period ends, your subscription will renew at £4.99 per month.",
+                    "You can cancel your Premium subscription at any time. If you cancel, your Premium access will normally continue until the end of your current billing or trial period.",
+                    "Payments are processed securely by Stripe. AirportCV does not store your full card details.",
+                    "If you believe you were charged in error, contact hello@airportcv.co.uk within 14 days of the first paid charge. Refund requests are reviewed case by case, taking into account account usage, the reason for the request and applicable law.",
+                    "Refunds are not usually provided for periods where Premium tools have already been used extensively, except where required by law. Nothing in these terms affects your statutory rights.",
+                  ],
+                },
+                {
+                  title: "9. Service availability",
                   body: [
                     "AirportCV may be changed, paused, updated or discontinued at any time. We do not guarantee that the service will always be available, error-free or uninterrupted.",
                   ],
                 },
                 {
-                  title: "9. Third-party services",
+                  title: "10. Third-party services",
                   body: [
                     "AirportCV may rely on third-party providers for hosting, AI processing, infrastructure, analytics or other services. These providers may have their own terms and policies.",
                   ],
                 },
                 {
-                  title: "10. Intellectual property",
+                  title: "11. Intellectual property",
                   body: [
                     "AirportCV’s branding, design, layout, code, content and platform materials belong to AirportCV or its licensors.",
                     "You may use the CVs, cover letters and other outputs generated for you for your own personal career and job application purposes.",
                   ],
                 },
                 {
-                  title: "11. Limitation of liability",
+                  title: "12. Limitation of liability",
                   body: [
                     "To the extent permitted by law, AirportCV is not responsible for loss or damage arising from your use of AI-generated outputs, inaccurate information you submit, employer decisions, recruitment outcomes, missed opportunities or service interruptions.",
                     "Nothing in these terms excludes liability where it would be unlawful to do so.",
                   ],
                 },
                 {
-                  title: "12. Changes to these terms",
+                  title: "13. Changes to these terms",
                   body: [
                     "We may update these Terms of Use when AirportCV changes or when legal, technical or provider requirements change. The latest version will be shown on this page.",
                   ],
@@ -139,7 +149,7 @@ export default function TermsPage() {
 
               <section>
                 <h2 className="text-2xl font-black tracking-tight text-slate-950">
-                  13. Contact
+                  14. Contact
                 </h2>
 
                 <p className="mt-3 leading-8">
