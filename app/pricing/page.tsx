@@ -102,7 +102,13 @@ export default function PricingPage() {
 
                 <div className="mt-8">
                   {plan.featured ? (
-                    <StripeCheckoutButton />
+                    <>
+                      <StripeCheckoutButton />
+                      <p className="mt-3 text-center text-xs leading-5 text-slate-500">
+                        2 months free, then £4.99/month unless cancelled.
+                        Cancel anytime. Payments handled securely by Stripe.
+                      </p>
+                    </>
                   ) : (
                     <Link
                       href={plan.href}
