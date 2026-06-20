@@ -161,7 +161,7 @@ const faqs = [
   {
     question: "Is Premium active now?",
     answer:
-      "Premium is coming soon. For now, selected users can use a temporary Premium access code while Stripe payments are being prepared.",
+      "Premium is launching with a free 2-month introductory period, then £4.99/month. Selected users can still use a temporary Premium access code while payments are being prepared.",
   },
 ];
 
@@ -702,7 +702,7 @@ export default function Home() {
         {
           question: "Is Premium active now?",
           answer:
-            "Premium payments are not active yet. Selected users can use a temporary Premium access code while Stripe payments are being prepared.",
+            "Premium is launching with a free 2-month introductory period, then £4.99/month. Selected users can still use a temporary Premium access code while payments are being prepared.",
         },
         {
           question:

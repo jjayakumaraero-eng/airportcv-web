@@ -5,7 +5,7 @@ const plans = [
   {
     name: "Free",
     price: "£0",
-    period: "/month",
+    period: "forever",
     description: "For trying AirportCV and using the core aviation tools.",
     features: [
       "5 AI uses per month",
@@ -21,8 +21,8 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "£6.99",
-    period: "/month",
+    price: "Free for 2 months",
+    period: "then £4.99/month",
     description:
       "For aviation job seekers who want higher usage and full application support.",
     features: [
@@ -36,7 +36,7 @@ const plans = [
       "Career Assessment",
       "No saved CV storage by default",
     ],
-    cta: "Premium coming soon",
+    cta: "Launch offer",
     href: "/dashboard",
     featured: true,
   },
@@ -120,7 +120,7 @@ export default function PricingPage() {
 
             <p className="mx-auto mt-4 max-w-3xl leading-8 text-slate-600">
               AirportCV does not save uploaded CVs or generated CVs to your
-              account by default. Premium is planned to increase access and
+              account by default. Premium launches with 2 months free, then £4.99/month, and is planned to increase access and
               usage, not automatically store your personal CV data.
             </p>
 

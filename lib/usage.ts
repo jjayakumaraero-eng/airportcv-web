@@ -128,7 +128,7 @@ export async function checkAndIncrementUsage(
       message:
         accountPlan.plan === "premium"
           ? "You have reached your premium monthly AI usage limit."
-          : "You have reached your free monthly AI usage limit. Enter a Premium access code or upgrade when Premium becomes available.",
+          : "You have reached your free monthly AI usage limit. Enter a Premium access code or upgrade when Premium launches with 2 months free, then £4.99/month.",
     };
   }
 
