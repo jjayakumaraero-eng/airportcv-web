@@ -27,7 +27,6 @@ const roles = [
 
 export default function CareerCoachPage() {
   const [careerStatus, setCareerStatus] = useState("Starting my career");
-  const [fullName, setFullName] = useState("");
   const [location, setLocation] = useState("");
   const [educationLevel, setEducationLevel] = useState("");
   const [yearsExperience, setYearsExperience] = useState("");
@@ -61,7 +60,6 @@ export default function CareerCoachPage() {
         careerStatus,
         yearsExperience,
         experienceField,
-        fullName,
         location,
         educationLevel,
         leadershipExperience,
@@ -185,32 +183,17 @@ export default function CareerCoachPage() {
             </div>
 
             <div className="mt-8 grid gap-6">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <label className="block text-sm font-extrabold text-slate-800">
-                    Full name
-                  </label>
+              <div>
+                <label className="block text-sm font-extrabold text-slate-800">
+                  Country / location (optional)
+                </label>
 
-                  <input
-                    value={fullName}
-                    onChange={(event) => setFullName(event.target.value)}
-                    placeholder="Enter your full name"
-                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-extrabold text-slate-800">
-                    Country / location
-                  </label>
-
-                  <input
-                    value={location}
-                    onChange={(event) => setLocation(event.target.value)}
-                    placeholder="Example: London, United Kingdom"
-                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
+                <input
+                  value={location}
+                  onChange={(event) => setLocation(event.target.value)}
+                  placeholder="Example: London, United Kingdom"
+                  className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                />
               </div>
 
               <div>
