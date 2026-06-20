@@ -222,11 +222,6 @@ export default function CvCheckerPage() {
   const [file, setFile] = useState<File | null>(null);
   const [showPremiumReport, setShowPremiumReport] = useState(false);
 
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-
   const [report, setReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -259,7 +254,7 @@ export default function CvCheckerPage() {
       },
       body: JSON.stringify({
         role: selectedRole,
-        fullName,
+        fullName: "Candidate",
         cvText,
         profile: report.fullCv?.profile || report.profile,
         skills: report.fullCv?.skills || report.skills,
@@ -342,10 +337,6 @@ export default function CvCheckerPage() {
 
     setReport(data);
     setLoading(false);
-  }
-
-  function getContactLine() {
-    return [email, phone, location].filter(Boolean).join(" | ");
   }
 
 
@@ -477,56 +468,6 @@ export default function CvCheckerPage() {
                     className="mt-3 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                   />
                 )}
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <label className="block text-sm font-extrabold text-slate-800">
-                    Full name (optional)
-                  </label>
-                  <input
-                    value={fullName}
-                    onChange={(event) => setFullName(event.target.value)}
-                    placeholder="Full name"
-                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-extrabold text-slate-800">
-                    Email (optional)
-                  </label>
-                  <input
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="Email"
-                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-extrabold text-slate-800">
-                    Phone (optional)
-                  </label>
-                  <input
-                    value={phone}
-                    onChange={(event) => setPhone(event.target.value)}
-                    placeholder="Phone"
-                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-extrabold text-slate-800">
-                    Location (optional)
-                  </label>
-                  <input
-                    value={location}
-                    onChange={(event) => setLocation(event.target.value)}
-                    placeholder="Location"
-                    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
               </div>
 
               <div>
@@ -958,7 +899,7 @@ export default function CvCheckerPage() {
                             "airportcvPremiumReport",
                             JSON.stringify({
                               report,
-                              fullName,
+                              fullName: "Candidate",
                               role: selectedRole,
                             })
                           );
@@ -1097,7 +1038,7 @@ export default function CvCheckerPage() {
                   <div className="mt-12">
                     <PremiumAssessmentReport
                       report={report}
-                      fullName={fullName}
+                      fullName="Candidate"
                       role={selectedRole}
                     />
 
