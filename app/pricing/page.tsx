@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MarketingPageShell from "@/components/MarketingPageShell";
+import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 
 const plans = [
   {
@@ -99,16 +100,18 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                <Link
-                  href={plan.href}
-                  className={`mt-8 inline-flex w-full justify-center rounded-2xl px-5 py-4 text-sm font-extrabold transition ${
-                    plan.featured
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700"
-                      : "bg-slate-950 text-white hover:bg-slate-800"
-                  }`}
-                >
-                  {plan.cta}
-                </Link>
+                <div className="mt-8">
+                  {plan.featured ? (
+                    <StripeCheckoutButton />
+                  ) : (
+                    <Link
+                      href={plan.href}
+                      className="inline-flex w-full justify-center rounded-2xl bg-slate-950 px-5 py-4 text-sm font-extrabold text-white transition hover:bg-slate-800"
+                    >
+                      {plan.cta}
+                    </Link>
+                  )}
+                </div>
               </div>
             ))}
           </div>
