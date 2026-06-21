@@ -241,8 +241,8 @@ export default async function DashboardPage() {
                   </p>
                   <p className="mt-2 text-sm leading-6 text-slate-300">
                     {isPremium
-                      ? "You have premium access enabled on this account."
-                      : "Upgrade options and higher usage limits are being prepared."}
+                      ? "You have Premium access. Manage billing to cancel or update your subscription."
+                      : "Start free, then upgrade when you need higher usage limits and Premium reports."}
                   </p>
                 </div>
 
