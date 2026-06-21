@@ -785,6 +785,9 @@ export default function Home() {
         </h3>
 
         <div className="mt-4 space-y-3 text-sm">
+          <a href="/jobs" className="block text-slate-600 hover:text-blue-700">
+            Jobs
+          </a>
           <a href="/pricing" className="block text-slate-600 hover:text-blue-700">
             Pricing
           </a>
