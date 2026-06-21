@@ -61,6 +61,15 @@ const quickActions = [
     badge: "Report",
     featured: false,
   },
+  {
+    title: "Jobs Hub",
+    description:
+      "Explore official careers pages for ground handling companies, airlines and major UK airports.",
+    href: "/jobs",
+    cta: "Find jobs",
+    badge: "New",
+    featured: false,
+  },
 ];
 
 const workflowSteps = [
