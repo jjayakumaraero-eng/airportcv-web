@@ -161,7 +161,7 @@ const faqs = [
   {
     question: "Is Premium active now?",
     answer:
-      "Premium is launching with a free 2-month introductory period, then £4.99/month. Selected users can still use a temporary Premium access code while payments are being prepared.",
+      "Premium is launching with a free 2-month introductory period, then £4.99/month unless cancelled. Payments are handled securely by Stripe, and users can manage billing from their dashboard.",
   },
 ];
 
@@ -702,7 +702,7 @@ export default function Home() {
         {
           question: "Is Premium active now?",
           answer:
-            "Premium is launching with a free 2-month introductory period, then £4.99/month. Selected users can still use a temporary Premium access code while payments are being prepared.",
+            "Premium is launching with a free 2-month introductory period, then £4.99/month unless cancelled. Payments are handled securely by Stripe, and users can manage billing from their dashboard.",
         },
         {
           question:
