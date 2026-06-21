@@ -70,6 +70,15 @@ const quickActions = [
     badge: "New",
     featured: false,
   },
+  {
+    title: "Expert CV Review",
+    description:
+      "Request human feedback on your aviation CV before you apply.",
+    href: "mailto:hello@airportcv.co.uk?subject=Expert%20CV%20review%20request&body=Hi%20AirportCV%2C%0A%0AI%20would%20like%20to%20request%20an%20expert%20aviation%20CV%20review.%20I%20understand%20that%20any%20CV%20I%20send%20will%20be%20reviewed%20for%20this%20request.%0A%0AThanks",
+    cta: "Request review",
+    badge: "Human review",
+    featured: false,
+  },
 ];
 
 const workflowSteps = [
