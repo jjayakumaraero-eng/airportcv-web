@@ -743,6 +743,37 @@ export default function CvCheckerPage() {
                   </div>
                 )}
 
+                <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+                  <p className="text-xs font-black uppercase tracking-wide text-amber-700">
+                    Want a human CV review?
+                  </p>
+
+                  <h3 className="mt-2 text-xl font-black tracking-tight text-slate-950">
+                    Get expert feedback before you apply
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    You’ve got your AI CV feedback. If you’d like a human review
+                    before applying, request an expert aviation CV review and
+                    we’ll let you know the next steps.
+                  </p>
+
+                  <p className="mt-3 rounded-2xl bg-white/70 p-3 text-xs leading-5 text-slate-600 ring-1 ring-amber-100">
+                    Consent and privacy note: only send your CV if you are happy
+                    for AirportCV to review it for this request. Please remove
+                    any sensitive information you do not want reviewed. Your CV
+                    will only be used to respond to your review request and will
+                    not be added to your AirportCV account by default.
+                  </p>
+
+                  <a
+                    href="mailto:hello@airportcv.co.uk?subject=Expert%20CV%20review%20request&body=Hi%20AirportCV%2C%0A%0AI%20would%20like%20to%20request%20an%20expert%20aviation%20CV%20review.%20I%20understand%20that%20any%20CV%20I%20send%20will%20be%20reviewed%20for%20this%20request.%0A%0AThanks"
+                    className="mt-4 inline-flex rounded-2xl bg-amber-500 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-amber-500/20 transition hover:bg-amber-600"
+                  >
+                    Request expert review →
+                  </a>
+                </section>
+
                 {selectedCareerPath && (
                   <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                     <h3 className="text-xl font-black text-slate-950">
