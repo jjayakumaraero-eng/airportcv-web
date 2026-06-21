@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import RedeemPremiumCodeForm from "@/components/RedeemPremiumCodeForm";
+import StripePortalButton from "@/components/StripePortalButton";
 import { getCurrentUserPlan } from "@/lib/usage";
 
 const quickActions = [
@@ -245,12 +246,16 @@ export default async function DashboardPage() {
                   </p>
                 </div>
 
-                <Link
-                  href="/pricing"
-                  className="inline-flex w-full justify-center rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-blue-50"
-                >
-                  View pricing
-                </Link>
+                {isPremium ? (
+                  <StripePortalButton />
+                ) : (
+                  <Link
+                    href="/pricing"
+                    className="inline-flex w-full justify-center rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-blue-50"
+                  >
+                    View pricing
+                  </Link>
+                )}
               </div>
             </div>
           </div>
