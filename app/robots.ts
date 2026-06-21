@@ -5,7 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/dashboard", "/premium-report", "/api"],
     },
-    sitemap: "https://airportcv.co.uk/sitemap.xml",
+    sitemap: "https://www.airportcv.co.uk/sitemap.xml",
   };
 }
