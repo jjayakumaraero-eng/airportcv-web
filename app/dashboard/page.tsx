@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SignOutButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import RedeemPremiumCodeForm from "@/components/RedeemPremiumCodeForm";
 import StripePortalButton from "@/components/StripePortalButton";
@@ -181,6 +182,12 @@ export default async function DashboardPage() {
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-sm font-black text-white">
               {displayName.slice(0, 1).toUpperCase()}
             </div>
+
+            <SignOutButton redirectUrl="/">
+              <button className="rounded-2xl bg-white px-4 py-2.5 text-sm font-extrabold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50">
+                Sign out
+              </button>
+            </SignOutButton>
           </div>
         </div>
       </header>
