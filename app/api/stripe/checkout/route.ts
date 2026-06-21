@@ -4,6 +4,13 @@ import Stripe from "stripe";
 
 export async function POST() {
   try {
+    if (process.env.STRIPE_CHECKOUT_ENABLED !== "true") {
+      return NextResponse.json(
+        { error: "Premium checkout is not open yet." },
+        { status: 403 }
+      );
+    }
+
     const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
     const priceId = process.env.STRIPE_PREMIUM_PRICE_ID;
 

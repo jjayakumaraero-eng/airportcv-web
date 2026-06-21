@@ -1,6 +1,5 @@
 import Link from "next/link";
 import MarketingPageShell from "@/components/MarketingPageShell";
-import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 
 const plans = [
   {
@@ -25,7 +24,7 @@ const plans = [
     price: "Free for 2 months",
     period: "then £4.99/month",
     description:
-      "For aviation job seekers who want higher usage and full application support.",
+      "For aviation job seekers who want higher usage and full application support. Premium access is opening soon.",
     features: [
       "100 AI uses per month",
       "All aviation career tools",
@@ -103,10 +102,16 @@ export default function PricingPage() {
                 <div className="mt-8">
                   {plan.featured ? (
                     <>
-                      <StripeCheckoutButton />
+                      <a
+                        href="mailto:hello@airportcv.co.uk?subject=Premium%20access%20interest&body=Hi%20AirportCV%2C%0A%0AI%20am%20interested%20in%20Premium%20access%20when%20it%20opens.%0A%0AThanks"
+                        className="inline-flex w-full justify-center rounded-2xl bg-blue-600 px-5 py-4 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+                      >
+                        Show interest
+                      </a>
+
                       <p className="mt-3 text-center text-xs leading-5 text-slate-500">
-                        2 months free, then £4.99/month unless cancelled.
-                        Cancel anytime. Payments handled securely by Stripe.
+                        Premium is opening soon. Planned launch offer: 2 months
+                        free, then £4.99/month unless cancelled.
                       </p>
                     </>
                   ) : (
@@ -129,8 +134,9 @@ export default function PricingPage() {
 
             <p className="mx-auto mt-4 max-w-3xl leading-8 text-slate-600">
               AirportCV does not save uploaded CVs or generated CVs to your
-              account by default. Premium increases monthly usage and access to
-              premium reports, not automatic storage of your personal CV data.
+              account by default. Premium is planned to increase monthly usage
+              and access to premium reports, not automatic storage of your
+              personal CV data.
             </p>
 
             <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm font-extrabold">
