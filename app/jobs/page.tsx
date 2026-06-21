@@ -65,6 +65,18 @@ const jobCategories = [
         href: "https://careers.swissport.com/",
         roles: "Passenger services, ramp, baggage, cargo, lounge and operational roles",
       },
+      {
+        name: "dnata UK Careers",
+        company: "dnata UK",
+        href: "https://www.dnata.co.uk/",
+        roles: "Cargo, ground handling, catering, logistics, operations and airport service roles",
+      },
+      {
+        name: "Menzies Aviation Careers",
+        company: "Menzies Aviation",
+        href: "https://menziesaviation.com/careers/",
+        roles: "Ground handling, passenger services, ramp, cargo, fuelling and airport operations roles",
+      },
     ],
   },
 ];
