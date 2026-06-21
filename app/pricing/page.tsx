@@ -129,8 +129,8 @@ export default function PricingPage() {
 
             <p className="mx-auto mt-4 max-w-3xl leading-8 text-slate-600">
               AirportCV does not save uploaded CVs or generated CVs to your
-              account by default. Premium launches with 2 months free, then £4.99/month, and is planned to increase access and
-              usage, not automatically store your personal CV data.
+              account by default. Premium increases monthly usage and access to
+              premium reports, not automatic storage of your personal CV data.
             </p>
 
             <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm font-extrabold">

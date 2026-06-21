@@ -50,7 +50,7 @@ export default function RedeemPremiumCodeForm() {
 
       <p className="mt-2 text-sm">
         Enter your founder or early-access code to unlock temporary Premium
-        access while Stripe payments are being prepared.
+        access if you have been given an early-access or support code.
       </p>
 
       <form onSubmit={handleRedeem} className="mt-4 flex flex-col gap-3 sm:flex-row">
