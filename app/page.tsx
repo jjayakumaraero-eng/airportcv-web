@@ -198,6 +198,10 @@ export default function Home() {
         Blog
       </a>
 
+      <a href="/jobs" className="transition hover:text-blue-700">
+        Jobs
+      </a>
+
       <a href="/pricing" className="transition hover:text-blue-700">
         Pricing
       </a>
